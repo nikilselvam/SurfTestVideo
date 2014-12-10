@@ -30,10 +30,10 @@ int main( int argc, char** argv )
 	}
 
 	int minHessian = 400;
-	SurfFeatureDetector detector(minHessian);
+	OrbFeatureDetector detector;
 	std::vector<KeyPoint> keypoints_1, keypoints_2;
 
-	SurfDescriptorExtractor extractor;
+	OrbDescriptorExtractor extractor;
 	Mat descriptors_1, descriptors_2;
 	Mat img_keypoints_1, img_keypoints_2;
 
