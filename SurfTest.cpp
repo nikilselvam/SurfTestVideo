@@ -58,37 +58,40 @@ int main( int argc, char** argv )
 	if(!cap.isOpened())
 		printf("No Camera Detected");
 	else {
-		namedWindow("Webcam Video");
 		while(true) {
 			cap >> frame; // get a new frame from camera
 
 			detector.detect(frame, keypoints_2);
 			extractor.compute( frame, keypoints_2, descriptors_2 );
-			
-			std::vector<DMatch> matches;
-			std::vector<DMatch> good_matches;
+
+			// Step 3: Matching descritor vectors usign FLANN matcher
 			FlannBasedMatcher matcher;
-			if (descriptors_2.rows > 0) {
-				matcher.match(descriptors_1, descriptors_2, matches);
+			//BFMatcher matcher2(NORM_L1);
+			std::vector< vector < DMatch > > matches2;
+			matcher.knnMatch(descriptors_1, descriptors_2, matches2, 2);
+			vector <DMatch> good_matches;
+			good_matches.reserve(matches2.size());
+			float nndrRatio = 0.7f;
 
-				for( int i = 0; i < descriptors_1.rows; i++ ) {
-					double dist = matches[i].distance;
-					if( dist < min_dist ) min_dist = dist;
-					if( dist > max_dist ) max_dist = dist;
-				}
+			for (size_t i = 0; i < matches2.size(); ++i) {
+				if (matches2[i].size() < 2)
+					continue;
 
-				for( int i = 0; i < descriptors_1.rows; i++ ) {
-					if( matches[i].distance <= max(2*min_dist, 0.02) ) {
-						good_matches.push_back(matches[i]);
-					}
-				}
+				const DMatch &m1 = matches2[i][0];
+				const DMatch &m2 = matches2[i][1];
+
+				if (m1.distance <= nndrRatio * m2.distance)
+					good_matches.push_back(m1);
 			}
 
-			drawMatches( img_1, keypoints_1, frame, keypoints_2, 
-				good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
-				vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
+			if (good_matches.size() >= 7) {
+				drawMatches( img_1, keypoints_1, frame, keypoints_2, 
+					good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
+					vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
 
-			imshow("Good Matches", img_matches);
+				imshow("Good Matches", img_matches);
+			}
+
 
 			printf("max(2*min_dist, 0.02) is %f\n\n", max(2*min_dist, 0.02));
 			for( int i = 0; i < (int)good_matches.size(); i++ )
