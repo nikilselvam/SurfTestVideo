@@ -64,34 +64,6 @@ int main( int argc, char** argv )
 
 			detector.detect(frame, keypoints_2);
 			extractor.compute( frame, keypoints_2, descriptors_2 );
-			/*
-			// Step 3: Matching descritor vectors usign FLANN matcher
-			FlannBasedMatcher matcher;
-			//BFMatcher matcher2(NORM_L1);
-			std::vector< vector < DMatch > > matches2;
-			matcher.knnMatch(descriptors_1, descriptors_2, matches2, 2);
-			vector <DMatch> good_matches;
-			good_matches.reserve(matches2.size());
-			float nndrRatio = 0.7f;
-
-			for (size_t i = 0; i < matches2.size(); ++i) {
-				if (matches2[i].size() < 2)
-					continue;
-
-				const DMatch &m1 = matches2[i][0];
-				const DMatch &m2 = matches2[i][1];
-
-				if (m1.distance <= nndrRatio * m2.distance)
-					good_matches.push_back(m1);
-			}
-
-			//if (good_matches.size() >= 7) {
-				drawMatches( img_1, keypoints_1, frame, keypoints_2, 
-					good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
-					vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
-			//}
-			*/
-
 			
 			std::vector<DMatch> matches;
 			std::vector<DMatch> good_matches;
