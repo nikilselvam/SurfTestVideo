@@ -30,6 +30,7 @@ int main( int argc, char** argv )
 	}
 
 	int minHessian = 400;
+
 	StarFeatureDetector detector;
 	std::vector<KeyPoint> keypoints_1, keypoints_2;
 
@@ -58,7 +59,6 @@ int main( int argc, char** argv )
 	if(!cap.isOpened())
 		printf("No Camera Detected");
 	else {
-		namedWindow("Webcam Video");
 		while(true) {
 			cap >> frame; // get a new frame from camera
 
