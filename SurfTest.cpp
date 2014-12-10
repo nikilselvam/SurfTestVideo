@@ -30,7 +30,7 @@ int main( int argc, char** argv )
 	}
 
 	int minHessian = 400;
-	SurfFeatureDetector detector(minHessian);
+	StarFeatureDetector detector;
 	std::vector<KeyPoint> keypoints_1, keypoints_2;
 
 	SurfDescriptorExtractor extractor;
