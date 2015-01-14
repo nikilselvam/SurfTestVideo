@@ -24,8 +24,16 @@ int main( int argc, char** argv )
 		readme(); return -1;
 	}
 
-	Mat img_1 = imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE );
+	std::string targetImage = "testLegoGirl.jpg";
+	std::string targetImage1 = "legoGirl-3.jpg";
+	std::string targetImage2 = "blueLegoCar.png";
+
+	//Mat img_1 = imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE );
+	Mat img_1 = imread(targetImage1, CV_LOAD_IMAGE_GRAYSCALE );
+
+	//Mat blueLegoCarImg = imread("blueLegoCar.png", CV_LOAD_IMAGE_GRAYSCALE);
 	
+
 	if(!img_1.data) {
 		std::cout<< " --(!) Error reading images " << std::endl; return -1;
 	}
