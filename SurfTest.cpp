@@ -18,18 +18,18 @@ VideoCapture webcamCapture(WEBCAM_DEVICE_NUMBER);
 void readme();
 
 std::string targetImage = "testLegoGirl.jpg";
-std::string targetImage1 = "legoGirl-1.jpg";
-std::string targetImage2 = "legoGirl-2.jpg";
-std::string targetImage3 = "legoGirl-3.jpg";
-std::string targetImage4 = "legoGirl-4.jpg";
-std::string targetImage5 = "legoGirl-5.jpg";
-std::string targetImage6 = "legoGirl-6.jpg";
-std::string targetImage7 = "legoGirl-7.jpg";
-std::string targetImage8 = "legoGirl-8.jpg";
-std::string targetImage9 = "legoGirl-9.jpg";
+std::string targetImage1 = "legoGirl- 1.jpg";
+std::string targetImage2 = "legoGirl- 2.jpg";
+std::string targetImage3 = "legoGirl- 3.jpg";
+std::string targetImage4 = "legoGirl- 4.jpg";
+std::string targetImage5 = "legoGirl- 5.jpg";
+std::string targetImage6 = "legoGirl- 6.jpg";
+std::string targetImage7 = "legoGirl- 7.jpg";
+std::string targetImage8 = "legoGirl- 8.jpg";
+std::string targetImage9 = "legoGirl- 9.jpg";
 std::string targetImageBlue = "blueLegoCar.png";
 
-int numberOfImages = 9;
+int numberOfImages = 1;
 
 //Mat img_1 = imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE );
 Mat img_1 = imread(targetImage1, CV_LOAD_IMAGE_GRAYSCALE );
@@ -318,6 +318,18 @@ void printGoodMatches(int img_number, std::vector<DMatch> good_matches) {
 	}
 }
 
+void printTotalGoodMatches(vector <int> total_good_matches) {
+	int total_matches_found = 0;
+	
+	for (int i = 0; i < total_good_matches.size(); i++) {
+		printf("%d ", total_good_matches[i]);
+		total_matches_found += total_good_matches[i];
+	}
+
+	printf("\t Total = %d", total_matches_found);
+	printf("\n");
+}
+
 /** @function main */
 int main( int argc, char** argv )
 {
@@ -412,26 +424,38 @@ int main( int argc, char** argv )
 			std::vector<DMatch> good_matches_1, good_matches_2, good_matches_3, good_matches_4, good_matches_5, good_matches_6, good_matches_7, good_matches_8, good_matches_9;
 			FlannBasedMatcher matcher;
 
+			vector <int> total_good_matches;
+
 			if (descriptors_frame.rows > 0) {
 				// Find good matches.
 				switch(numberOfImages) {
 					case 1:
 						good_matches_1 = findGoodMatches(1);
+						total_good_matches.push_back(good_matches_1.size());
 						break;
 					case 2:
 						good_matches_1 = findGoodMatches(1);
 						good_matches_2 = findGoodMatches(2);
+						total_good_matches.push_back(good_matches_1.size());
+						total_good_matches.push_back(good_matches_2.size());
 						break;
 					case 3:
 						good_matches_1 = findGoodMatches(1);
 						good_matches_2 = findGoodMatches(2);
 						good_matches_3 = findGoodMatches(3);
+						total_good_matches.push_back(good_matches_1.size());
+						total_good_matches.push_back(good_matches_2.size());
+						total_good_matches.push_back(good_matches_3.size());
 						break;
 					case 4:
 						good_matches_1 = findGoodMatches(1);
 						good_matches_2 = findGoodMatches(2);
 						good_matches_3 = findGoodMatches(3);
 						good_matches_4 = findGoodMatches(4);
+						total_good_matches.push_back(good_matches_1.size());
+						total_good_matches.push_back(good_matches_2.size());
+						total_good_matches.push_back(good_matches_3.size());
+						total_good_matches.push_back(good_matches_4.size());
 						break;
 					case 5:
 						good_matches_1 = findGoodMatches(1);
@@ -439,6 +463,11 @@ int main( int argc, char** argv )
 						good_matches_3 = findGoodMatches(3);
 						good_matches_4 = findGoodMatches(4);
 						good_matches_5 = findGoodMatches(5);
+						total_good_matches.push_back(good_matches_1.size());
+						total_good_matches.push_back(good_matches_2.size());
+						total_good_matches.push_back(good_matches_3.size());
+						total_good_matches.push_back(good_matches_4.size());
+						total_good_matches.push_back(good_matches_5.size());
 						break;
 					case 6:
 						good_matches_1 = findGoodMatches(1);
@@ -447,6 +476,12 @@ int main( int argc, char** argv )
 						good_matches_4 = findGoodMatches(4);
 						good_matches_5 = findGoodMatches(5);
 						good_matches_6 = findGoodMatches(6);
+						total_good_matches.push_back(good_matches_1.size());
+						total_good_matches.push_back(good_matches_2.size());
+						total_good_matches.push_back(good_matches_3.size());
+						total_good_matches.push_back(good_matches_4.size());
+						total_good_matches.push_back(good_matches_5.size());
+						total_good_matches.push_back(good_matches_6.size());
 						break;
 					case 7:
 						good_matches_1 = findGoodMatches(1);
@@ -456,6 +491,13 @@ int main( int argc, char** argv )
 						good_matches_5 = findGoodMatches(5);
 						good_matches_6 = findGoodMatches(6);
 						good_matches_7 = findGoodMatches(7);
+						total_good_matches.push_back(good_matches_1.size());
+						total_good_matches.push_back(good_matches_2.size());
+						total_good_matches.push_back(good_matches_3.size());
+						total_good_matches.push_back(good_matches_4.size());
+						total_good_matches.push_back(good_matches_5.size());
+						total_good_matches.push_back(good_matches_6.size());
+						total_good_matches.push_back(good_matches_7.size());
 						break;
 					case 8:
 						good_matches_1 = findGoodMatches(1);
@@ -466,6 +508,14 @@ int main( int argc, char** argv )
 						good_matches_6 = findGoodMatches(6);
 						good_matches_7 = findGoodMatches(7);
 						good_matches_8 = findGoodMatches(8);
+						total_good_matches.push_back(good_matches_1.size());
+						total_good_matches.push_back(good_matches_2.size());
+						total_good_matches.push_back(good_matches_3.size());
+						total_good_matches.push_back(good_matches_4.size());
+						total_good_matches.push_back(good_matches_5.size());
+						total_good_matches.push_back(good_matches_6.size());
+						total_good_matches.push_back(good_matches_7.size());
+						total_good_matches.push_back(good_matches_8.size());
 						break;
 					case 9:
 						good_matches_1 = findGoodMatches(1);
@@ -477,6 +527,15 @@ int main( int argc, char** argv )
 						good_matches_7 = findGoodMatches(7);
 						good_matches_8 = findGoodMatches(8);
 						good_matches_9 = findGoodMatches(9);
+						total_good_matches.push_back(good_matches_1.size());
+						total_good_matches.push_back(good_matches_2.size());
+						total_good_matches.push_back(good_matches_3.size());
+						total_good_matches.push_back(good_matches_4.size());
+						total_good_matches.push_back(good_matches_5.size());
+						total_good_matches.push_back(good_matches_6.size());
+						total_good_matches.push_back(good_matches_7.size());
+						total_good_matches.push_back(good_matches_8.size());
+						total_good_matches.push_back(good_matches_9.size());
 						break;
 					default:
 						break;
@@ -552,6 +611,11 @@ int main( int argc, char** argv )
 					break;
 			}
 
+
+			// Print total good matches.
+			printTotalGoodMatches(total_good_matches);
+
+			/*
 			// Print good matches.
 			switch(numberOfImages) {
 				case 1:
@@ -620,6 +684,7 @@ int main( int argc, char** argv )
 				default:
 					break;
 			}
+			*/
 
 			//drawKeypoints(frame, keypoints_frame, img_keypoints_frame, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
 
