@@ -21,31 +21,43 @@ std::string targetImage = "testLegoGirl.jpg";
 std::string targetImage1 = "legoGirl-1.jpg";
 std::string targetImage2 = "legoGirl-2.jpg";
 std::string targetImage3 = "legoGirl-3.jpg";
+std::string targetImage4 = "legoGirl-4.jpg";
+std::string targetImage5 = "legoGirl-5.jpg";
+std::string targetImage6 = "legoGirl-6.jpg";
+std::string targetImage7 = "legoGirl-7.jpg";
+std::string targetImage8 = "legoGirl-8.jpg";
+std::string targetImage9 = "legoGirl-9.jpg";
 std::string targetImageBlue = "blueLegoCar.png";
 
-int numberOfImages = 3;
+int numberOfImages = 9;
 
 //Mat img_1 = imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE );
 Mat img_1 = imread(targetImage1, CV_LOAD_IMAGE_GRAYSCALE );
 Mat img_2 = imread(targetImage2, CV_LOAD_IMAGE_GRAYSCALE );
-Mat img_3 = imread(targetImage2, CV_LOAD_IMAGE_GRAYSCALE );
+Mat img_3 = imread(targetImage3, CV_LOAD_IMAGE_GRAYSCALE );
+Mat img_4 = imread(targetImage4, CV_LOAD_IMAGE_GRAYSCALE );
+Mat img_5 = imread(targetImage5, CV_LOAD_IMAGE_GRAYSCALE );
+Mat img_6 = imread(targetImage6, CV_LOAD_IMAGE_GRAYSCALE );
+Mat img_7 = imread(targetImage7, CV_LOAD_IMAGE_GRAYSCALE );
+Mat img_8 = imread(targetImage8, CV_LOAD_IMAGE_GRAYSCALE );
+Mat img_9 = imread(targetImage9, CV_LOAD_IMAGE_GRAYSCALE );
 
 //Mat blueLegoCarImg = imread("blueLegoCar.png", CV_LOAD_IMAGE_GRAYSCALE);
 
 int minHessian = 400;
 SurfFeatureDetector detector(minHessian);
-std::vector<KeyPoint> keypoints_1, keypoints_2, keypoints_3, keypoints_frame;
+std::vector<KeyPoint> keypoints_1, keypoints_2, keypoints_3, keypoints_4, keypoints_5, keypoints_6, keypoints_7, keypoints_8, keypoints_9, keypoints_frame;
 
 SurfDescriptorExtractor extractor;
-Mat descriptors_1, descriptors_2, descriptors_3, descriptors_frame;
-Mat img_keypoints_1, img_keypoints_2, img_keypoints_3, img_keypoints_frame;
+Mat descriptors_1, descriptors_2, descriptors_3, descriptors_4, descriptors_5, descriptors_6, descriptors_7, descriptors_8, descriptors_9, descriptors_frame;
+Mat img_keypoints_1, img_keypoints_2, img_keypoints_3, img_keypoints_4, img_keypoints_5, img_keypoints_6, img_keypoints_7, img_keypoints_8, img_keypoints_9, img_keypoints_frame;
 
 // Set up matching
 double max_dist = 0; double min_dist = 100;
 
 // Data for frames
 Mat frame;
-Mat img_matches_1, img_matches_2, img_matches_3;
+Mat img_matches_1, img_matches_2, img_matches_3, img_matches_4, img_matches_5, img_matches_6, img_matches_7, img_matches_8, img_matches_9;
 
 void detectImageKeypoints(int img_number) {
 	Mat img_to_process;
@@ -76,6 +88,48 @@ void detectImageKeypoints(int img_number) {
 			img_keypoints_to_process = img_keypoints_3;
 			string_to_show = "Keypoints 3";
 			break;
+		case 4:
+			img_to_process = img_4;
+			keypoints_to_process = keypoints_4;
+			descriptors_to_process = descriptors_4;
+			img_keypoints_to_process = img_keypoints_4;
+			string_to_show = "Keypoints 4";
+			break;
+		case 5:
+			img_to_process = img_5;
+			keypoints_to_process = keypoints_5;
+			descriptors_to_process = descriptors_5;
+			img_keypoints_to_process = img_keypoints_5;
+			string_to_show = "Keypoints 5";
+			break;
+		case 6:
+			img_to_process = img_6;
+			keypoints_to_process = keypoints_6;
+			descriptors_to_process = descriptors_6;
+			img_keypoints_to_process = img_keypoints_6;
+			string_to_show = "Keypoints 6";
+			break;
+		case 7:
+			img_to_process = img_7;
+			keypoints_to_process = keypoints_7;
+			descriptors_to_process = descriptors_7;
+			img_keypoints_to_process = img_keypoints_7;
+			string_to_show = "Keypoints 7";
+			break;
+		case 8:
+			img_to_process = img_8;
+			keypoints_to_process = keypoints_8;
+			descriptors_to_process = descriptors_8;
+			img_keypoints_to_process = img_keypoints_8;
+			string_to_show = "Keypoints 8";
+			break;
+		case 9:
+			img_to_process = img_9;
+			keypoints_to_process = keypoints_9;
+			descriptors_to_process = descriptors_9;
+			img_keypoints_to_process = img_keypoints_9;
+			string_to_show = "Keypoints 9";
+			break;
 		default:
 			return;
 	}
@@ -101,6 +155,36 @@ void detectImageKeypoints(int img_number) {
 			descriptors_3 = descriptors_to_process;
 			img_keypoints_3 = img_keypoints_to_process;
 			break;
+		case 4:
+			keypoints_4 = keypoints_to_process;
+			descriptors_4 = descriptors_to_process;
+			img_keypoints_4 = img_keypoints_to_process;
+			break;
+		case 5:
+			keypoints_5 = keypoints_to_process;
+			descriptors_5 = descriptors_to_process;
+			img_keypoints_5 = img_keypoints_to_process;
+			break;
+		case 6:
+			keypoints_6 = keypoints_to_process;
+			descriptors_6 = descriptors_to_process;
+			img_keypoints_6 = img_keypoints_to_process;
+			break;
+		case 7:
+			keypoints_7 = keypoints_to_process;
+			descriptors_7 = descriptors_to_process;
+			img_keypoints_7 = img_keypoints_to_process;
+			break;
+		case 8:
+			keypoints_8 = keypoints_to_process;
+			descriptors_8 = descriptors_to_process;
+			img_keypoints_8 = img_keypoints_to_process;
+			break;
+		case 9:
+			keypoints_9 = keypoints_to_process;
+			descriptors_9 = descriptors_to_process;
+			img_keypoints_9 = img_keypoints_to_process;
+			break;
 		default:
 			return;
 	}
@@ -120,6 +204,24 @@ std::vector<DMatch> findGoodMatches(int img_number) {
 			break;
 		case 3:
 			descriptors_to_process = descriptors_3;
+			break;
+		case 4:
+			descriptors_to_process = descriptors_4;
+			break;
+		case 5:
+			descriptors_to_process = descriptors_5;
+			break;
+		case 6:
+			descriptors_to_process = descriptors_6;
+			break;
+		case 7:
+			descriptors_to_process = descriptors_7;
+			break;
+		case 8:
+			descriptors_to_process = descriptors_8;
+			break;
+		case 9:
+			descriptors_to_process = descriptors_9;
 			break;
 		default:
 			return good_matches;
@@ -166,6 +268,36 @@ void drawGoodMatches(int img_number, std::vector<DMatch> good_matches) {
 			keypoints_to_process = keypoints_3;
 			string_to_show = "Good Matches for Image 3";
 			break;
+		case 4:
+			img_to_process = img_4;
+			keypoints_to_process = keypoints_4;
+			string_to_show = "Good Matches for Image 4";
+			break;
+		case 5:
+			img_to_process = img_5;
+			keypoints_to_process = keypoints_5;
+			string_to_show = "Good Matches for Image 5";
+			break;
+		case 6:
+			img_to_process = img_6;
+			keypoints_to_process = keypoints_6;
+			string_to_show = "Good Matches for Image 6";
+			break;
+		case 7:
+			img_to_process = img_7;
+			keypoints_to_process = keypoints_7;
+			string_to_show = "Good Matches for Image 7";
+			break;
+		case 8:
+			img_to_process = img_8;
+			keypoints_to_process = keypoints_8;
+			string_to_show = "Good Matches for Image 8";
+			break;
+		case 9:
+			img_to_process = img_9;
+			keypoints_to_process = keypoints_9;
+			string_to_show = "Good Matches for Image 9";
+			break;
 		default:
 			return;
 	}
@@ -204,6 +336,57 @@ int main( int argc, char** argv )
 			detectImageKeypoints(2);
 			detectImageKeypoints(3);
 			break;
+		case 4:
+			detectImageKeypoints(1);
+			detectImageKeypoints(2);
+			detectImageKeypoints(3);
+			detectImageKeypoints(4);
+			break;
+		case 5:
+			detectImageKeypoints(1);
+			detectImageKeypoints(2);
+			detectImageKeypoints(3);
+			detectImageKeypoints(4);
+			detectImageKeypoints(5);
+			break;
+		case 6:
+			detectImageKeypoints(1);
+			detectImageKeypoints(2);
+			detectImageKeypoints(3);
+			detectImageKeypoints(4);
+			detectImageKeypoints(5);
+			detectImageKeypoints(6);
+			break;
+		case 7:
+			detectImageKeypoints(1);
+			detectImageKeypoints(2);
+			detectImageKeypoints(3);
+			detectImageKeypoints(4);
+			detectImageKeypoints(5);
+			detectImageKeypoints(6);
+			detectImageKeypoints(7);
+			break;
+		case 8:
+			detectImageKeypoints(1);
+			detectImageKeypoints(2);
+			detectImageKeypoints(3);
+			detectImageKeypoints(4);
+			detectImageKeypoints(5);
+			detectImageKeypoints(6);
+			detectImageKeypoints(7);
+			detectImageKeypoints(8);
+			break;
+		case 9:
+			detectImageKeypoints(1);
+			detectImageKeypoints(2);
+			detectImageKeypoints(3);
+			detectImageKeypoints(4);
+			detectImageKeypoints(5);
+			detectImageKeypoints(6);
+			detectImageKeypoints(7);
+			detectImageKeypoints(8);
+			detectImageKeypoints(9);
+			break;
 		default:
 			break;
 	}
@@ -225,12 +408,11 @@ int main( int argc, char** argv )
 			detector.detect(frame, keypoints_frame);
 			extractor.compute( frame, keypoints_frame, descriptors_frame);
 			
-			std::vector<DMatch> matches_1, matches_2, matches_3;
-			std::vector<DMatch> good_matches_1, good_matches_2, good_matches_3;
+			std::vector<DMatch> matches_1, matches_2, matches_3, matches_4, matches_5, matches_6, matches_7, matches_8, matches_9;
+			std::vector<DMatch> good_matches_1, good_matches_2, good_matches_3, good_matches_4, good_matches_5, good_matches_6, good_matches_7, good_matches_8, good_matches_9;
 			FlannBasedMatcher matcher;
 
 			if (descriptors_frame.rows > 0) {
-
 				// Find good matches.
 				switch(numberOfImages) {
 					case 1:
@@ -244,6 +426,57 @@ int main( int argc, char** argv )
 						good_matches_1 = findGoodMatches(1);
 						good_matches_2 = findGoodMatches(2);
 						good_matches_3 = findGoodMatches(3);
+						break;
+					case 4:
+						good_matches_1 = findGoodMatches(1);
+						good_matches_2 = findGoodMatches(2);
+						good_matches_3 = findGoodMatches(3);
+						good_matches_4 = findGoodMatches(4);
+						break;
+					case 5:
+						good_matches_1 = findGoodMatches(1);
+						good_matches_2 = findGoodMatches(2);
+						good_matches_3 = findGoodMatches(3);
+						good_matches_4 = findGoodMatches(4);
+						good_matches_5 = findGoodMatches(5);
+						break;
+					case 6:
+						good_matches_1 = findGoodMatches(1);
+						good_matches_2 = findGoodMatches(2);
+						good_matches_3 = findGoodMatches(3);
+						good_matches_4 = findGoodMatches(4);
+						good_matches_5 = findGoodMatches(5);
+						good_matches_6 = findGoodMatches(6);
+						break;
+					case 7:
+						good_matches_1 = findGoodMatches(1);
+						good_matches_2 = findGoodMatches(2);
+						good_matches_3 = findGoodMatches(3);
+						good_matches_4 = findGoodMatches(4);
+						good_matches_5 = findGoodMatches(5);
+						good_matches_6 = findGoodMatches(6);
+						good_matches_7 = findGoodMatches(7);
+						break;
+					case 8:
+						good_matches_1 = findGoodMatches(1);
+						good_matches_2 = findGoodMatches(2);
+						good_matches_3 = findGoodMatches(3);
+						good_matches_4 = findGoodMatches(4);
+						good_matches_5 = findGoodMatches(5);
+						good_matches_6 = findGoodMatches(6);
+						good_matches_7 = findGoodMatches(7);
+						good_matches_8 = findGoodMatches(8);
+						break;
+					case 9:
+						good_matches_1 = findGoodMatches(1);
+						good_matches_2 = findGoodMatches(2);
+						good_matches_3 = findGoodMatches(3);
+						good_matches_4 = findGoodMatches(4);
+						good_matches_5 = findGoodMatches(5);
+						good_matches_6 = findGoodMatches(6);
+						good_matches_7 = findGoodMatches(7);
+						good_matches_8 = findGoodMatches(8);
+						good_matches_9 = findGoodMatches(9);
 						break;
 					default:
 						break;
@@ -264,6 +497,57 @@ int main( int argc, char** argv )
 					drawGoodMatches(2, good_matches_2);
 					drawGoodMatches(3, good_matches_3);
 					break;
+				case 4:
+					drawGoodMatches(1, good_matches_1);
+					drawGoodMatches(2, good_matches_2);
+					drawGoodMatches(3, good_matches_3);
+					drawGoodMatches(4, good_matches_4);
+					break;
+				case 5:
+					drawGoodMatches(1, good_matches_1);
+					drawGoodMatches(2, good_matches_2);
+					drawGoodMatches(3, good_matches_3);
+					drawGoodMatches(4, good_matches_4);
+					drawGoodMatches(5, good_matches_5);
+					break;
+				case 6:
+					drawGoodMatches(1, good_matches_1);
+					drawGoodMatches(2, good_matches_2);
+					drawGoodMatches(3, good_matches_3);
+					drawGoodMatches(4, good_matches_4);
+					drawGoodMatches(5, good_matches_5);
+					drawGoodMatches(6, good_matches_6);
+					break;
+				case 7:
+					drawGoodMatches(1, good_matches_1);
+					drawGoodMatches(2, good_matches_2);
+					drawGoodMatches(3, good_matches_3);
+					drawGoodMatches(4, good_matches_4);
+					drawGoodMatches(5, good_matches_5);
+					drawGoodMatches(6, good_matches_6);
+					drawGoodMatches(7, good_matches_7);
+					break;
+				case 8:
+					drawGoodMatches(1, good_matches_1);
+					drawGoodMatches(2, good_matches_2);
+					drawGoodMatches(3, good_matches_3);
+					drawGoodMatches(4, good_matches_4);
+					drawGoodMatches(5, good_matches_5);
+					drawGoodMatches(6, good_matches_6);
+					drawGoodMatches(7, good_matches_7);
+					drawGoodMatches(8, good_matches_8);
+					break;
+				case 9:
+					drawGoodMatches(1, good_matches_1);
+					drawGoodMatches(2, good_matches_2);
+					drawGoodMatches(3, good_matches_3);
+					drawGoodMatches(4, good_matches_4);
+					drawGoodMatches(5, good_matches_5);
+					drawGoodMatches(6, good_matches_6);
+					drawGoodMatches(7, good_matches_7);
+					drawGoodMatches(8, good_matches_8);
+					drawGoodMatches(9, good_matches_9);
+					break;
 				default:
 					break;
 			}
@@ -281,6 +565,57 @@ int main( int argc, char** argv )
 					printGoodMatches(1, good_matches_1);
 					printGoodMatches(2, good_matches_2);
 					printGoodMatches(3, good_matches_3);
+					break;
+				case 4:
+					printGoodMatches(1, good_matches_1);
+					printGoodMatches(2, good_matches_2);
+					printGoodMatches(3, good_matches_3);
+					printGoodMatches(4, good_matches_4);
+					break;
+				case 5:
+					printGoodMatches(1, good_matches_1);
+					printGoodMatches(2, good_matches_2);
+					printGoodMatches(3, good_matches_3);
+					printGoodMatches(4, good_matches_4);
+					printGoodMatches(5, good_matches_5);
+					break;
+				case 6:
+					printGoodMatches(1, good_matches_1);
+					printGoodMatches(2, good_matches_2);
+					printGoodMatches(3, good_matches_3);
+					printGoodMatches(4, good_matches_4);
+					printGoodMatches(5, good_matches_5);
+					printGoodMatches(6, good_matches_6);
+					break;
+				case 7:
+					printGoodMatches(1, good_matches_1);
+					printGoodMatches(2, good_matches_2);
+					printGoodMatches(3, good_matches_3);
+					printGoodMatches(4, good_matches_4);
+					printGoodMatches(5, good_matches_5);
+					printGoodMatches(6, good_matches_6);
+					printGoodMatches(7, good_matches_7);
+					break;
+				case 8:
+					printGoodMatches(1, good_matches_1);
+					printGoodMatches(2, good_matches_2);
+					printGoodMatches(3, good_matches_3);
+					printGoodMatches(4, good_matches_4);
+					printGoodMatches(5, good_matches_5);
+					printGoodMatches(6, good_matches_6);
+					printGoodMatches(7, good_matches_7);
+					printGoodMatches(8, good_matches_8);
+					break;
+				case 9:
+					printGoodMatches(1, good_matches_1);
+					printGoodMatches(2, good_matches_2);
+					printGoodMatches(3, good_matches_3);
+					printGoodMatches(4, good_matches_4);
+					printGoodMatches(5, good_matches_5);
+					printGoodMatches(6, good_matches_6);
+					printGoodMatches(7, good_matches_7);
+					printGoodMatches(8, good_matches_8);
+					printGoodMatches(9, good_matches_9);
 					break;
 				default:
 					break;
