@@ -66,10 +66,12 @@ SurfDescriptorExtractor extractor;
 Mat descriptors_1, descriptors_2, descriptors_3, descriptors_4, descriptors_5, descriptors_6, descriptors_7, descriptors_8, descriptors_9, descriptors_frame;
 Mat img_keypoints_1, img_keypoints_2, img_keypoints_3, img_keypoints_4, img_keypoints_5, img_keypoints_6, img_keypoints_7, img_keypoints_8, img_keypoints_9, img_keypoints_frame;
 std::vector<DMatch> good_matches_1, good_matches_2, good_matches_3, good_matches_4, good_matches_5, good_matches_6, good_matches_7, good_matches_8, good_matches_9, all_good_matches;
-
+std::vector<Point2f> match_coordinates;
 
 // Set up matching
 double max_dist = 0; double min_dist = 100;
+float min_x = 100000; float max_x = 0;
+float min_y = 100000; float max_y = 0;
 
 // Data for frames
 Mat frame;
@@ -261,6 +263,9 @@ std::vector<DMatch> findGoodMatches(int img_number) {
 
 	for( int i = 0; i < descriptors_to_process.rows; i++ ) {
 		if( matches[i].distance <= 0.3 ) {
+			// Set matches imgIdx to appropriate img_number and then push match to good_matches.
+			matches[i].imgIdx = img_number;
+
 			good_matches.push_back(matches[i]);
 		}
 	}
@@ -428,6 +433,86 @@ void showAllWebcamKeypointMatches() {
 	imshow("All Matched Keypoints", img_keypoints_frame);
 }
 
+void findCoordinates() {
+	std::vector<KeyPoint> all_matched_keypoints;
+	std::vector <KeyPoint> keypoints_to_process;
+	int img_number, queryIdx;
+
+	for (int i = 0; i < all_good_matches.size(); i++) {
+		img_number = all_good_matches[i].imgIdx;
+
+		switch(img_number) {
+			case 1:
+				keypoints_to_process = keypoints_1;
+				break;
+			case 2:
+				keypoints_to_process = keypoints_2;
+				break;
+			case 3:
+				keypoints_to_process = keypoints_3;
+				break;
+			case 4:
+				keypoints_to_process = keypoints_4;
+				break;
+			case 5:
+				keypoints_to_process = keypoints_5;
+				break;
+			case 6:
+				keypoints_to_process = keypoints_6;
+				break;
+			case 7:
+				keypoints_to_process = keypoints_7;
+				break;
+			case 8:
+				keypoints_to_process = keypoints_8;
+				break;
+			case 9:
+				keypoints_to_process = keypoints_9;
+				break;
+			default:
+				return;
+		}
+		
+		/*
+		queryIdx = all_good_matches[i].queryIdx;
+		Point2f coordinates = keypoints_to_process[queryIdx].pt;
+		*/
+
+		int trainIdx = all_good_matches[i].trainIdx;
+		Point2f coordinates = keypoints_frame[trainIdx].pt;
+
+		// Add (x,y) point to match coordinates.
+		match_coordinates.push_back(keypoints_frame[trainIdx].pt);
+
+		/*
+		printf("image number is %d\n", img_number);
+		printf("keypoints vector size is %d\n", keypoints_to_process.size());
+		printf("queryIdx is %d\n\n", queryIdx);
+
+		printf("coordinates are (%f, %f)\n", coordinates.x, coordinates.y);
+		printf("\n");
+		*/
+	}
+
+	// Print matches.
+	for (int i = 0; i < match_coordinates.size(); i++) {
+		// Calculate min and max x coordinates.
+		if (match_coordinates[i].x > max_x) max_x = match_coordinates[i].x;
+		if (match_coordinates[i].y > max_y) max_y = match_coordinates[i].y;
+
+		// Calculate min and max y coordinates.
+		if (match_coordinates[i].x < min_x) min_x = match_coordinates[i].x;
+		if (match_coordinates[i].y < min_y) min_y = match_coordinates[i].y;
+
+		printf("Matches[%d]:	\t x = %f	\t	y = %f\n", i, match_coordinates[i].x, match_coordinates[i].y);
+	}
+
+	printf("\n\n");
+	printf("min_x = %f	\t max_x = %f\n", min_x, max_x);
+	printf("min_y = %f	\t max_y = %f\n", min_y, max_y);
+	printf("\n\n");
+}
+
 /** @function main */
 int main( int argc, char** argv )
 {
@@ -537,13 +622,26 @@ int main( int argc, char** argv )
 
 			vector <int> total_good_matches;
 
+			// Clear vectors.
 			all_good_matches.clear();
+			match_coordinates.clear();
+
+			// Reset the value of min_x, max_x, min_y, and max_y for comparison's sake.
+			min_x = 100000;
+			max_x = 0;
+			min_y = 100000;
+			max_y = 0;
 
 			if (descriptors_frame.rows > 0) {
 				// Find good matches.
 				switch(numberOfImages) {
 					case 1:
 						good_matches_1 = findGoodMatches(1);
+
+						for (int i = 0; i < good_matches_1.size(); i++) {
+							good_matches_1[i].queryIdx = 1;
+						}
+
 						total_good_matches.push_back(good_matches_1.size());
 						
 						//showWebcamKeypointMatches(1, good_matches_1);
@@ -750,6 +848,7 @@ int main( int argc, char** argv )
 						good_matches_7 = findGoodMatches(7);
 						good_matches_8 = findGoodMatches(8);
 						good_matches_9 = findGoodMatches(9);
+
 						total_good_matches.push_back(good_matches_1.size());
 						total_good_matches.push_back(good_matches_2.size());
 						total_good_matches.push_back(good_matches_3.size());
@@ -881,6 +980,22 @@ int main( int argc, char** argv )
 
 			// Print total good matches.
 			printTotalGoodMatches(total_good_matches);
+
+			if (all_good_matches.size() >= 35) {
+				printf("legoGirl on screen!\n");
+
+				//Print out contents of all_good_matches.
+				for (int i = 0; i < all_good_matches.size(); i++) {
+					printf("all_good_matches[%d]:\t	 queryIdx:%d\t trainIdx:%d\t imgIdx:%d\t distance:%f\n", i, all_good_matches[i].queryIdx, all_good_matches[i].trainIdx, all_good_matches[i].imgIdx, all_good_matches[i].distance);
+				}
+
+				printf("\n\n");
+
+				// Find coordinates.
+				findCoordinates();
+			} else {
+				printf("Not on screen.\n");
+			}
 
 			/*
 			// Print good matches.
