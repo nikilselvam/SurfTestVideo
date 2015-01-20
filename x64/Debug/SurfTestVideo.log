@@ -1,53 +1,53 @@
-﻿Build started 1/19/2015 5:59:45 PM.
+﻿Build started 1/19/2015 6:56:49 PM.
      1>Project "C:\Projects_vs2012\2014\SurfTestVideo\SurfTestVideo\SurfTestVideo.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc110.pdb" /Gd /TP /errorReport:prompt SurfTest.cpp
          SurfTest.cpp
-     1>SurfTest.cpp(462): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(467): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(468): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(474): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(475): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(476): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(483): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(484): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(485): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(486): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(494): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(495): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(496): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(497): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(498): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(507): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(508): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(509): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(510): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(511): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(512): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(522): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(517): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(523): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(524): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(525): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(526): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(527): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(528): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(539): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(540): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(541): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(542): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(543): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(532): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(533): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(534): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(544): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(545): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(546): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(558): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(547): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(559): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(560): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(561): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(562): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(563): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(564): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(565): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(566): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(577): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(578): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(579): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(580): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(581): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(582): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(598): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(599): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(600): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(601): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(602): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(603): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(604): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(622): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(623): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(624): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(625): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(626): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(627): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(628): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(629): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(649): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(650): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(651): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(652): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(653): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(654): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(655): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(656): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(657): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Projects_vs2012\2014\SurfTestVideo\x64\Debug\SurfTestVideo.exe" /INCREMENTAL /NOLOGO /LIBPATH:\lib /LIBPATH:c:\opencv\build\x64\vc11\lib opencv_calib3d246d.lib opencv_contrib246d.lib opencv_core246d.lib opencv_features2d246d.lib opencv_flann246d.lib opencv_gpu246d.lib opencv_haartraining_engined.lib opencv_highgui246d.lib opencv_imgproc246d.lib opencv_legacy246d.lib opencv_ml246d.lib opencv_nonfree246d.lib opencv_objdetect246d.lib opencv_ocl246d.lib opencv_photo246d.lib opencv_stitching246d.lib opencv_superres246d.lib opencv_ts246d.lib opencv_video246d.lib opencv_videostab246d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Projects_vs2012\2014\SurfTestVideo\x64\Debug\SurfTestVideo.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Projects_vs2012\2014\SurfTestVideo\x64\Debug\SurfTestVideo.lib" /MACHINE:X64 x64\Debug\SurfTest.obj
          SurfTestVideo.vcxproj -> C:\Projects_vs2012\2014\SurfTestVideo\x64\Debug\SurfTestVideo.exe
@@ -55,4 +55,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.48
+Time Elapsed 00:00:01.55

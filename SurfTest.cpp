@@ -18,15 +18,15 @@ VideoCapture webcamCapture(WEBCAM_DEVICE_NUMBER);
 void readme();
 
 std::string targetImage = "testLegoGirl.jpg";
-std::string targetImage1 = "legoGirl-1.jpg";
-std::string targetImage2 = "legoGirl-2.jpg";
-std::string targetImage3 = "legoGirl-3.jpg";
-std::string targetImage4 = "legoGirl-4.jpg";
-std::string targetImage5 = "legoGirl-5.jpg";
-std::string targetImage6 = "legoGirl-6.jpg";
-std::string targetImage7 = "legoGirl-7.jpg";
-std::string targetImage8 = "legoGirl-8.jpg";
-std::string targetImage9 = "legoGirl-9.jpg";
+std::string targetImage1 = "legoGirl- 1.jpg";
+std::string targetImage2 = "legoGirl- 2.jpg";
+std::string targetImage3 = "legoGirl- 3.jpg";
+std::string targetImage4 = "legoGirl- 4.jpg";
+std::string targetImage5 = "legoGirl- 5.jpg";
+std::string targetImage6 = "legoGirl- 6.jpg";
+std::string targetImage7 = "legoGirl- 7.jpg";
+std::string targetImage8 = "legoGirl- 8.jpg";
+std::string targetImage9 = "legoGirl- 9.jpg";
 std::string targetImageBlue = "blueLegoCar.png";
 
 int numberOfImages = 9;
@@ -51,6 +51,8 @@ std::vector<KeyPoint> keypoints_1, keypoints_2, keypoints_3, keypoints_4, keypoi
 SurfDescriptorExtractor extractor;
 Mat descriptors_1, descriptors_2, descriptors_3, descriptors_4, descriptors_5, descriptors_6, descriptors_7, descriptors_8, descriptors_9, descriptors_frame;
 Mat img_keypoints_1, img_keypoints_2, img_keypoints_3, img_keypoints_4, img_keypoints_5, img_keypoints_6, img_keypoints_7, img_keypoints_8, img_keypoints_9, img_keypoints_frame;
+std::vector<DMatch> good_matches_1, good_matches_2, good_matches_3, good_matches_4, good_matches_5, good_matches_6, good_matches_7, good_matches_8, good_matches_9;
+
 
 // Set up matching
 double max_dist = 0; double min_dist = 100;
@@ -136,8 +138,8 @@ void detectImageKeypoints(int img_number) {
 
 	detector.detect( img_to_process, keypoints_to_process );
 	extractor.compute( img_to_process, keypoints_to_process, descriptors_to_process );
-	drawKeypoints( img_to_process, keypoints_to_process, img_keypoints_to_process, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
-	imshow(string_to_show, img_keypoints_to_process );
+	//drawKeypoints( img_to_process, keypoints_to_process, img_keypoints_to_process, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
+	//imshow(string_to_show, img_keypoints_to_process );
 
 	switch(img_number) {
 		case 1:
@@ -236,7 +238,7 @@ std::vector<DMatch> findGoodMatches(int img_number) {
 	max_dist = 0;
 	min_dist = 100;
 
-	// Determine good matches between frame and image i.
+	// Determine good matches between frame and current image.
 	for( int i = 0; i < descriptors_to_process.rows; i++ ) {
 		double dist = matches[i].distance;
 		if( dist < min_dist ) min_dist = dist;
@@ -244,7 +246,7 @@ std::vector<DMatch> findGoodMatches(int img_number) {
 	}
 
 	for( int i = 0; i < descriptors_to_process.rows; i++ ) {
-		if( matches[i].distance <= 0.4 ) {
+		if( matches[i].distance <= 0.3 ) {
 			good_matches.push_back(matches[i]);
 		}
 	}
@@ -355,6 +357,49 @@ void printTotalGoodMatches(vector <int> total_good_matches) {
 	printf("\n");
 }
 
+void showWebcamKeypointMatches(int img_number, std::vector<DMatch> good_matches) {
+	std::vector<KeyPoint> matchedKeypoints;
+	std::string string_to_show;
+
+	switch(img_number) {
+		case 1:
+			string_to_show = "Matched Keypoints 1";
+			break;
+		case 2:
+			string_to_show = "Matched Keypoints 2";
+			break;
+		case 3:
+			string_to_show = "Matched Keypoints 3";
+			break;
+		case 4:
+			string_to_show = "Matched Keypoints 4";
+			break;
+		case 5:
+			string_to_show = "Matched Keypoints 5";
+			break;
+		case 6:
+			string_to_show = "Matched Keypoints 6";
+			break;
+		case 7:
+			string_to_show = "Matched Keypoints 7";
+			break;
+		case 8:
+			string_to_show = "Matched Keypoints 8";
+			break;
+		case 9:
+			string_to_show = "Matched Keypoints 9";
+			break;
+		default:
+			return;
+	}
+
+	for (int i = 0; i < good_matches.size(); i++) {
+		matchedKeypoints.push_back(keypoints_frame[good_matches[i].trainIdx]);
+	}
+	drawKeypoints(frame, matchedKeypoints, img_keypoints_frame, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
+	imshow(string_to_show, img_keypoints_frame);
+}
+
 /** @function main */
 int main( int argc, char** argv )
 {
@@ -444,11 +489,21 @@ int main( int argc, char** argv )
 
 			detector.detect(frame, keypoints_frame);
 			extractor.compute( frame, keypoints_frame, descriptors_frame);
+			
+			/*
+			std::vector<KeyPoint> firstTenKeyPoints;
+
+			for (int i = 0; i < 10; i++) {
+				firstTenKeyPoints.push_back(keypoints_frame[i]);
+			}
+			drawKeypoints(frame, firstTenKeyPoints, img_keypoints_frame, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
+			imshow("Webcam Video", img_keypoints_frame);
+			*/
+
 			drawKeypoints(frame, keypoints_frame, img_keypoints_frame, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
 			imshow("Webcam Video", img_keypoints_frame);
-			
 			std::vector<DMatch> matches_1, matches_2, matches_3, matches_4, matches_5, matches_6, matches_7, matches_8, matches_9;
-			std::vector<DMatch> good_matches_1, good_matches_2, good_matches_3, good_matches_4, good_matches_5, good_matches_6, good_matches_7, good_matches_8, good_matches_9;
+//			std::vector<DMatch> good_matches_1, good_matches_2, good_matches_3, good_matches_4, good_matches_5, good_matches_6, good_matches_7, good_matches_8, good_matches_9;
 			FlannBasedMatcher matcher;
 			BFMatcher matcherSecond;
 
@@ -460,12 +515,15 @@ int main( int argc, char** argv )
 					case 1:
 						good_matches_1 = findGoodMatches(1);
 						total_good_matches.push_back(good_matches_1.size());
+						showWebcamKeypointMatches(1, good_matches_1);
 						break;
 					case 2:
 						good_matches_1 = findGoodMatches(1);
 						good_matches_2 = findGoodMatches(2);
 						total_good_matches.push_back(good_matches_1.size());
 						total_good_matches.push_back(good_matches_2.size());
+						showWebcamKeypointMatches(1, good_matches_1);
+						showWebcamKeypointMatches(2, good_matches_2);
 						break;
 					case 3:
 						good_matches_1 = findGoodMatches(1);
@@ -474,6 +532,9 @@ int main( int argc, char** argv )
 						total_good_matches.push_back(good_matches_1.size());
 						total_good_matches.push_back(good_matches_2.size());
 						total_good_matches.push_back(good_matches_3.size());
+						showWebcamKeypointMatches(1, good_matches_1);
+						showWebcamKeypointMatches(2, good_matches_2);
+						showWebcamKeypointMatches(3, good_matches_3);
 						break;
 					case 4:
 						good_matches_1 = findGoodMatches(1);
@@ -484,6 +545,10 @@ int main( int argc, char** argv )
 						total_good_matches.push_back(good_matches_2.size());
 						total_good_matches.push_back(good_matches_3.size());
 						total_good_matches.push_back(good_matches_4.size());
+						showWebcamKeypointMatches(1, good_matches_1);
+						showWebcamKeypointMatches(2, good_matches_2);
+						showWebcamKeypointMatches(3, good_matches_3);
+						showWebcamKeypointMatches(4, good_matches_4);
 						break;
 					case 5:
 						good_matches_1 = findGoodMatches(1);
@@ -496,6 +561,11 @@ int main( int argc, char** argv )
 						total_good_matches.push_back(good_matches_3.size());
 						total_good_matches.push_back(good_matches_4.size());
 						total_good_matches.push_back(good_matches_5.size());
+						showWebcamKeypointMatches(1, good_matches_1);
+						showWebcamKeypointMatches(2, good_matches_2);
+						showWebcamKeypointMatches(3, good_matches_3);
+						showWebcamKeypointMatches(4, good_matches_4);
+						showWebcamKeypointMatches(5, good_matches_5);
 						break;
 					case 6:
 						good_matches_1 = findGoodMatches(1);
@@ -510,6 +580,12 @@ int main( int argc, char** argv )
 						total_good_matches.push_back(good_matches_4.size());
 						total_good_matches.push_back(good_matches_5.size());
 						total_good_matches.push_back(good_matches_6.size());
+						showWebcamKeypointMatches(1, good_matches_1);
+						showWebcamKeypointMatches(2, good_matches_2);
+						showWebcamKeypointMatches(3, good_matches_3);
+						showWebcamKeypointMatches(4, good_matches_4);
+						showWebcamKeypointMatches(5, good_matches_5);
+						showWebcamKeypointMatches(6, good_matches_6);
 						break;
 					case 7:
 						good_matches_1 = findGoodMatches(1);
@@ -526,6 +602,13 @@ int main( int argc, char** argv )
 						total_good_matches.push_back(good_matches_5.size());
 						total_good_matches.push_back(good_matches_6.size());
 						total_good_matches.push_back(good_matches_7.size());
+						showWebcamKeypointMatches(1, good_matches_1);
+						showWebcamKeypointMatches(2, good_matches_2);
+						showWebcamKeypointMatches(3, good_matches_3);
+						showWebcamKeypointMatches(4, good_matches_4);
+						showWebcamKeypointMatches(5, good_matches_5);
+						showWebcamKeypointMatches(6, good_matches_6);
+						showWebcamKeypointMatches(7, good_matches_7);
 						break;
 					case 8:
 						good_matches_1 = findGoodMatches(1);
@@ -544,6 +627,14 @@ int main( int argc, char** argv )
 						total_good_matches.push_back(good_matches_6.size());
 						total_good_matches.push_back(good_matches_7.size());
 						total_good_matches.push_back(good_matches_8.size());
+						showWebcamKeypointMatches(1, good_matches_1);
+						showWebcamKeypointMatches(2, good_matches_2);
+						showWebcamKeypointMatches(3, good_matches_3);
+						showWebcamKeypointMatches(4, good_matches_4);
+						showWebcamKeypointMatches(5, good_matches_5);
+						showWebcamKeypointMatches(6, good_matches_6);
+						showWebcamKeypointMatches(7, good_matches_7);
+						showWebcamKeypointMatches(8, good_matches_8);
 						break;
 					case 9:
 						good_matches_1 = findGoodMatches(1);
@@ -564,6 +655,15 @@ int main( int argc, char** argv )
 						total_good_matches.push_back(good_matches_7.size());
 						total_good_matches.push_back(good_matches_8.size());
 						total_good_matches.push_back(good_matches_9.size());
+						showWebcamKeypointMatches(1, good_matches_1);
+						showWebcamKeypointMatches(2, good_matches_2);
+						showWebcamKeypointMatches(3, good_matches_3);
+						showWebcamKeypointMatches(4, good_matches_4);
+						showWebcamKeypointMatches(5, good_matches_5);
+						showWebcamKeypointMatches(6, good_matches_6);
+						showWebcamKeypointMatches(7, good_matches_7);
+						showWebcamKeypointMatches(8, good_matches_8);
+						showWebcamKeypointMatches(9, good_matches_9);
 						break;
 					default:
 						break;
@@ -639,6 +739,25 @@ int main( int argc, char** argv )
 					break;
 			}
 
+			// Show the images that were matched.
+
+			/*
+			std::vector<KeyPoint> matchedKeypoints;
+
+			for (int i = 0; i < good_matches_1.size(); i++) {
+				matchedKeypoints.push_back(keypoints_frame[good_matches_1[i].trainIdx]);
+			}
+			drawKeypoints(frame, matchedKeypoints, img_keypoints_frame, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
+			imshow("Matched Keypoints 1", img_keypoints_frame);
+
+			matchedKeypoints.clear();
+
+			for (int i = 0; i < good_matches_2.size(); i++) {
+				matchedKeypoints.push_back(keypoints_frame[good_matches_2[i].trainIdx]);
+			}
+			drawKeypoints(frame, matchedKeypoints, img_keypoints_frame, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
+			imshow("Matched Keypoints 2", img_keypoints_frame);
+			*/
 
 			// Print total good matches.
 			printTotalGoodMatches(total_good_matches);
