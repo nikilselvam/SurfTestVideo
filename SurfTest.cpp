@@ -194,6 +194,7 @@ std::vector<DMatch> findGoodMatches(int img_number) {
 	Mat descriptors_to_process;
 	std::vector<DMatch> matches, good_matches;
 	FlannBasedMatcher matcher;
+	BFMatcher matcherSecond;
 
 	switch(img_number) {
 		case 1:
@@ -227,8 +228,9 @@ std::vector<DMatch> findGoodMatches(int img_number) {
 			return good_matches;
 	}
 
-	matcher.match(descriptors_to_process, descriptors_frame, matches);
-
+	//matcher.match(descriptors_to_process, descriptors_frame, matches);
+	//matcher.knnMatch(descriptors_to_process, descriptors_frame, matches, 5, storeKnnMatches);
+	matcherSecond.match(descriptors_to_process, descriptors_frame, matches);
 
 	// Reset the value of max_dist and min_dist for comparison's sake.
 	max_dist = 0;
@@ -242,7 +244,7 @@ std::vector<DMatch> findGoodMatches(int img_number) {
 	}
 
 	for( int i = 0; i < descriptors_to_process.rows; i++ ) {
-		if( matches[i].distance <= max(2*min_dist, 0.02) ) {
+		if( matches[i].distance <= 0.4 ) {
 			good_matches.push_back(matches[i]);
 		}
 	}
@@ -448,6 +450,7 @@ int main( int argc, char** argv )
 			std::vector<DMatch> matches_1, matches_2, matches_3, matches_4, matches_5, matches_6, matches_7, matches_8, matches_9;
 			std::vector<DMatch> good_matches_1, good_matches_2, good_matches_3, good_matches_4, good_matches_5, good_matches_6, good_matches_7, good_matches_8, good_matches_9;
 			FlannBasedMatcher matcher;
+			BFMatcher matcherSecond;
 
 			vector <int> total_good_matches;
 
