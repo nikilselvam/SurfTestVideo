@@ -18,18 +18,18 @@ VideoCapture webcamCapture(WEBCAM_DEVICE_NUMBER);
 void readme();
 
 std::string targetImage = "testLegoGirl.jpg";
-std::string targetImage1 = "legoGirl- 1.jpg";
-std::string targetImage2 = "legoGirl- 2.jpg";
-std::string targetImage3 = "legoGirl- 3.jpg";
-std::string targetImage4 = "legoGirl- 4.jpg";
-std::string targetImage5 = "legoGirl- 5.jpg";
-std::string targetImage6 = "legoGirl- 6.jpg";
-std::string targetImage7 = "legoGirl- 7.jpg";
-std::string targetImage8 = "legoGirl- 8.jpg";
-std::string targetImage9 = "legoGirl- 9.jpg";
+std::string targetImage1 = "legoGirl-1.jpg";
+std::string targetImage2 = "legoGirl-2.jpg";
+std::string targetImage3 = "legoGirl-3.jpg";
+std::string targetImage4 = "legoGirl-4.jpg";
+std::string targetImage5 = "legoGirl-5.jpg";
+std::string targetImage6 = "legoGirl-6.jpg";
+std::string targetImage7 = "legoGirl-7.jpg";
+std::string targetImage8 = "legoGirl-8.jpg";
+std::string targetImage9 = "legoGirl-9.jpg";
 std::string targetImageBlue = "blueLegoCar.png";
 
-int numberOfImages = 1;
+int numberOfImages = 9;
 
 //Mat img_1 = imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE );
 Mat img_1 = imread(targetImage1, CV_LOAD_IMAGE_GRAYSCALE );
@@ -229,19 +229,42 @@ std::vector<DMatch> findGoodMatches(int img_number) {
 
 	matcher.match(descriptors_to_process, descriptors_frame, matches);
 
-	// Determine good matches between frame and image 1.
-	for( int i = 0; i < descriptors_1.rows; i++ ) {
+
+	// Reset the value of max_dist and min_dist for comparison's sake.
+	max_dist = 0;
+	min_dist = 100;
+
+	// Determine good matches between frame and image i.
+	for( int i = 0; i < descriptors_to_process.rows; i++ ) {
 		double dist = matches[i].distance;
 		if( dist < min_dist ) min_dist = dist;
 		if( dist > max_dist ) max_dist = dist;
 	}
 
-	for( int i = 0; i < descriptors_1.rows; i++ ) {
+	for( int i = 0; i < descriptors_to_process.rows; i++ ) {
 		if( matches[i].distance <= max(2*min_dist, 0.02) ) {
 			good_matches.push_back(matches[i]);
 		}
 	}
 
+	printf("Image %d\n", img_number);
+	printf("Image descriptors: %d\n", descriptors_to_process.rows);
+	printf("Frame descriptors: %d\n\n\n", descriptors_frame.rows);
+
+	for (int i = 0; i < descriptors_to_process.rows; i++) {
+		printf("matches[%d]:\t queryIdx = %d\t trainIdx= %d\t distance = %f\n", i, matches[i].queryIdx, matches[i].trainIdx, matches[i].distance);
+	}
+
+	printf("\n\n");
+
+	printf("Max value = %f\n\n", max(2*min_dist, 0.02));
+
+	for (int i = 0; i < good_matches.size(); i++) {
+		printf("good_matches[%d]:\t queryIdx = %d\t trainIdx= %d\t distance = %f\n", i, good_matches[i].queryIdx, good_matches[i].trainIdx, good_matches[i].distance);
+	}
+	
+	printf("\n\n");
+	
 	return good_matches;
 }
 
@@ -302,8 +325,8 @@ void drawGoodMatches(int img_number, std::vector<DMatch> good_matches) {
 			return;
 	}
 
-	// Draw good matches between frame and image 1.
-	drawMatches( img_1, keypoints_1, frame, keypoints_frame, 
+	// Draw good matches between frame and image to show.
+	drawMatches( img_to_process, keypoints_to_process, frame, keypoints_frame, 
 		good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
 		vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
 	imshow(string_to_show, img_matches);
@@ -419,6 +442,8 @@ int main( int argc, char** argv )
 
 			detector.detect(frame, keypoints_frame);
 			extractor.compute( frame, keypoints_frame, descriptors_frame);
+			drawKeypoints(frame, keypoints_frame, img_keypoints_frame, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
+			imshow("Webcam Video", img_keypoints_frame);
 			
 			std::vector<DMatch> matches_1, matches_2, matches_3, matches_4, matches_5, matches_6, matches_7, matches_8, matches_9;
 			std::vector<DMatch> good_matches_1, good_matches_2, good_matches_3, good_matches_4, good_matches_5, good_matches_6, good_matches_7, good_matches_8, good_matches_9;
@@ -686,9 +711,6 @@ int main( int argc, char** argv )
 			}
 			*/
 
-			//drawKeypoints(frame, keypoints_frame, img_keypoints_frame, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
-
-			//imshow("Webcam Video", img_keypoints_frame);
 			if(waitKey(30) >= 0) break;
 		}
 	}
