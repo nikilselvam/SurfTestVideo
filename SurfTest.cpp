@@ -17,6 +17,7 @@ VideoCapture webcamCapture(WEBCAM_DEVICE_NUMBER);
 
 void readme();
 
+/*
 std::string targetImage = "testLegoGirl.jpg";
 std::string targetImage1 = "legoGirl- 1.jpg";
 std::string targetImage2 = "legoGirl- 2.jpg";
@@ -27,6 +28,19 @@ std::string targetImage6 = "legoGirl- 6.jpg";
 std::string targetImage7 = "legoGirl- 7.jpg";
 std::string targetImage8 = "legoGirl- 8.jpg";
 std::string targetImage9 = "legoGirl- 9.jpg";
+
+*/
+
+std::string targetImage1 = "Picture 9.jpg";
+std::string targetImage2 = "Picture 10.jpg";
+std::string targetImage3 = "Picture 11.jpg";
+std::string targetImage4 = "Picture 12.jpg";
+std::string targetImage5 = "Picture 13.jpg";
+std::string targetImage6 = "Picture 14.jpg";
+std::string targetImage7 = "Picture 15.jpg";
+std::string targetImage8 = "Picture 16.jpg";
+std::string targetImage9 = "Picture 17.jpg";
+
 std::string targetImageBlue = "blueLegoCar.png";
 
 int numberOfImages = 9;
@@ -774,6 +788,7 @@ int main( int argc, char** argv )
 				}
 			}
 
+			/*
 			// Draw good matches.
 			switch(numberOfImages) {
 				case 1:
@@ -842,6 +857,7 @@ int main( int argc, char** argv )
 				default:
 					break;
 			}
+			*/
 
 			// Show the images that were matched.
 
