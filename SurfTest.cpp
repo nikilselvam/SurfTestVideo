@@ -65,13 +65,16 @@ std::vector<KeyPoint> keypoints_1, keypoints_2, keypoints_3, keypoints_4, keypoi
 SurfDescriptorExtractor extractor;
 Mat descriptors_1, descriptors_2, descriptors_3, descriptors_4, descriptors_5, descriptors_6, descriptors_7, descriptors_8, descriptors_9, descriptors_frame;
 Mat img_keypoints_1, img_keypoints_2, img_keypoints_3, img_keypoints_4, img_keypoints_5, img_keypoints_6, img_keypoints_7, img_keypoints_8, img_keypoints_9, img_keypoints_frame;
-std::vector<DMatch> good_matches_1, good_matches_2, good_matches_3, good_matches_4, good_matches_5, good_matches_6, good_matches_7, good_matches_8, good_matches_9, all_good_matches;
+std::vector<DMatch> good_matches_1, good_matches_2, good_matches_3, good_matches_4, good_matches_5, good_matches_6, good_matches_7, good_matches_8, good_matches_9, all_good_matches, unique_matches;
 std::vector<Point2f> match_coordinates;
 
 // Set up matching
 double max_dist = 0; double min_dist = 100;
 float min_x = 100000; float max_x = 0;
 float min_y = 100000; float max_y = 0;
+int min_x_index = -1; int max_x_index = -1;
+int min_y_index = -1; int max_y_index = -1;
+float x_range = 400; float y_range = 400;
 
 // Data for frames
 Mat frame;
@@ -481,8 +484,46 @@ void findCoordinates() {
 		int trainIdx = all_good_matches[i].trainIdx;
 		Point2f coordinates = keypoints_frame[trainIdx].pt;
 
-		// Add (x,y) point to match coordinates.
-		match_coordinates.push_back(keypoints_frame[trainIdx].pt);
+		bool matchFound = false;
+
+		// Print contents of unique_matches.
+		printf("Printing contents of unique matches\n\n");
+		for (int j = 0; j < unique_matches.size(); j++) {
+			printf("unique_match[%d]:	\t queryIdx:%d\t trainIdx:%d\t imgIdx:%d\t distance:%f\n", j, unique_matches[j].queryIdx, unique_matches[j].trainIdx, unique_matches[j].imgIdx, unique_matches[j].distance);
+		}
+
+		printf("\n\n");
+
+		// Search through unique_matches and see if a match with the same trainIdx already exist.
+		// If so, this means that we already have the corresponding keypoint in our match_coordinates vector and 
+		// we dont' need to add it again. Set matchFound to true.
+		// If not, add the match to unique_matches and push the (x,y) information to match_coordinates.
+		for (int j = 0; j < unique_matches.size(); j++) {
+			if (unique_matches[j].trainIdx == trainIdx) {
+				matchFound = true;
+				printf("Not unique match! Match alredy exists in unique_matches at index %d\n", j);
+
+				break;
+			}
+		}
+
+		if (!matchFound) {
+			printf("Unique match found! Adding match with img_number = %d and trainIdx = %d to unique_matches\n", img_number, trainIdx);
+			unique_matches.push_back(all_good_matches[i]);
+
+			printf("\n\n");
+
+			printf("Printing contents of unique matches again\n\n");
+			for (int j = 0; j < unique_matches.size(); j++) {
+				printf("unique_match[%d]:	\t queryIdx:%d\t trainIdx:%d\t imgIdx:%d\t distance:%f\n", j, unique_matches[j].queryIdx, unique_matches[j].trainIdx, unique_matches[j].imgIdx, unique_matches[j].distance);
+			}
+
+			// Add (x,y) point to match coordinates.
+			match_coordinates.push_back(keypoints_frame[trainIdx].pt);
+		}
+
+		printf("\n\n");
+
 
 		/*
 		printf("image number is %d\n", img_number);
@@ -494,22 +535,325 @@ void findCoordinates() {
 		*/
 	}
 
+	printf("all_good_matches.size = %d, unique_matches.size = %d\n", all_good_matches.size(), unique_matches.size());
+
 	// Print matches.
 	for (int i = 0; i < match_coordinates.size(); i++) {
 		// Calculate min and max x coordinates.
-		if (match_coordinates[i].x > max_x) max_x = match_coordinates[i].x;
-		if (match_coordinates[i].y > max_y) max_y = match_coordinates[i].y;
+		if (match_coordinates[i].x > max_x) {
+			max_x = match_coordinates[i].x;
+			max_x_index = i;
+		}
+		if (match_coordinates[i].y > max_y) {
+			max_y = match_coordinates[i].y;
+			max_y_index = i;
+		}
 
 		// Calculate min and max y coordinates.
-		if (match_coordinates[i].x < min_x) min_x = match_coordinates[i].x;
-		if (match_coordinates[i].y < min_y) min_y = match_coordinates[i].y;
+		if (match_coordinates[i].x < min_x) {
+			min_x = match_coordinates[i].x;
+			min_x_index = i;
+		}
+		if (match_coordinates[i].y < min_y) {
+			min_y = match_coordinates[i].y;
+			min_y_index = i;
+		}
 
 		printf("Matches[%d]:	\t x = %f	\t	y = %f\n", i, match_coordinates[i].x, match_coordinates[i].y);
 	}
 
+	// Calculate x_range and y_range.
+	x_range = max_x - min_x;
+	y_range = max_y - min_y;
+
 	printf("\n\n");
 	printf("min_x = %f	\t max_x = %f\n", min_x, max_x);
 	printf("min_y = %f	\t max_y = %f\n", min_y, max_y);
+	printf("x__range = %f	\t y_range = %f\n", x_range, y_range);
+	printf("min_x_index = %d	\t max_x_index = %d\n", min_x_index, max_x_index);
+	printf("min_y_index = %d	\t max_y_index = %d\n", min_y_index, max_y_index);
+	printf("\n\n");
+
+	// Now continue removing coordinates from vector until the x and y coordinates match the range
+	// of the legoGirl.
+	while (x_range > 30 || y_range > 45) {
+		int first_index_remove = -1;
+		int second_index_remove = -1;
+
+		if (x_range > 30) {
+			first_index_remove = min_x_index;
+
+			// TODO: put in check to ensure that min_x_value != min_y_value.
+
+			// Calculate the second iterator to remove based on the first element removed.
+			if (min_x_index < max_x_index) {
+				second_index_remove = max_x_index - 1;
+			} else {
+				second_index_remove = max_x_index;
+			}
+			
+			printf("Removing min_x of value %f at iterator index %d and max_x of value %f at iterator index %d\n", min_x, first_index_remove, max_x, second_index_remove);
+
+			// Remove the entries with smallest and largest x values.
+			match_coordinates.erase(match_coordinates.begin() + first_index_remove);
+			match_coordinates.erase(match_coordinates.begin() + second_index_remove);
+
+			printf("\n\n");
+
+			// Print out vector contents.
+			for (int i = 0; i < match_coordinates.size(); i++) {
+				printf("Matches[%d]:	\t x = %f	\t	y = %f\n", i, match_coordinates[i].x, match_coordinates[i].y);
+			}
+
+			printf("\n\n");
+
+			
+			// Now check if we need to remove entries based on the y_range as well.
+			if (y_range > 45) {
+				// Check if either point has already been removed.
+
+				bool minYRemoved = false; bool maxYRemoved = false;
+
+				if (min_y_index == min_x_index || min_y_index == max_x_index) {
+					minYRemoved = true;
+					printf("Min Y already removed!\n\n");
+				}
+
+				if (max_y_index == min_x_index || max_y_index == max_x_index) {
+					maxYRemoved = true;
+					printf("Max Y already removed!\n\n");
+				}
+
+				// If not, calculate new indices to remove.
+				
+				if (minYRemoved && maxYRemoved) {
+					// Do nothing. Both values have already been removed.
+				}
+				// If min y has already been removed but max y hasn't, remove the entry with max y.
+				else if (minYRemoved && !maxYRemoved) {
+					// Remove the entry at max_y_index given that we have already removed two other entries from the list.
+
+					int third_index_remove = -1;
+
+					// If both indices removed are lesser in value than max_y_index, then subtract 2 from max_y_index
+					// to account for the fact that these two entries have already been removed.
+					if (min_x_index < max_y_index && max_x_index < max_y_index) {
+						third_index_remove = max_y_index - 2;
+					}
+					// If only one index removed was less than max_y_index, subtract 1 from max_y_index to account for the fact
+					// that one entry has already been removed that affects the index of the current max_y match.
+					else if ( (min_x_index < max_y_index && max_x_index > max_y_index) || (min_x_index < max_y_index && max_x_index > max_y_index)) {
+						third_index_remove = max_y_index - 1;
+					}
+					// If both indices removed are greater in value than max_y_index, then use max_y_index as the third index to remove.
+					else if (min_x_index > max_y_index && max_x_index > max_y_index) {
+						third_index_remove = max_y_index;
+					}
+
+					printf("Removing max_y of value %f at iterator index %d\n", max_y, third_index_remove);
+
+					printf("\n\n");
+
+					// Remove the entry with the largest y value.
+					match_coordinates.erase(match_coordinates.begin() + third_index_remove);
+				}
+				// If max y has already been removed but min y hasn't, remove the entry with min y.
+				else if (!minYRemoved && maxYRemoved) {
+					// Remove the entry at max_y_index given that we have already removed two other entries from the list.
+					int third_index_remove = -1;
+
+					// If both indices removed are lesser in value than min_y_index, then subtract 2 from min_y_index
+					// to account for the fact that these two entries have already been removed.
+					if (min_x_index < min_y_index && max_x_index < min_y_index) {
+						third_index_remove = min_y_index - 2;
+					}
+					// If only one index removed was less than min_y_index, subtract 1 from min_y_index to account for the fact
+					// that one entry has already been removed that affects the index of the current min_y match.
+					else if ( (min_x_index < min_y_index  && max_x_index > min_y_index ) || (min_x_index < min_y_index  && max_x_index >min_y_index )) {
+						third_index_remove = min_y_index  - 1;
+					}
+					// If both indices removed are greater in value than min_y_index, then use min_y_index as the third index to remove.
+					else if (min_x_index > min_y_index  && max_x_index > min_y_index ) {
+						third_index_remove = min_y_index;
+					}
+
+					printf("Removing min_y of value %f at iterator index %d\n", min_y, third_index_remove);
+
+					printf("\n\n");
+
+					// Remove the entry with the smallest y value.
+					match_coordinates.erase(match_coordinates.begin() + third_index_remove);
+				}
+				// If neither min y nor max y have been removed, then remove both.
+				else if (!minYRemoved && !maxYRemoved) {
+					// Calculate the third index we need to remove (for entry min y) given that we have already removed two other entries from the list.
+					int third_index_remove = -1;
+
+					// If both indices removed are lesser in value than min_y_index, then subtract 2 from min_y_index
+					// to account for the fact that these two entries have already been removed.
+					if (min_x_index < min_y_index && max_x_index < min_y_index) {
+						third_index_remove = min_y_index - 2;
+					}
+					// If only one index removed was less than min_y_index, subtract 1 from min_y_index to account for the fact
+					// that one entry has already been removed that affects the index of the current min_y match.
+					else if ( (min_x_index < min_y_index  && max_x_index > min_y_index ) || (min_x_index < min_y_index  && max_x_index >min_y_index )) {
+						third_index_remove = min_y_index  - 1;
+					}
+					// If both indices removed are greater in value than min_y_index, then use min_y_index as the third index to remove.
+					else if (min_x_index > min_y_index  && max_x_index > min_y_index ) {
+						third_index_remove = min_y_index;
+					}
+
+					printf("\n\n");
+
+					printf("Removing min_y of value %f at iterator index %d\n", min_y, third_index_remove);
+
+					// Remove the entry with the smallest y value.
+					match_coordinates.erase(match_coordinates.begin() + third_index_remove);
+
+					// Calculate the fourth index we need to remove (for entry max y) given that we have already removed three other entries from the list.
+					int fourth_index_remove = -1;
+
+					// If all three indices removed are lesser in value than max_y_index, then subtract 3 from max_y_index
+					// to account for the fact that these two entries have already been removed.
+					if (min_x_index < max_y_index && max_x_index < max_y_index && min_y_index < max_y_index) {
+						fourth_index_remove = max_y_index - 3;
+					}
+					// If two of the indices removed are less than max_y_index, subtract 2 from max_y_index to account for the fact
+					// that two entires have already been removed that affect the index of the current max_y match.
+					else if ( (min_x_index < max_y_index && max_x_index < max_y_index && min_y_index > max_y_index) ||
+								(min_x_index < max_y_index && max_x_index > max_y_index && min_y_index < max_y_index) || 
+								(min_x_index > max_y_index && max_x_index < max_y_index && min_y_index < max_y_index) ) {
+						fourth_index_remove = max_y_index - 2;
+					}
+					// If only one index removed was less than max_y_index, subtract 1 from max_y_index to account for the fact
+					// that one entry has already been removed that affects the index of the current max_y match.
+					else if ( (min_x_index > max_y_index && max_x_index > max_y_index && min_y_index < max_y_index) ||
+								(min_x_index > max_y_index && max_x_index < max_y_index && min_y_index > max_y_index) || 
+								(min_x_index < max_y_index && max_x_index > max_y_index && min_y_index > max_y_index) ) {
+						fourth_index_remove = max_y_index - 1;
+					}
+					// If both indices removed are greater in value than max_y_index, then use max_y_index as the third index to remove.
+					else if (min_x_index > max_y_index && max_x_index > max_y_index && min_y_index > max_y_index ) {
+						fourth_index_remove = max_y_index;
+					}
+
+					printf("\n\n");
+
+					printf("Removing max_y of value %f at iterator index %d\n", min_y, fourth_index_remove);
+
+					// Remove the entry with the smallest y value.
+					match_coordinates.erase(match_coordinates.begin() + fourth_index_remove);
+				}
+			}
+			
+			// Print out vector contents.
+			for (int i = 0; i < match_coordinates.size(); i++) {
+				printf("Matches[%d]:	\t x = %f	\t	y = %f\n", i, match_coordinates[i].x, match_coordinates[i].y);
+			}
+
+			printf("\n\n");
+			
+		}
+		else if (y_range > 45) {
+			first_index_remove = min_y_index;
+
+			// TODO: put in check to ensure that min_x_value != min_y_value.
+
+			// Calculate the second iterator to remove based on the first element removed.
+			if (min_y_index < max_y_index) {
+				second_index_remove = max_y_index - 1;
+			} else {
+				second_index_remove = max_y_index;
+			}
+			
+			printf("Removing min_y of value %f at iterator index %d and max_y of value %f at iterator index %d\n", min_y, first_index_remove, max_y, second_index_remove);
+
+			// Remove the entries with smallest and largest x values.
+			match_coordinates.erase(match_coordinates.begin() + first_index_remove);
+			match_coordinates.erase(match_coordinates.begin() + second_index_remove);
+
+			printf("\n\n");
+
+			// Print out vector contents.
+			for (int i = 0; i < match_coordinates.size(); i++) {
+				printf("Matches[%d]:	\t x = %f	\t	y = %f\n", i, match_coordinates[i].x, match_coordinates[i].y);
+			}
+
+			printf("\n\n");
+		}
+
+		// Reset the value of min_x, max_x, min_y, and max_y as well as the index counters and the range counters for comparison's sake.
+		min_x = 100000;
+		max_x = 0;
+		min_y = 100000;
+		max_y = 0;
+		min_x_index = -1;
+		max_x_index = -1;
+		min_y_index = -1;
+		max_y_index = -1;
+		x_range = 400;
+		y_range = 400;
+
+		// Recalculate x_range and y_range.
+		for (int i = 0; i < match_coordinates.size(); i++) {
+			// Calculate min and max x coordinates.
+			if (match_coordinates[i].x > max_x) {
+				max_x = match_coordinates[i].x;
+				max_x_index = i;
+			}
+			if (match_coordinates[i].y > max_y) {
+				max_y = match_coordinates[i].y;
+				max_y_index = i;
+			}
+
+			// Calculate min and max y coordinates.
+			if (match_coordinates[i].x < min_x) {
+				min_x = match_coordinates[i].x;
+				min_x_index = i;
+			}
+			if (match_coordinates[i].y < min_y) {
+				min_y = match_coordinates[i].y;
+				min_y_index = i;
+			}
+
+			printf("Matches[%d]:	\t x = %f	\t	y = %f\n", i, match_coordinates[i].x, match_coordinates[i].y);
+		}
+
+		// Calculate x_range and y_range.
+		x_range = max_x - min_x;
+		y_range = max_y - min_y;
+
+		printf("\n\n");
+		printf("min_x = %f	\t max_x = %f\n", min_x, max_x);
+		printf("min_y = %f	\t max_y = %f\n", min_y, max_y);
+		printf("x__range = %f	\t y_range = %f\n", x_range, y_range);
+		printf("min_x_index = %d	\t max_x_index = %d\n", min_x_index, max_x_index);
+		printf("min_y_index = %d	\t max_y_index = %d\n", min_y_index, max_y_index);
+		printf("\n\n");
+	}
+
+
+	// Now print out all matches again.
+	printf("Done eliminating keypoints!\n");
+
+	// Calculate average.
+	int size = match_coordinates.size();
+	float x_sum = 0; float y_sum = 0;
+	float x_val = 0; float y_val = 0;
+	for (int i = 0; i < size; i++) {
+		printf("Matches[%d]:	\t x = %f	\t	y = %f\n", i, match_coordinates[i].x, match_coordinates[i].y);
+		x_sum += match_coordinates[i].x;
+		y_sum += match_coordinates[i].y;
+	}
+
+	printf("\n\n");
+
+	// Calculate and print averages.
+	x_val = x_sum / size;
+	y_val = y_sum / size;
+	printf("Done calculating!\n\n");
+	printf("x_val = %f	\t	y_val = %f	\n", x_val, y_val);
 	printf("\n\n");
 }
 
@@ -625,12 +969,19 @@ int main( int argc, char** argv )
 			// Clear vectors.
 			all_good_matches.clear();
 			match_coordinates.clear();
+			unique_matches.clear();
 
-			// Reset the value of min_x, max_x, min_y, and max_y for comparison's sake.
+			// Reset the value of min_x, max_x, min_y, and max_y as well as the index counters and the range counters for comparison's sake.
 			min_x = 100000;
 			max_x = 0;
 			min_y = 100000;
 			max_y = 0;
+			min_x_index = -1;
+			max_x_index = -1;
+			min_y_index = -1;
+			max_y_index = -1;
+			x_range = 400;
+			y_range = 400;
 
 			if (descriptors_frame.rows > 0) {
 				// Find good matches.
