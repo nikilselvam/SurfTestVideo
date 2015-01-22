@@ -436,6 +436,71 @@ void showAllWebcamKeypointMatches() {
 	imshow("All Matched Keypoints", img_keypoints_frame);
 }
 
+void findUniqueMatches() {
+	int trainIdx = -1;
+	bool matchFound = false;
+
+	// Clear unique_matches vector.
+	unique_matches.clear();
+
+	for (int i = 0; i < all_good_matches.size(); i++) {
+		trainIdx = all_good_matches[i].trainIdx;
+		matchFound = false;
+
+		// Search through unique_matches and see if a match with the same trainIdx already exist.
+		// If so, this means that we already have the corresponding keypoint in our match_coordinates vector and 
+		// we dont' need to add it again. Set matchFound to true.
+		// If not, add the match to unique_matches and push the (x,y) information to match_coordinates.
+		for (int j = 0; j < unique_matches.size(); j++) {
+			if (unique_matches[j].trainIdx == trainIdx) {
+				matchFound = true;
+				break;
+			}
+		}
+
+		if (!matchFound) {
+			unique_matches.push_back(all_good_matches[i]);
+		}
+	}
+}
+
+void printMatchesVector(std::string name, vector<DMatch> vector, bool printDist) {
+	std::cout << "Printing vector " << name << "\t size = " << vector.size() << std::endl << std::endl;
+
+	for (int i = 0; i < vector.size(); i++) {
+
+		std::cout << name << "[" << i << "]:\t " << "queryIdx = " << vector[i].queryIdx << "\t trainIdx = " << vector[i].trainIdx << "\t imgIdx = " << vector[i].imgIdx;
+
+		if (printDist) {
+			std::cout << "\t distance = " << vector[i].distance;
+		}
+
+		std::cout << std::endl;
+	}
+
+	printf("\n\n");
+}
+
+void printPoint2fVector(std::string name, vector<Point2f> vector) {
+	std::cout << "Printing vector " << name << "\t size = " << vector.size() << std::endl << std::endl;
+
+	for (int i = 0; i < vector.size(); i++) {
+		std::cout << name << "[" << i << "]:\t " << "x = " << vector[i].x << "\t y = " << vector[i].y << std::endl;
+	}
+
+	printf("\n\n");
+}
+
+void printKeypointsVector(std::string name, vector<KeyPoint> vector) {
+	std::cout << "Printing vector " << name << "\t size = " << vector.size() << std::endl << std::endl;
+
+	for (int i = 0; i < vector.size(); i++) {
+		std::cout << name << "[" << i << "]:\t " << "x = " << vector[i].pt << std::endl;
+	}
+
+	printf("\n\n");
+}
+
 Point2f findCoordinates() {
 	std::vector<KeyPoint> all_matched_keypoints;
 	std::vector <KeyPoint> keypoints_to_process;
@@ -445,106 +510,26 @@ Point2f findCoordinates() {
 	lego_girl_coordinates.x = 0;
 	lego_girl_coordinates.y = 0;
 
-	for (int i = 0; i < all_good_matches.size(); i++) {
-		img_number = all_good_matches[i].imgIdx;
+	// Find unique matches.
+	findUniqueMatches();
 
-		switch(img_number) {
-			case 1:
-				keypoints_to_process = keypoints_1;
-				break;
-			case 2:
-				keypoints_to_process = keypoints_2;
-				break;
-			case 3:
-				keypoints_to_process = keypoints_3;
-				break;
-			case 4:
-				keypoints_to_process = keypoints_4;
-				break;
-			case 5:
-				keypoints_to_process = keypoints_5;
-				break;
-			case 6:
-				keypoints_to_process = keypoints_6;
-				break;
-			case 7:
-				keypoints_to_process = keypoints_7;
-				break;
-			case 8:
-				keypoints_to_process = keypoints_8;
-				break;
-			case 9:
-				keypoints_to_process = keypoints_9;
-				break;
-			default:
-				return lego_girl_coordinates;
-		}
-		
-		/*
-		queryIdx = all_good_matches[i].queryIdx;
-		Point2f coordinates = keypoints_to_process[queryIdx].pt;
-		*/
+	//printMatchesVector("all_good_matches", all_good_matches, true);
 
-		int trainIdx = all_good_matches[i].trainIdx;
-		Point2f coordinates = keypoints_frame[trainIdx].pt;
+	//printMatchesVector("unique_matches", unique_matches, true);
 
-		bool matchFound = false;
-
-		/*
-		// Print contents of unique_matches.
-		printf("Printing contents of unique matches\n\n");
-		for (int j = 0; j < unique_matches.size(); j++) {
-			printf("unique_match[%d]:	\t queryIdx:%d\t trainIdx:%d\t imgIdx:%d\t distance:%f\n", j, unique_matches[j].queryIdx, unique_matches[j].trainIdx, unique_matches[j].imgIdx, unique_matches[j].distance);
-		}
-
-		printf("\n\n");
-		*/
-
-		// Search through unique_matches and see if a match with the same trainIdx already exist.
-		// If so, this means that we already have the corresponding keypoint in our match_coordinates vector and 
-		// we dont' need to add it again. Set matchFound to true.
-		// If not, add the match to unique_matches and push the (x,y) information to match_coordinates.
-		for (int j = 0; j < unique_matches.size(); j++) {
-			if (unique_matches[j].trainIdx == trainIdx) {
-				matchFound = true;
-				//printf("Not unique match! Match alredy exists in unique_matches at index %d\n", j);
-
-				break;
-			}
-		}
-
-		if (!matchFound) {
-			//printf("Unique match found! Adding match with img_number = %d and trainIdx = %d to unique_matches\n", img_number, trainIdx);
-			unique_matches.push_back(all_good_matches[i]);
-
-			//printf("\n\n");
-
-			/*
-			printf("Printing contents of unique matches again\n\n");
-			for (int j = 0; j < unique_matches.size(); j++) {
-				printf("unique_match[%d]:	\t queryIdx:%d\t trainIdx:%d\t imgIdx:%d\t distance:%f\n", j, unique_matches[j].queryIdx, unique_matches[j].trainIdx, unique_matches[j].imgIdx, unique_matches[j].distance);
-			}
-			*/
-
-			// Add (x,y) point to match coordinates.
-			match_coordinates.push_back(keypoints_frame[trainIdx].pt);
-		}
-
-		/*
-		printf("\n\n");
-
-		printf("image number is %d\n", img_number);
-		printf("keypoints vector size is %d\n", keypoints_to_process.size());
-		printf("queryIdx is %d\n\n", queryIdx);
-
-		printf("coordinates are (%f, %f)\n", coordinates.x, coordinates.y);
-		printf("\n");
-		*/
+	// Get match_coordinates of unique matches.
+	for (int i = 0; i < unique_matches.size(); i++) {
+		match_coordinates.push_back(keypoints_frame[unique_matches[i].trainIdx].pt);		
 	}
+
+	//printKeypointsVector("keypoints_frame", keypoints_frame);
+
+	//printPoint2fVector("match_coordinates", match_coordinates);
+
 
 	//printf("all_good_matches.size = %d, unique_matches.size = %d\n", all_good_matches.size(), unique_matches.size());
 
-	// Print matches.
+	// Calculate coordinates.
 	for (int i = 0; i < match_coordinates.size(); i++) {
 		// Calculate min and max x coordinates.
 		if (match_coordinates[i].x > max_x) {
