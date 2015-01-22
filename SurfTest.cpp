@@ -616,8 +616,20 @@ Point2f findCoordinates() {
 			
 			//printf("Removing min_x of value %f at iterator index %d and max_x of value %f at iterator index %d\n", min_x, first_index_remove, max_x, second_index_remove);
 
-			// Remove the entries with smallest and largest x values.
+			// If there is only one element left in the Point2f vector, return this point.
+			if (match_coordinates.size() == 1) {
+				return match_coordinates[0];
+			}
+
+			// Remove the entry with the smallest x value.
 			match_coordinates.erase(match_coordinates.begin() + first_index_remove);
+
+			// If there is only one element left in the Point2f vector, return this point.
+			if (match_coordinates.size() == 1) {
+				return match_coordinates[0];
+			}
+
+			// Remove the entry with the largest x value.
 			match_coordinates.erase(match_coordinates.begin() + second_index_remove);
 
 			/*
@@ -678,6 +690,11 @@ Point2f findCoordinates() {
 
 					// printf("\n\n");
 
+					// If there is only one element left in the Point2f vector, return this point.
+					if (match_coordinates.size() == 1) {
+						return match_coordinates[0];
+					}
+
 					// Remove the entry with the largest y value.
 					match_coordinates.erase(match_coordinates.begin() + third_index_remove);
 				}
@@ -705,6 +722,11 @@ Point2f findCoordinates() {
 
 					//printf("\n\n");
 
+					// If there is only one element left in the Point2f vector, return this point.
+					if (match_coordinates.size() == 1) {
+						return match_coordinates[0];
+					}
+
 					// Remove the entry with the smallest y value.
 					match_coordinates.erase(match_coordinates.begin() + third_index_remove);
 				}
@@ -731,6 +753,11 @@ Point2f findCoordinates() {
 					//printf("\n\n");
 
 					//printf("Removing min_y of value %f at iterator index %d\n", min_y, third_index_remove);
+
+					// If there is only one element left in the Point2f vector, return this point.
+					if (match_coordinates.size() == 1) {
+						return match_coordinates[0];
+					}
 
 					// Remove the entry with the smallest y value.
 					match_coordinates.erase(match_coordinates.begin() + third_index_remove);
@@ -766,6 +793,11 @@ Point2f findCoordinates() {
 
 					//printf("Removing max_y of value %f at iterator index %d\n", min_y, fourth_index_remove);
 
+					// If there is only one element left in the Point2f vector, return this point.
+					if (match_coordinates.size() == 1) {
+						return match_coordinates[0];
+					}
+
 					// Remove the entry with the smallest y value.
 					match_coordinates.erase(match_coordinates.begin() + fourth_index_remove);
 				}
@@ -794,9 +826,22 @@ Point2f findCoordinates() {
 			
 			//printf("Removing min_y of value %f at iterator index %d and max_y of value %f at iterator index %d\n", min_y, first_index_remove, max_y, second_index_remove);
 
-			// Remove the entries with smallest and largest x values.
+			// If there is only one element left in the Point2f vector, return this point.
+			if (match_coordinates.size() == 1) {
+				return match_coordinates[0];
+			}
+
+			// Remove the entry with the smallest x value.
 			match_coordinates.erase(match_coordinates.begin() + first_index_remove);
+
+			// If there is only one element left in the Point2f vector, return this point.
+			if (match_coordinates.size() == 1) {
+				return match_coordinates[0];
+			}
+
+			// Remove the entry with the largest x value.
 			match_coordinates.erase(match_coordinates.begin() + second_index_remove);
+
 
 			/*(
 			printf("\n\n");
@@ -1391,7 +1436,7 @@ int main( int argc, char** argv )
 			}
 
 			// Print out lego_girl location.
-			printf("legoGirl's location is: \t x = %f	\t	y = %f\n\n\n", lego_girl_location.x, lego_girl_location.y);
+			printf("x = %f	\t	y = %f \t\tall_matches = %d\n", lego_girl_location.x, lego_girl_location.y, all_good_matches.size());
 
 			/*
 			// Print good matches.
