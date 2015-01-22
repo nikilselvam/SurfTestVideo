@@ -501,33 +501,11 @@ void printKeypointsVector(std::string name, vector<KeyPoint> vector) {
 	printf("\n\n");
 }
 
-Point2f findCoordinates() {
-	std::vector<KeyPoint> all_matched_keypoints;
-	std::vector <KeyPoint> keypoints_to_process;
-	int img_number, queryIdx;
+Point2f minMaxXYDetection () {
 	Point2f lego_girl_coordinates;
 	
 	lego_girl_coordinates.x = 0;
 	lego_girl_coordinates.y = 0;
-
-	// Find unique matches.
-	findUniqueMatches();
-
-	//printMatchesVector("all_good_matches", all_good_matches, true);
-
-	//printMatchesVector("unique_matches", unique_matches, true);
-
-	// Get match_coordinates of unique matches.
-	for (int i = 0; i < unique_matches.size(); i++) {
-		match_coordinates.push_back(keypoints_frame[unique_matches[i].trainIdx].pt);		
-	}
-
-	//printKeypointsVector("keypoints_frame", keypoints_frame);
-
-	//printPoint2fVector("match_coordinates", match_coordinates);
-
-
-	//printf("all_good_matches.size = %d, unique_matches.size = %d\n", all_good_matches.size(), unique_matches.size());
 
 	// Calculate coordinates.
 	for (int i = 0; i < match_coordinates.size(); i++) {
@@ -921,6 +899,39 @@ Point2f findCoordinates() {
 	//printf("size = %d\n", size);
 
 	return lego_girl_coordinates;
+}
+
+
+Point2f findCoordinates() {
+	std::vector<KeyPoint> all_matched_keypoints;
+	std::vector <KeyPoint> keypoints_to_process;
+	int img_number, queryIdx;
+
+	/*
+	Point2f lego_girl_coordinates;
+	
+	lego_girl_coordinates.x = 0;
+	lego_girl_coordinates.y = 0;
+	*/
+
+	// Find unique matches.
+	findUniqueMatches();
+
+	//printMatchesVector("all_good_matches", all_good_matches, true);
+	//printMatchesVector("unique_matches", unique_matches, true);
+
+	// Get match_coordinates of unique matches.
+	for (int i = 0; i < unique_matches.size(); i++) {
+		match_coordinates.push_back(keypoints_frame[unique_matches[i].trainIdx].pt);		
+	}
+
+
+	//printKeypointsVector("keypoints_frame", keypoints_frame);
+	//printPoint2fVector("match_coordinates", match_coordinates);
+
+	//printf("all_good_matches.size = %d, unique_matches.size = %d\n", all_good_matches.size(), unique_matches.size());
+
+	return minMaxXYDetection();
 }
 
 /** @function main */
