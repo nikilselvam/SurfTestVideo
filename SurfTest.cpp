@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <iostream>
+#include "DetectionCoordinates.h"
 #include "opencv2/core/core.hpp"
 #include "opencv2/features2d/features2d.hpp"
 #include "opencv2/nonfree/features2d.hpp"
@@ -61,6 +62,7 @@ Mat img_9 = imread(targetImage9, CV_LOAD_IMAGE_GRAYSCALE );
 int minHessian = 400;
 SurfFeatureDetector detector(minHessian);
 std::vector<KeyPoint> keypoints_1, keypoints_2, keypoints_3, keypoints_4, keypoints_5, keypoints_6, keypoints_7, keypoints_8, keypoints_9, keypoints_frame;
+vector <DetectionCoordinates> coordinates_vector;
 
 SurfDescriptorExtractor extractor;
 Mat descriptors_1, descriptors_2, descriptors_3, descriptors_4, descriptors_5, descriptors_6, descriptors_7, descriptors_8, descriptors_9, descriptors_frame;
@@ -501,11 +503,78 @@ void printKeypointsVector(std::string name, vector<KeyPoint> vector) {
 	printf("\n\n");
 }
 
+void printDetectionCoordinatesVector(std::string name, vector<DetectionCoordinates> vector) {
+	std::cout << "Printing vector " << name << "\t size = " << vector.size() << std::endl << std::endl;
+
+	for (int i = 0; i < vector.size(); i++) {
+		std::cout << name << "[" << i << "]:\t " << "x = " << vector[i].get_x() << "\t y = " << vector[i].get_y() << "\t total = " << vector[i].get_total() << std::endl;
+	}
+
+	printf("\n\n");
+}
+
+vector <DetectionCoordinates> sortCoordinates(vector <DetectionCoordinates> vector_to_sort) {
+	std::sort(vector_to_sort.begin(), vector_to_sort.end());
+	return vector_to_sort;
+}
+
 Point2f medianDetection() {
 	Point2f lego_girl_coordinates;
 	
 	lego_girl_coordinates.x = 0;
 	lego_girl_coordinates.y = 0;
+
+	int trainIdx = -1;
+	float x_val = -1; float y_val = -1;
+
+	// Take all the good matches and create Detection Coordinates points of them. Push them into vector.
+	for (int i = 0; i < all_good_matches.size(); i++) {
+		trainIdx = all_good_matches[i].trainIdx;
+		x_val = keypoints_frame[trainIdx].pt.x;
+		y_val = keypoints_frame[trainIdx].pt.y;
+
+		DetectionCoordinates coordinate = DetectionCoordinates(x_val, y_val);
+		coordinates_vector.push_back(coordinate);
+	}
+
+	// Sort the coordinates.
+	std::sort(coordinates_vector.begin(), coordinates_vector.end());
+
+	// Print the coordinates.
+	printDetectionCoordinatesVector("coordinates_vector", coordinates_vector);
+
+	// Calculate median index.
+	int size = coordinates_vector.size();
+
+	if (size % 2 == 1) {
+		int median_index = size / 2;
+
+		printf("size = %d \t median index = %d\n", size, median_index);
+
+		// Set coordinates.
+		lego_girl_coordinates.x = coordinates_vector[median_index].get_x();
+		lego_girl_coordinates.y = coordinates_vector[median_index].get_y();
+	} else {
+		int left_median_index = size / 2 - 1;
+		int right_median_index = size / 2;
+
+		printf("size = %d \nleft median index = %d \t right median index = %d\n", size, left_median_index, right_median_index);
+
+		float left_median_x = coordinates_vector[left_median_index].get_x();
+		float left_median_y = coordinates_vector[left_median_index].get_y();
+
+		printf("left_median_x = %f \t left_median_y = %f\n", left_median_x, left_median_y);
+
+		float right_median_x = coordinates_vector[right_median_index].get_x();
+		float right_median_y = coordinates_vector[right_median_index].get_y();
+
+		printf("right_median_y = %f \t right_median_y = %f\n",right_median_x, right_median_y);
+
+		lego_girl_coordinates.x = (left_median_x + right_median_x) / 2;
+		lego_girl_coordinates.y = (left_median_y + right_median_y) / 2;
+	}
+
+	printf("lego_girl_coorindates.x = %f \t lego_girl_coordinates.y = %f\n\n\n", lego_girl_coordinates.x, lego_girl_coordinates.y);
 
 	return lego_girl_coordinates;
 }
@@ -518,17 +587,16 @@ Point2f findCoordinates() {
 	// Find unique matches.
 	findUniqueMatches();
 
-	//printMatchesVector("all_good_matches", all_good_matches, true);
-	//printMatchesVector("unique_matches", unique_matches, true);
+	printMatchesVector("all_good_matches", all_good_matches, true);
+	printMatchesVector("unique_matches", unique_matches, true);
 
 	// Get match_coordinates of unique matches.
 	for (int i = 0; i < unique_matches.size(); i++) {
 		match_coordinates.push_back(keypoints_frame[unique_matches[i].trainIdx].pt);		
 	}
 
-
-	//printKeypointsVector("keypoints_frame", keypoints_frame);
-	//printPoint2fVector("match_coordinates", match_coordinates);
+	printKeypointsVector("keypoints_frame", keypoints_frame);
+	printPoint2fVector("match_coordinates", match_coordinates);
 
 	//printf("all_good_matches.size = %d, unique_matches.size = %d\n", all_good_matches.size(), unique_matches.size());
 
@@ -648,6 +716,7 @@ int main( int argc, char** argv )
 			all_good_matches.clear();
 			match_coordinates.clear();
 			unique_matches.clear();
+			coordinates_vector.clear();
 
 			// Reset the value of min_x, max_x, min_y, and max_y as well as the index counters and the range counters for comparison's sake.
 			min_x = 100000;
