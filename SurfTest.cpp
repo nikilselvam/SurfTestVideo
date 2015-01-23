@@ -78,6 +78,10 @@ int min_x_index = -1; int max_x_index = -1;
 int min_y_index = -1; int max_y_index = -1;
 float x_range = 400; float y_range = 400;
 
+// Set up tracking of (x,y) coordinate changes with legoGirl's location.
+float previous_x = 0; float previous_y = 0;
+float x_diff = 0; float y_diff = 0;
+
 // Data for frames
 Mat frame;
 Mat img_matches_1, img_matches_2, img_matches_3, img_matches_4, img_matches_5, img_matches_6, img_matches_7, img_matches_8, img_matches_9;
@@ -541,7 +545,7 @@ Point2f medianDetection() {
 	std::sort(coordinates_vector.begin(), coordinates_vector.end());
 
 	// Print the coordinates.
-	printDetectionCoordinatesVector("coordinates_vector", coordinates_vector);
+	//printDetectionCoordinatesVector("coordinates_vector", coordinates_vector);
 
 	// Calculate median index.
 	int size = coordinates_vector.size();
@@ -549,7 +553,7 @@ Point2f medianDetection() {
 	if (size % 2 == 1) {
 		int median_index = size / 2;
 
-		printf("size = %d \t median index = %d\n", size, median_index);
+		//printf("size = %d \t median index = %d\n", size, median_index);
 
 		// Set coordinates.
 		lego_girl_coordinates.x = coordinates_vector[median_index].get_x();
@@ -558,23 +562,23 @@ Point2f medianDetection() {
 		int left_median_index = size / 2 - 1;
 		int right_median_index = size / 2;
 
-		printf("size = %d \nleft median index = %d \t right median index = %d\n", size, left_median_index, right_median_index);
+		//printf("size = %d \nleft median index = %d \t right median index = %d\n", size, left_median_index, right_median_index);
 
 		float left_median_x = coordinates_vector[left_median_index].get_x();
 		float left_median_y = coordinates_vector[left_median_index].get_y();
 
-		printf("left_median_x = %f \t left_median_y = %f\n", left_median_x, left_median_y);
+		//printf("left_median_x = %f \t left_median_y = %f\n", left_median_x, left_median_y);
 
 		float right_median_x = coordinates_vector[right_median_index].get_x();
 		float right_median_y = coordinates_vector[right_median_index].get_y();
 
-		printf("right_median_y = %f \t right_median_y = %f\n",right_median_x, right_median_y);
+		//printf("right_median_y = %f \t right_median_y = %f\n",right_median_x, right_median_y);
 
 		lego_girl_coordinates.x = (left_median_x + right_median_x) / 2;
 		lego_girl_coordinates.y = (left_median_y + right_median_y) / 2;
 	}
 
-	printf("lego_girl_coorindates.x = %f \t lego_girl_coordinates.y = %f\n\n\n", lego_girl_coordinates.x, lego_girl_coordinates.y);
+	//printf("lego_girl_coorindates.x = %f \t lego_girl_coordinates.y = %f\n\n\n", lego_girl_coordinates.x, lego_girl_coordinates.y);
 
 	return lego_girl_coordinates;
 }
@@ -584,19 +588,16 @@ Point2f findCoordinates() {
 	std::vector <KeyPoint> keypoints_to_process;
 	int img_number, queryIdx;
 
-	// Find unique matches.
-	findUniqueMatches();
-
-	printMatchesVector("all_good_matches", all_good_matches, true);
-	printMatchesVector("unique_matches", unique_matches, true);
+	//printMatchesVector("all_good_matches", all_good_matches, true);
+	//printMatchesVector("unique_matches", unique_matches, true);
 
 	// Get match_coordinates of unique matches.
 	for (int i = 0; i < unique_matches.size(); i++) {
 		match_coordinates.push_back(keypoints_frame[unique_matches[i].trainIdx].pt);		
 	}
 
-	printKeypointsVector("keypoints_frame", keypoints_frame);
-	printPoint2fVector("match_coordinates", match_coordinates);
+	//printKeypointsVector("keypoints_frame", keypoints_frame);
+	//printPoint2fVector("match_coordinates", match_coordinates);
 
 	//printf("all_good_matches.size = %d, unique_matches.size = %d\n", all_good_matches.size(), unique_matches.size());
 
@@ -1097,12 +1098,26 @@ int main( int argc, char** argv )
 
 				// Find coordinates.
 				lego_girl_location = findCoordinates();
-			} else {
-				//printf("Not on screen.\n");
-			}
 
-			// Print out lego_girl location.
-			printf("x = %f	\t	y = %f \t\tall_matches = %d\n", lego_girl_location.x, lego_girl_location.y, all_good_matches.size());
+				if (previous_x != 0 && previous_y != 0) {
+					x_diff = lego_girl_location.x - previous_x;
+					y_diff = lego_girl_location.y - previous_y;
+
+					printf("x = %f	(%f) \t y = %f \t (%f)\n", lego_girl_location.x, x_diff, lego_girl_location.y, y_diff);
+				}
+				else {
+					printf("x = %f	\t	y = %f \t\n", lego_girl_location.x, lego_girl_location.y);
+				}
+
+				previous_x = lego_girl_location.x;
+				previous_y = lego_girl_location.y;
+
+			} else {
+				printf("legoGirl is not on screen\n");
+
+				previous_x = 0;
+				previous_y = 0;
+			}
 
 			/*
 			// Print good matches.

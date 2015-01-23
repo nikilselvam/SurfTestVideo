@@ -1,40 +1,39 @@
-﻿Build started 1/23/2015 10:00:28 AM.
+﻿Build started 1/23/2015 10:13:57 AM.
      1>Project "C:\Projects_vs2012\2014\SurfTestVideo\SurfTestVideo\SurfTestVideo.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc110.pdb" /Gd /TP /errorReport:prompt SurfTest.cpp
          SurfTest.cpp
-     1>SurfTest.cpp(547): warning C4267: 'initializing' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(585): warning C4101: 'queryIdx' : unreferenced local variable
-     1>SurfTest.cpp(585): warning C4101: 'img_number' : unreferenced local variable
-     1>SurfTest.cpp(743): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(753): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(551): warning C4267: 'initializing' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(589): warning C4101: 'queryIdx' : unreferenced local variable
+     1>SurfTest.cpp(589): warning C4101: 'img_number' : unreferenced local variable
+     1>SurfTest.cpp(744): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(754): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(769): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(755): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(770): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(771): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(789): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(772): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(790): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(791): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(792): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(813): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(793): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(814): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(815): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(816): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(817): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(841): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(818): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(842): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(843): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(844): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(845): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(846): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(873): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(847): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(874): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(875): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(876): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(877): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(878): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(879): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(909): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(880): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(910): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(911): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(912): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
@@ -42,7 +41,7 @@
      1>SurfTest.cpp(914): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(915): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(916): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>SurfTest.cpp(950): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(917): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(951): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(952): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(953): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
@@ -51,6 +50,7 @@
      1>SurfTest.cpp(956): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(957): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
      1>SurfTest.cpp(958): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+     1>SurfTest.cpp(959): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Projects_vs2012\2014\SurfTestVideo\x64\Debug\SurfTestVideo.exe" /INCREMENTAL /NOLOGO /LIBPATH:\lib /LIBPATH:c:\opencv\build\x64\vc11\lib opencv_calib3d246d.lib opencv_contrib246d.lib opencv_core246d.lib opencv_features2d246d.lib opencv_flann246d.lib opencv_gpu246d.lib opencv_haartraining_engined.lib opencv_highgui246d.lib opencv_imgproc246d.lib opencv_legacy246d.lib opencv_ml246d.lib opencv_nonfree246d.lib opencv_objdetect246d.lib opencv_ocl246d.lib opencv_photo246d.lib opencv_stitching246d.lib opencv_superres246d.lib opencv_ts246d.lib opencv_video246d.lib opencv_videostab246d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Projects_vs2012\2014\SurfTestVideo\x64\Debug\SurfTestVideo.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Projects_vs2012\2014\SurfTestVideo\x64\Debug\SurfTestVideo.lib" /MACHINE:X64 x64\Debug\DetectionCoordinates.obj
          x64\Debug\SurfTest.obj
@@ -59,4 +59,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.51
+Time Elapsed 00:00:01.49
