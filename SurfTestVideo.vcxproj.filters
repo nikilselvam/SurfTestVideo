@@ -21,9 +21,15 @@
     <ClCompile Include="DetectionCoordinates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FeaturefulObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DetectionCoordinates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FeaturefulObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

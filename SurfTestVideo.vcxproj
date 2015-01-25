@@ -149,10 +149,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DetectionCoordinates.cpp" />
+    <ClCompile Include="FeaturefulObject.cpp" />
     <ClCompile Include="SurfTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DetectionCoordinates.h" />
+    <ClInclude Include="FeaturefulObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

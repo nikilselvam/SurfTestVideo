@@ -68,6 +68,7 @@ int matches_threshold = 0;
 std::string targetImageBlue = "blueLegoCar.png";
 
 int numberOfImages;
+std::string name;
 
 int minHessian = 400;
 SurfFeatureDetector detector(minHessian);
@@ -615,10 +616,14 @@ Point2f findCoordinates() {
 }
 
 void readInDetectionFile() {
-std::string line;
+	std::string line;
 	std::fstream detection_file ("object_detection.txt");
 
 	if (detection_file.is_open()) {
+		// Read in name;
+		getline(detection_file, line);
+		name = line;
+
 		// Read in number of images.
 		getline(detection_file, line);
 		numberOfImages = atoi(line.c_str());
@@ -687,6 +692,7 @@ int main( int argc, char** argv )
 	// Read in detection file parameters.
 	readInDetectionFile();
 
+	std::cout << "name = " << name << std::endl;
 	printf("numberOfImages = %d\n", numberOfImages);
 	printf("distance_threshold = %f\n", distance_threshold);
 	printf("matches_threshold = %d\n\n\n", matches_threshold);
@@ -1177,7 +1183,7 @@ int main( int argc, char** argv )
 				previous_y = lego_girl_location.y;
 
 			} else {
-				printf("legoGirl is not on screen \t\t all_good_matches.size = %d\n", all_good_matches.size());
+				std::cout << name << " is not on screen \t\t all_good_matches.size = " << all_good_matches.size() << std::endl;
 
 				previous_x = 0;
 				previous_y = 0;
