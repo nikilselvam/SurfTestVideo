@@ -798,16 +798,19 @@ void readInMultipleObjectDetectionFile() {
 /** @function main */
 int main( int argc, char** argv )
 {
+	/*
 	// Read in detection file parameters.
 	readInSingleObjectDetectionFile();
-
-	// readInMultipleObjectDetectionFile();
-	//printFeaturefulObjectsVector("featureful_objects", featureful_objects);
 
 	std::cout << "name = " << name << std::endl;
 	printf("numberOfImages = %d\n", numberOfImages);
 	printf("distance_threshold = %f\n", distance_threshold);
 	printf("matches_threshold = %d\n\n\n", matches_threshold);
+	*/
+
+	// Read in file with all object detection inforation and store information in vector.
+	readInMultipleObjectDetectionFile();
+	printFeaturefulObjectsVector("featureful_objects", featureful_objects);
 
 	// ============== Lego Girl ===============================
 
