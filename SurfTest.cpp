@@ -20,20 +20,6 @@ VideoCapture webcamCapture(WEBCAM_DEVICE_NUMBER);
 void readme();
 
 /*
-std::string targetImage = "testLegoGirl.jpg";
-std::string targetImage1 = "legoGirl- 1.jpg";
-std::string targetImage2 = "legoGirl- 2.jpg";
-std::string targetImage3 = "legoGirl- 3.jpg";
-std::string targetImage4 = "legoGirl- 4.jpg";
-std::string targetImage5 = "legoGirl- 5.jpg";
-std::string targetImage6 = "legoGirl- 6.jpg";
-std::string targetImage7 = "legoGirl- 7.jpg";
-std::string targetImage8 = "legoGirl- 8.jpg";
-std::string targetImage9 = "legoGirl- 9.jpg";
-
-*/
-
-/*
 std::string targetImage1 = "Picture 9.jpg";
 std::string targetImage2 = "Picture 10.jpg";
 std::string targetImage3 = "Picture 11.jpg";
@@ -82,9 +68,6 @@ int matches_threshold = 0;
 std::string targetImageBlue = "blueLegoCar.png";
 
 int numberOfImages;
-
-
-//Mat blueLegoCarImg = imread("blueLegoCar.png", CV_LOAD_IMAGE_GRAYSCALE);
 
 int minHessian = 400;
 SurfFeatureDetector detector(minHessian);
@@ -1158,26 +1141,6 @@ int main( int argc, char** argv )
 			}
 			*/
 
-			// Show the images that were matched.
-
-			/*
-			std::vector<KeyPoint> matchedKeypoints;
-
-			for (int i = 0; i < good_matches_1.size(); i++) {
-				matchedKeypoints.push_back(keypoints_frame[good_matches_1[i].trainIdx]);
-			}
-			drawKeypoints(frame, matchedKeypoints, img_keypoints_frame, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
-			imshow("Matched Keypoints 1", img_keypoints_frame);
-
-			matchedKeypoints.clear();
-
-			for (int i = 0; i < good_matches_2.size(); i++) {
-				matchedKeypoints.push_back(keypoints_frame[good_matches_2[i].trainIdx]);
-			}
-			drawKeypoints(frame, matchedKeypoints, img_keypoints_frame, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
-			imshow("Matched Keypoints 2", img_keypoints_frame);
-			*/
-
 			// Print total good matches.
 			// printTotalGoodMatches(total_good_matches);
 
@@ -1223,58 +1186,6 @@ int main( int argc, char** argv )
 			/*
 			// Print good matches.
 			switch(numberOfImages) {
-				case 1:
-					printGoodMatches(1, good_matches_1);
-					break;
-				case 2:
-					printGoodMatches(1, good_matches_1);
-					printGoodMatches(2, good_matches_2);
-					break;
-				case 3:
-					printGoodMatches(1, good_matches_1);
-					printGoodMatches(2, good_matches_2);
-					printGoodMatches(3, good_matches_3);
-					break;
-				case 4:
-					printGoodMatches(1, good_matches_1);
-					printGoodMatches(2, good_matches_2);
-					printGoodMatches(3, good_matches_3);
-					printGoodMatches(4, good_matches_4);
-					break;
-				case 5:
-					printGoodMatches(1, good_matches_1);
-					printGoodMatches(2, good_matches_2);
-					printGoodMatches(3, good_matches_3);
-					printGoodMatches(4, good_matches_4);
-					printGoodMatches(5, good_matches_5);
-					break;
-				case 6:
-					printGoodMatches(1, good_matches_1);
-					printGoodMatches(2, good_matches_2);
-					printGoodMatches(3, good_matches_3);
-					printGoodMatches(4, good_matches_4);
-					printGoodMatches(5, good_matches_5);
-					printGoodMatches(6, good_matches_6);
-					break;
-				case 7:
-					printGoodMatches(1, good_matches_1);
-					printGoodMatches(2, good_matches_2);
-					printGoodMatches(3, good_matches_3);
-					printGoodMatches(4, good_matches_4);
-					printGoodMatches(5, good_matches_5);
-					printGoodMatches(6, good_matches_6);
-					printGoodMatches(7, good_matches_7);
-					break;
-				case 8:
-					printGoodMatches(1, good_matches_1);
-					printGoodMatches(2, good_matches_2);
-					printGoodMatches(3, good_matches_3);
-					printGoodMatches(4, good_matches_4);
-					printGoodMatches(5, good_matches_5);
-					printGoodMatches(6, good_matches_6);
-					printGoodMatches(7, good_matches_7);
-					printGoodMatches(8, good_matches_8);
-					break;
 				case 9:
 					printGoodMatches(1, good_matches_1);
 					printGoodMatches(2, good_matches_2);
