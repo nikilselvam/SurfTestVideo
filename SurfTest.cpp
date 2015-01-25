@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
 #include "DetectionCoordinates.h"
 #include "opencv2/core/core.hpp"
 #include "opencv2/features2d/features2d.hpp"
@@ -32,6 +33,7 @@ std::string targetImage9 = "legoGirl- 9.jpg";
 
 */
 
+/*
 std::string targetImage1 = "Picture 9.jpg";
 std::string targetImage2 = "Picture 10.jpg";
 std::string targetImage3 = "Picture 11.jpg";
@@ -42,11 +44,6 @@ std::string targetImage7 = "Picture 15.jpg";
 std::string targetImage8 = "Picture 16.jpg";
 std::string targetImage9 = "Picture 17.jpg";
 
-std::string targetImageBlue = "blueLegoCar.png";
-
-int numberOfImages = 9;
-
-//Mat img_1 = imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE );
 Mat img_1 = imread(targetImage1, CV_LOAD_IMAGE_GRAYSCALE );
 Mat img_2 = imread(targetImage2, CV_LOAD_IMAGE_GRAYSCALE );
 Mat img_3 = imread(targetImage3, CV_LOAD_IMAGE_GRAYSCALE );
@@ -56,6 +53,36 @@ Mat img_6 = imread(targetImage6, CV_LOAD_IMAGE_GRAYSCALE );
 Mat img_7 = imread(targetImage7, CV_LOAD_IMAGE_GRAYSCALE );
 Mat img_8 = imread(targetImage8, CV_LOAD_IMAGE_GRAYSCALE );
 Mat img_9 = imread(targetImage9, CV_LOAD_IMAGE_GRAYSCALE );
+*/
+
+
+std::string targetImage1;
+std::string targetImage2;
+std::string targetImage3;
+std::string targetImage4;
+std::string targetImage5;
+std::string targetImage6;
+std::string targetImage7;
+std::string targetImage8;
+std::string targetImage9;
+
+Mat img_1;
+Mat img_2;
+Mat img_3;
+Mat img_4;
+Mat img_5;
+Mat img_6;
+Mat img_7;
+Mat img_8;
+Mat img_9;
+
+float distance_threshold = 0;
+int matches_threshold = 0;
+
+std::string targetImageBlue = "blueLegoCar.png";
+
+int numberOfImages;
+
 
 //Mat blueLegoCarImg = imread("blueLegoCar.png", CV_LOAD_IMAGE_GRAYSCALE);
 
@@ -271,7 +298,7 @@ std::vector<DMatch> findGoodMatches(int img_number) {
 	}
 
 	for( int i = 0; i < descriptors_to_process.rows; i++ ) {
-		if( matches[i].distance <= 0.3 ) {
+		if( matches[i].distance <= distance_threshold ) {
 			// Set matches imgIdx to appropriate img_number and then push match to good_matches.
 			matches[i].imgIdx = img_number;
 
@@ -604,9 +631,83 @@ Point2f findCoordinates() {
 	return medianDetection();
 }
 
+void readInDetectionFile() {
+std::string line;
+	std::fstream detection_file ("object_detection.txt");
+
+	if (detection_file.is_open()) {
+		// Read in number of images.
+		getline(detection_file, line);
+		numberOfImages = atoi(line.c_str());
+
+		// Read in names of the images to be processed.
+		for (int i = 0; i < numberOfImages; i++) {
+			getline(detection_file, line);
+
+			switch(i) {
+				case 0:
+					targetImage1 = line;
+					img_1 = imread(targetImage1, CV_LOAD_IMAGE_GRAYSCALE );
+					break;
+				case 1:
+					targetImage2 = line;
+					img_2 = imread(targetImage2, CV_LOAD_IMAGE_GRAYSCALE );
+					break;
+				case 2:
+					targetImage3 = line;
+					img_3 = imread(targetImage3, CV_LOAD_IMAGE_GRAYSCALE );
+					break;
+				case 3:
+					targetImage4 = line;
+					img_4 = imread(targetImage4, CV_LOAD_IMAGE_GRAYSCALE );
+					break;
+				case 4:
+					targetImage5 = line;
+					img_5 = imread(targetImage5, CV_LOAD_IMAGE_GRAYSCALE );
+					break;
+				case 5:
+					targetImage6 = line;
+					img_6 = imread(targetImage6, CV_LOAD_IMAGE_GRAYSCALE );
+					break;
+				case 6:
+					targetImage7 = line;
+					img_7 = imread(targetImage7, CV_LOAD_IMAGE_GRAYSCALE );
+					break;
+				case 7:
+					targetImage8 = line;
+					img_8 = imread(targetImage8, CV_LOAD_IMAGE_GRAYSCALE );
+					break;
+				case 8:
+					targetImage9 = line;
+					img_9 = imread(targetImage9, CV_LOAD_IMAGE_GRAYSCALE );
+					break;
+				default:
+					break;
+			}
+		}
+
+		// Read in distance threshold.
+		getline(detection_file, line);
+		distance_threshold = atof(line.c_str());
+
+		// Read in matches threshold.
+		getline(detection_file, line);
+		matches_threshold = atoi(line.c_str());
+	}
+
+	detection_file.close();
+}
+
 /** @function main */
 int main( int argc, char** argv )
 {
+	// Read in detection file parameters.
+	readInDetectionFile();
+
+	printf("numberOfImages = %d\n", numberOfImages);
+	printf("distance_threshold = %f\n", distance_threshold);
+	printf("matches_threshold = %d\n\n\n", matches_threshold);
+
 	// ============== Lego Girl ===============================
 
 	switch(numberOfImages) {
@@ -1084,7 +1185,7 @@ int main( int argc, char** argv )
 			lego_girl_location.x = 0;
 			lego_girl_location.y = 0;
 
-			if (all_good_matches.size() >= 35) {
+			if (all_good_matches.size() >= matches_threshold) {
 				/*
 				printf("legoGirl on screen!\n");
 
@@ -1103,7 +1204,7 @@ int main( int argc, char** argv )
 					x_diff = lego_girl_location.x - previous_x;
 					y_diff = lego_girl_location.y - previous_y;
 
-					printf("x = %f	(%f) \t y = %f \t (%f)\n", lego_girl_location.x, x_diff, lego_girl_location.y, y_diff);
+					printf("x = %f	(%f) \t y = %f \t (%f) \t all_good_matches.size = %d\n", lego_girl_location.x, x_diff, lego_girl_location.y, y_diff, all_good_matches.size());
 				}
 				else {
 					printf("x = %f	\t	y = %f \t\n", lego_girl_location.x, lego_girl_location.y);
@@ -1113,7 +1214,7 @@ int main( int argc, char** argv )
 				previous_y = lego_girl_location.y;
 
 			} else {
-				printf("legoGirl is not on screen\n");
+				printf("legoGirl is not on screen \t\t all_good_matches.size = %d\n", all_good_matches.size());
 
 				previous_x = 0;
 				previous_y = 0;
