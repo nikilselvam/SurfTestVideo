@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include "DetectionCoordinates.h"
+#include "FeaturefulObject.h"
 #include "opencv2/core/core.hpp"
 #include "opencv2/features2d/features2d.hpp"
 #include "opencv2/nonfree/features2d.hpp"
@@ -69,6 +70,8 @@ std::string targetImageBlue = "blueLegoCar.png";
 
 int numberOfImages;
 std::string name;
+
+vector <FeaturefulObject> featureful_objects;
 
 int minHessian = 400;
 SurfFeatureDetector detector(minHessian);
@@ -528,6 +531,30 @@ void printDetectionCoordinatesVector(std::string name, vector<DetectionCoordinat
 	printf("\n\n");
 }
 
+void printFeaturefulObjectsVector(std::string name, vector<FeaturefulObject> vector) {
+	std::cout << "Printing vector " << name << "\t size = " << vector.size() << std::endl << std::endl;
+
+	for (int i = 0; i < vector.size(); i++) {
+		std::cout << name << "[" << i << "]:\t " << "name = " << vector[i].get_name() << "\t image # = " << vector[i].get_numImages() << std::endl;
+		std::cout << "distance_threshold = " << vector[i].get_distanceThreshold() << " \t matches_threshold = " << vector[i].get_matchesThreshold() << std::endl;
+
+		std::vector <std::string> targetImagesToPrint = vector[i].get_images();
+
+		for (int j = 0; j < targetImagesToPrint.size(); j++) {
+			std::cout << "targetImage[" << j << "] = " << targetImagesToPrint[j] << "\t";
+
+			//  Print a newline after every 3 target images printed.
+			if ( (j+1) % 2 == 0) {
+				std::cout << std::endl;
+			}
+		}
+
+		printf("\n\n");
+	}
+
+	printf("\n\n\n\n");
+}
+
 vector <DetectionCoordinates> sortCoordinates(vector <DetectionCoordinates> vector_to_sort) {
 	std::sort(vector_to_sort.begin(), vector_to_sort.end());
 	return vector_to_sort;
@@ -615,12 +642,12 @@ Point2f findCoordinates() {
 	return medianDetection();
 }
 
-void readInDetectionFile() {
+void readInSingleObjectDetectionFile() {
 	std::string line;
-	std::fstream detection_file ("object_detection.txt");
+	std::fstream detection_file ("legoGirl.txt");
 
 	if (detection_file.is_open()) {
-		// Read in name;
+		// Read in name.
 		getline(detection_file, line);
 		name = line;
 
@@ -686,11 +713,96 @@ void readInDetectionFile() {
 	detection_file.close();
 }
 
+void readInMultipleObjectDetectionFile() {
+	std::string line;
+	std::fstream detection_file ("objectDetection.txt");
+	vector <string> targetImages;
+
+	int numberOfObjects = 0;
+
+	if (detection_file.is_open()) {
+		// Read in number of objects.
+		getline(detection_file, line);
+		numberOfObjects = atoi(line.c_str());
+
+		for (int i = 0; i < numberOfObjects; i++) {
+			// Burn a line.
+			getline(detection_file, line);
+
+			// Read in name.
+			getline(detection_file, line);
+			name = line;
+
+			// Read in number of images.
+			getline(detection_file, line);
+			numberOfImages = atoi(line.c_str());
+
+			// Read in names of the images to be processed.
+			for (int j = 0; j < numberOfImages; j++) {
+				getline(detection_file, line);
+				targetImages.push_back(line);
+
+				switch(j) {
+					case 0:
+						img_1 = imread(targetImage1, CV_LOAD_IMAGE_GRAYSCALE );
+						break;
+					case 1:
+						img_2 = imread(targetImage2, CV_LOAD_IMAGE_GRAYSCALE );
+						break;
+					case 2:
+						img_3 = imread(targetImage3, CV_LOAD_IMAGE_GRAYSCALE );
+						break;
+					case 3:
+						img_4 = imread(targetImage4, CV_LOAD_IMAGE_GRAYSCALE );
+						break;
+					case 4:
+						img_5 = imread(targetImage5, CV_LOAD_IMAGE_GRAYSCALE );
+						break;
+					case 5:
+						img_6 = imread(targetImage6, CV_LOAD_IMAGE_GRAYSCALE );
+						break;
+					case 6:
+						img_7 = imread(targetImage7, CV_LOAD_IMAGE_GRAYSCALE );
+						break;
+					case 7:
+						img_8 = imread(targetImage8, CV_LOAD_IMAGE_GRAYSCALE );
+						break;
+					case 8:
+						img_9 = imread(targetImage9, CV_LOAD_IMAGE_GRAYSCALE );
+						break;
+					default:
+						break;
+				}
+			}
+
+			// Read in distance threshold.
+			getline(detection_file, line);
+			distance_threshold = atof(line.c_str());
+
+			// Read in matches threshold.
+			getline(detection_file, line);
+			matches_threshold = atoi(line.c_str());
+
+			// Create featurefulObject and push object into vector.
+			FeaturefulObject featurefulObjectToStore = FeaturefulObject(name, numberOfImages, targetImages, distance_threshold, matches_threshold);
+			featureful_objects.push_back(featurefulObjectToStore);
+
+			// Clear targetImages vector for next object that is processed.
+			targetImages.clear();
+		}
+	}
+
+	detection_file.close();
+}
+
 /** @function main */
 int main( int argc, char** argv )
 {
 	// Read in detection file parameters.
-	readInDetectionFile();
+	readInSingleObjectDetectionFile();
+
+	// readInMultipleObjectDetectionFile();
+	//printFeaturefulObjectsVector("featureful_objects", featureful_objects);
 
 	std::cout << "name = " << name << std::endl;
 	printf("numberOfImages = %d\n", numberOfImages);

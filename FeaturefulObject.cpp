@@ -34,6 +34,18 @@ int FeaturefulObject::get_matchesThreshold() {
 	return matchesThreshold;
 }
 
+std::vector <std::vector<KeyPoint> > FeaturefulObject::get_keypoints() {
+	return keypoints;
+}
+
+vector <Mat> FeaturefulObject::get_descriptors() {
+	return descriptors;
+}
+
+std::vector <std::vector <DMatch>> FeaturefulObject::get_goodMatches() {
+	return good_matches;
+}
+
 // Setters
 void FeaturefulObject::set_name(std::string updatedName) {
 	name = updatedName;

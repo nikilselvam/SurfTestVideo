@@ -1,6 +1,15 @@
 #include <string>
 #include <vector>
 
+#include "opencv2/core/core.hpp"
+#include "opencv2/features2d/features2d.hpp"
+#include "opencv2/nonfree/features2d.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/nonfree/nonfree.hpp"
+#include "opencv2/calib3d/calib3d.hpp"
+
+using namespace cv;
+
 class FeaturefulObject {
 public:
 	// Constructor
@@ -12,6 +21,9 @@ public:
 	std::vector <std::string> get_images();
 	float get_distanceThreshold();
 	int get_matchesThreshold();
+	std::vector <std::vector<KeyPoint> > get_keypoints();
+	vector <Mat> get_descriptors();
+	vector <vector <DMatch> > get_goodMatches();
 
 	// Setters
 	void set_name(std::string updatedName);
@@ -26,5 +38,7 @@ private:
 	std::vector <std::string> targetImages;
 	float distanceThreshold;
 	float matchesThreshold;
-	float total;
+	std::vector <std::vector<KeyPoint> > keypoints;
+	std::vector <Mat> descriptors;
+	std::vector <std::vector <DMatch> > good_matches;
 };
