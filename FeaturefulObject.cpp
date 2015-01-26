@@ -1,13 +1,31 @@
 #include "FeaturefulObject.h"
 
-
 // Constructor
 FeaturefulObject::FeaturefulObject(std::string objectName, int numImages, std::vector<std::string> images, float minDistance, int minMatches) {
+	SurfFeatureDetector detector(400);
+	SurfDescriptorExtractor extractor;
+
+	Mat img_to_process;
+	std::vector<KeyPoint> keypoints_to_process;
+	Mat descriptors_to_process;
+	
 	name = objectName;
 	numberOfImages = numImages;
 
 	for (int i = 0; i < images.size(); i++) {
+		// Save the names of target images.
 		targetImages.push_back(images[i]);
+
+		// Read in the image to process.
+		Mat img_to_process = imread(images[i], CV_LOAD_IMAGE_GRAYSCALE );
+
+		// Compute the keypoints and descriptors for that image.
+		detector.detect( img_to_process, keypoints_to_process );
+		extractor.compute( img_to_process, keypoints_to_process, descriptors_to_process );
+
+		// Save the keypoints and descriptors for that image.
+		keypoints.push_back(keypoints_to_process);
+		descriptors.push_back(descriptors_to_process);
 	}
 
 	distanceThreshold = minDistance;
@@ -34,16 +52,22 @@ int FeaturefulObject::get_matchesThreshold() {
 	return matchesThreshold;
 }
 
-std::vector <std::vector<KeyPoint> > FeaturefulObject::get_keypoints() {
+std::vector <std::vector<KeyPoint> > FeaturefulObject::get_keypointsVector() {
 	return keypoints;
+}	
+
+std::vector<KeyPoint> FeaturefulObject::get_keypoints(int keypoint_index) {
+	return keypoints[keypoint_index];
 }
 
-vector <Mat> FeaturefulObject::get_descriptors() {
+
+
+vector <Mat> FeaturefulObject::get_descriptorsVector() {
 	return descriptors;
 }
 
-std::vector <std::vector <DMatch>> FeaturefulObject::get_goodMatches() {
-	return good_matches;
+Mat FeaturefulObject::get_descriptor(int descriptor_index) {
+	return descriptors[descriptor_index];
 }
 
 // Setters

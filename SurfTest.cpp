@@ -237,12 +237,16 @@ void detectImageKeypoints(int object_index, int img_number) {
 	}
 }
 
-std::vector<DMatch> findGoodMatches(int img_number) {
+std::vector<DMatch> findGoodMatches(int object_index, int img_number) {
 	Mat descriptors_to_process;
 	std::vector<DMatch> matches, good_matches;
 	FlannBasedMatcher matcher;
 	BFMatcher matcherSecond;
 
+	int img_index = img_number - 1;
+	descriptors_to_process = featureful_objects[object_index].get_descriptor(img_index);
+
+	/*
 	switch(img_number) {
 		case 1:
 			descriptors_to_process = descriptors_1;
@@ -274,6 +278,7 @@ std::vector<DMatch> findGoodMatches(int img_number) {
 		default:
 			return good_matches;
 	}
+	*/
 
 	//matcher.match(descriptors_to_process, descriptors_frame, matches);
 	//matcher.knnMatch(descriptors_to_process, descriptors_frame, matches, 5, storeKnnMatches);
@@ -806,76 +811,6 @@ int main( int argc, char** argv )
 	// Read in file with all object detection inforation and store information in vector.
 	readInMultipleObjectDetectionFile();
 	printFeaturefulObjectsVector("featureful_objects", featureful_objects);
-	
-	for (int x = 0; x < 1; x++) {
-		switch(numberOfImages) {
-			case 1:
-				detectImageKeypoints(x, 1);
-				break;
-			case 2:
-				detectImageKeypoints(x, 1);
-				detectImageKeypoints(x, 2);
-				break;
-			case 3:
-				detectImageKeypoints(x, 1);
-				detectImageKeypoints(x, 2);
-				detectImageKeypoints(x, 3);
-				break;
-			case 4:
-				detectImageKeypoints(x, 1);
-				detectImageKeypoints(x, 2);
-				detectImageKeypoints(x, 3);
-				detectImageKeypoints(x, 4);
-				break;
-			case 5:
-				detectImageKeypoints(x, 1);
-				detectImageKeypoints(x, 2);
-				detectImageKeypoints(x, 3);
-				detectImageKeypoints(x, 4);
-				detectImageKeypoints(x, 5);
-				break;
-			case 6:
-				detectImageKeypoints(x, 1);
-				detectImageKeypoints(x, 2);
-				detectImageKeypoints(x, 3);
-				detectImageKeypoints(x, 4);
-				detectImageKeypoints(x, 5);
-				detectImageKeypoints(x, 6);
-				break;
-			case 7:
-				detectImageKeypoints(x, 1);
-				detectImageKeypoints(x, 2);
-				detectImageKeypoints(x, 3);
-				detectImageKeypoints(x, 4);
-				detectImageKeypoints(x, 5);
-				detectImageKeypoints(x, 6);
-				detectImageKeypoints(x, 7);
-				break;
-			case 8:
-				detectImageKeypoints(x, 1);
-				detectImageKeypoints(x, 2);
-				detectImageKeypoints(x, 3);
-				detectImageKeypoints(x, 4);
-				detectImageKeypoints(x, 5);
-				detectImageKeypoints(x, 6);
-				detectImageKeypoints(x, 7);
-				detectImageKeypoints(x, 8);
-				break;
-			case 9:
-				detectImageKeypoints(x, 1);
-				detectImageKeypoints(x, 2);
-				detectImageKeypoints(x, 3);
-				detectImageKeypoints(x, 4);
-				detectImageKeypoints(x, 5);
-				detectImageKeypoints(x, 6);
-				detectImageKeypoints(x, 7);
-				detectImageKeypoints(x, 8);
-				detectImageKeypoints(x, 9);
-				break;
-			default:
-				break;
-		}
-	}
 
 	// ============== Capture Camera Frame ====================
 	// Capturing data from camera
@@ -904,9 +839,7 @@ int main( int argc, char** argv )
 			vector <int> total_good_matches;
 
 			// Detect keypoints of each image.
-			for (int x = 0; x < 1; x++) {
-				printf("x = %d\n\n", x);
-
+			for (int x = 0; x < featureful_objects.size(); x++) {
 				// Clear vectors.
 				all_good_matches.clear();
 				match_coordinates.clear();
@@ -914,9 +847,10 @@ int main( int argc, char** argv )
 				coordinates_vector.clear();
 
 				// Reset values.
+				name = featureful_objects[x].get_name();
 				numberOfImages = featureful_objects[x].get_numImages();
 				distance_threshold = featureful_objects[x].get_distanceThreshold();
-				distance_threshold = featureful_objects[x].get_matchesThreshold();
+				matches_threshold = featureful_objects[x].get_matchesThreshold();
 
 				/*
 				// Detect keypoints of each image.
@@ -993,7 +927,7 @@ int main( int argc, char** argv )
 					// Find good matches.
 					switch(numberOfImages) {
 						case 1:
-							good_matches_1 = findGoodMatches(1);
+							good_matches_1 = findGoodMatches(x, 1);
 
 							for (int i = 0; i < good_matches_1.size(); i++) {
 								good_matches_1[i].queryIdx = 1;
@@ -1007,8 +941,8 @@ int main( int argc, char** argv )
 							showAllWebcamKeypointMatches();
 							break;
 						case 2:
-							good_matches_1 = findGoodMatches(1);
-							good_matches_2 = findGoodMatches(2);
+							good_matches_1 = findGoodMatches(x, 1);
+							good_matches_2 = findGoodMatches(x, 2);
 							total_good_matches.push_back(good_matches_1.size());
 							total_good_matches.push_back(good_matches_2.size());
 
@@ -1022,9 +956,9 @@ int main( int argc, char** argv )
 							showAllWebcamKeypointMatches();
 							break;
 						case 3:
-							good_matches_1 = findGoodMatches(1);
-							good_matches_2 = findGoodMatches(2);
-							good_matches_3 = findGoodMatches(3);
+							good_matches_1 = findGoodMatches(x, 1);
+							good_matches_2 = findGoodMatches(x, 2);
+							good_matches_3 = findGoodMatches(x, 3);
 							total_good_matches.push_back(good_matches_1.size());
 							total_good_matches.push_back(good_matches_2.size());
 							total_good_matches.push_back(good_matches_3.size());
@@ -1041,10 +975,10 @@ int main( int argc, char** argv )
 							showAllWebcamKeypointMatches();
 							break;
 						case 4:
-							good_matches_1 = findGoodMatches(1);
-							good_matches_2 = findGoodMatches(2);
-							good_matches_3 = findGoodMatches(3);
-							good_matches_4 = findGoodMatches(4);
+							good_matches_1 = findGoodMatches(x, 1);
+							good_matches_2 = findGoodMatches(x, 2);
+							good_matches_3 = findGoodMatches(x, 3);
+							good_matches_4 = findGoodMatches(x, 4);
 							total_good_matches.push_back(good_matches_1.size());
 							total_good_matches.push_back(good_matches_2.size());
 							total_good_matches.push_back(good_matches_3.size());
@@ -1064,11 +998,11 @@ int main( int argc, char** argv )
 							showAllWebcamKeypointMatches();
 							break;
 						case 5:
-							good_matches_1 = findGoodMatches(1);
-							good_matches_2 = findGoodMatches(2);
-							good_matches_3 = findGoodMatches(3);
-							good_matches_4 = findGoodMatches(4);
-							good_matches_5 = findGoodMatches(5);
+							good_matches_1 = findGoodMatches(x, 1);
+							good_matches_2 = findGoodMatches(x, 2);
+							good_matches_3 = findGoodMatches(x, 3);
+							good_matches_4 = findGoodMatches(x, 4);
+							good_matches_5 = findGoodMatches(x, 5);
 							total_good_matches.push_back(good_matches_1.size());
 							total_good_matches.push_back(good_matches_2.size());
 							total_good_matches.push_back(good_matches_3.size());
@@ -1091,12 +1025,12 @@ int main( int argc, char** argv )
 							showAllWebcamKeypointMatches();
 							break;
 						case 6:
-							good_matches_1 = findGoodMatches(1);
-							good_matches_2 = findGoodMatches(2);
-							good_matches_3 = findGoodMatches(3);
-							good_matches_4 = findGoodMatches(4);
-							good_matches_5 = findGoodMatches(5);
-							good_matches_6 = findGoodMatches(6);
+							good_matches_1 = findGoodMatches(x, 1);
+							good_matches_2 = findGoodMatches(x, 2);
+							good_matches_3 = findGoodMatches(x, 3);
+							good_matches_4 = findGoodMatches(x, 4);
+							good_matches_5 = findGoodMatches(x, 5);
+							good_matches_6 = findGoodMatches(x, 6);
 							total_good_matches.push_back(good_matches_1.size());
 							total_good_matches.push_back(good_matches_2.size());
 							total_good_matches.push_back(good_matches_3.size());
@@ -1122,13 +1056,13 @@ int main( int argc, char** argv )
 							showAllWebcamKeypointMatches();
 							break;
 						case 7:
-							good_matches_1 = findGoodMatches(1);
-							good_matches_2 = findGoodMatches(2);
-							good_matches_3 = findGoodMatches(3);
-							good_matches_4 = findGoodMatches(4);
-							good_matches_5 = findGoodMatches(5);
-							good_matches_6 = findGoodMatches(6);
-							good_matches_7 = findGoodMatches(7);
+							good_matches_1 = findGoodMatches(x, 1);
+							good_matches_2 = findGoodMatches(x, 2);
+							good_matches_3 = findGoodMatches(x, 3);
+							good_matches_4 = findGoodMatches(x, 4);
+							good_matches_5 = findGoodMatches(x, 5);
+							good_matches_6 = findGoodMatches(x, 6);
+							good_matches_7 = findGoodMatches(x, 7);
 							total_good_matches.push_back(good_matches_1.size());
 							total_good_matches.push_back(good_matches_2.size());
 							total_good_matches.push_back(good_matches_3.size());
@@ -1157,14 +1091,14 @@ int main( int argc, char** argv )
 							showAllWebcamKeypointMatches();
 							break;
 						case 8:
-							good_matches_1 = findGoodMatches(1);
-							good_matches_2 = findGoodMatches(2);
-							good_matches_3 = findGoodMatches(3);
-							good_matches_4 = findGoodMatches(4);
-							good_matches_5 = findGoodMatches(5);
-							good_matches_6 = findGoodMatches(6);
-							good_matches_7 = findGoodMatches(7);
-							good_matches_8 = findGoodMatches(8);
+							good_matches_1 = findGoodMatches(x, 1);
+							good_matches_2 = findGoodMatches(x, 2);
+							good_matches_3 = findGoodMatches(x, 3);
+							good_matches_4 = findGoodMatches(x, 4);
+							good_matches_5 = findGoodMatches(x, 5);
+							good_matches_6 = findGoodMatches(x, 6);
+							good_matches_7 = findGoodMatches(x, 7);
+							good_matches_8 = findGoodMatches(x, 8);
 							total_good_matches.push_back(good_matches_1.size());
 							total_good_matches.push_back(good_matches_2.size());
 							total_good_matches.push_back(good_matches_3.size());
@@ -1196,15 +1130,15 @@ int main( int argc, char** argv )
 							showAllWebcamKeypointMatches();
 							break;
 						case 9:
-							good_matches_1 = findGoodMatches(1);
-							good_matches_2 = findGoodMatches(2);
-							good_matches_3 = findGoodMatches(3);
-							good_matches_4 = findGoodMatches(4);
-							good_matches_5 = findGoodMatches(5);
-							good_matches_6 = findGoodMatches(6);
-							good_matches_7 = findGoodMatches(7);
-							good_matches_8 = findGoodMatches(8);
-							good_matches_9 = findGoodMatches(9);
+							good_matches_1 = findGoodMatches(x, 1);
+							good_matches_2 = findGoodMatches(x, 2);
+							good_matches_3 = findGoodMatches(x, 3);
+							good_matches_4 = findGoodMatches(x, 4);
+							good_matches_5 = findGoodMatches(x, 5);
+							good_matches_6 = findGoodMatches(x, 6);
+							good_matches_7 = findGoodMatches(x, 7);
+							good_matches_8 = findGoodMatches(x, 8);
+							good_matches_9 = findGoodMatches(x, 9);
 
 							total_good_matches.push_back(good_matches_1.size());
 							total_good_matches.push_back(good_matches_2.size());
@@ -1334,6 +1268,8 @@ int main( int argc, char** argv )
 					printf("\n\n");
 					*/
 
+					std::cout << name << " is on screen \t\t all_good_matches.size = " << all_good_matches.size() << std::endl;
+
 					// Find coordinates.
 					lego_girl_location = findCoordinates();
 
@@ -1351,12 +1287,13 @@ int main( int argc, char** argv )
 					previous_y = lego_girl_location.y;
 
 				} else {
-					std::cout << featureful_objects[x].get_name() << " is not on screen \t\t all_good_matches.size = " << all_good_matches.size() << std::endl;
+					std::cout << name << " is not on screen \t\t all_good_matches.size = " << all_good_matches.size() << std::endl;
 
 					previous_x = 0;
 					previous_y = 0;
 				}
 
+				printf("\n\n");
 				/*
 				// Print good matches.
 				switch(numberOfImages) {
