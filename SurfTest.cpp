@@ -852,77 +852,6 @@ int main( int argc, char** argv )
 				distance_threshold = featureful_objects[x].get_distanceThreshold();
 				matches_threshold = featureful_objects[x].get_matchesThreshold();
 
-				/*
-				// Detect keypoints of each image.
-				switch(numberOfImages) {
-					case 1:
-						detectImageKeypoints(x, 1);
-						break;
-					case 2:
-						detectImageKeypoints(x, 1);
-						detectImageKeypoints(x, 2);
-						break;
-					case 3:
-						detectImageKeypoints(x, 1);
-						detectImageKeypoints(x, 2);
-						detectImageKeypoints(x, 3);
-						break;
-					case 4:
-						detectImageKeypoints(x, 1);
-						detectImageKeypoints(x, 2);
-						detectImageKeypoints(x, 3);
-						detectImageKeypoints(x, 4);
-						break;
-					case 5:
-						detectImageKeypoints(x, 1);
-						detectImageKeypoints(x, 2);
-						detectImageKeypoints(x, 3);
-						detectImageKeypoints(x, 4);
-						detectImageKeypoints(x, 5);
-						break;
-					case 6:
-						detectImageKeypoints(x, 1);
-						detectImageKeypoints(x, 2);
-						detectImageKeypoints(x, 3);
-						detectImageKeypoints(x, 4);
-						detectImageKeypoints(x, 5);
-						detectImageKeypoints(x, 6);
-						break;
-					case 7:
-						detectImageKeypoints(x, 1);
-						detectImageKeypoints(x, 2);
-						detectImageKeypoints(x, 3);
-						detectImageKeypoints(x, 4);
-						detectImageKeypoints(x, 5);
-						detectImageKeypoints(x, 6);
-						detectImageKeypoints(x, 7);
-						break;
-					case 8:
-						detectImageKeypoints(x, 1);
-						detectImageKeypoints(x, 2);
-						detectImageKeypoints(x, 3);
-						detectImageKeypoints(x, 4);
-						detectImageKeypoints(x, 5);
-						detectImageKeypoints(x, 6);
-						detectImageKeypoints(x, 7);
-						detectImageKeypoints(x, 8);
-						break;
-					case 9:
-						detectImageKeypoints(x, 1);
-						detectImageKeypoints(x, 2);
-						detectImageKeypoints(x, 3);
-						detectImageKeypoints(x, 4);
-						detectImageKeypoints(x, 5);
-						detectImageKeypoints(x, 6);
-						detectImageKeypoints(x, 7);
-						detectImageKeypoints(x, 8);
-						detectImageKeypoints(x, 9);
-						break;
-					default:
-						break;
-				}
-				*/
-
 				if (descriptors_frame.rows > 0) {
 					// Find good matches.
 					switch(numberOfImages) {
@@ -935,8 +864,6 @@ int main( int argc, char** argv )
 
 							total_good_matches.push_back(good_matches_1.size());
 						
-							//showWebcamKeypointMatches(1, good_matches_1);
-						
 							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
 							showAllWebcamKeypointMatches();
 							break;
@@ -945,11 +872,6 @@ int main( int argc, char** argv )
 							good_matches_2 = findGoodMatches(x, 2);
 							total_good_matches.push_back(good_matches_1.size());
 							total_good_matches.push_back(good_matches_2.size());
-
-							/*
-							showWebcamKeypointMatches(1, good_matches_1);
-							showWebcamKeypointMatches(2, good_matches_2);
-							*/
 
 							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
 							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
@@ -962,12 +884,6 @@ int main( int argc, char** argv )
 							total_good_matches.push_back(good_matches_1.size());
 							total_good_matches.push_back(good_matches_2.size());
 							total_good_matches.push_back(good_matches_3.size());
-
-							/*
-							showWebcamKeypointMatches(1, good_matches_1);
-							showWebcamKeypointMatches(2, good_matches_2);
-							showWebcamKeypointMatches(3, good_matches_3);
-							*/
 
 							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
 							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
@@ -983,13 +899,6 @@ int main( int argc, char** argv )
 							total_good_matches.push_back(good_matches_2.size());
 							total_good_matches.push_back(good_matches_3.size());
 							total_good_matches.push_back(good_matches_4.size());
-
-							/*
-							showWebcamKeypointMatches(1, good_matches_1);
-							showWebcamKeypointMatches(2, good_matches_2);
-							showWebcamKeypointMatches(3, good_matches_3);
-							showWebcamKeypointMatches(4, good_matches_4);
-							*/
 
 							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
 							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
@@ -1008,14 +917,6 @@ int main( int argc, char** argv )
 							total_good_matches.push_back(good_matches_3.size());
 							total_good_matches.push_back(good_matches_4.size());
 							total_good_matches.push_back(good_matches_5.size());
-
-							/*
-							showWebcamKeypointMatches(1, good_matches_1);
-							showWebcamKeypointMatches(2, good_matches_2);
-							showWebcamKeypointMatches(3, good_matches_3);
-							showWebcamKeypointMatches(4, good_matches_4);
-							showWebcamKeypointMatches(5, good_matches_5);
-							*/
 
 							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
 							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
@@ -1037,15 +938,6 @@ int main( int argc, char** argv )
 							total_good_matches.push_back(good_matches_4.size());
 							total_good_matches.push_back(good_matches_5.size());
 							total_good_matches.push_back(good_matches_6.size());
-
-							/*
-							showWebcamKeypointMatches(1, good_matches_1);
-							showWebcamKeypointMatches(2, good_matches_2);
-							showWebcamKeypointMatches(3, good_matches_3);
-							showWebcamKeypointMatches(4, good_matches_4);
-							showWebcamKeypointMatches(5, good_matches_5);
-							showWebcamKeypointMatches(6, good_matches_6);
-							*/
 
 							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
 							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
@@ -1070,16 +962,6 @@ int main( int argc, char** argv )
 							total_good_matches.push_back(good_matches_5.size());
 							total_good_matches.push_back(good_matches_6.size());
 							total_good_matches.push_back(good_matches_7.size());
-						
-							/*
-							showWebcamKeypointMatches(1, good_matches_1);
-							showWebcamKeypointMatches(2, good_matches_2);
-							showWebcamKeypointMatches(3, good_matches_3);
-							showWebcamKeypointMatches(4, good_matches_4);
-							showWebcamKeypointMatches(5, good_matches_5);
-							showWebcamKeypointMatches(6, good_matches_6);
-							showWebcamKeypointMatches(7, good_matches_7);
-							*/
 
 							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
 							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
@@ -1107,17 +989,6 @@ int main( int argc, char** argv )
 							total_good_matches.push_back(good_matches_6.size());
 							total_good_matches.push_back(good_matches_7.size());
 							total_good_matches.push_back(good_matches_8.size());
-
-							/*
-							showWebcamKeypointMatches(1, good_matches_1);
-							showWebcamKeypointMatches(2, good_matches_2);
-							showWebcamKeypointMatches(3, good_matches_3);
-							showWebcamKeypointMatches(4, good_matches_4);
-							showWebcamKeypointMatches(5, good_matches_5);
-							showWebcamKeypointMatches(6, good_matches_6);
-							showWebcamKeypointMatches(7, good_matches_7);
-							showWebcamKeypointMatches(8, good_matches_8);
-							*/
 
 							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
 							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
@@ -1150,18 +1021,6 @@ int main( int argc, char** argv )
 							total_good_matches.push_back(good_matches_8.size());
 							total_good_matches.push_back(good_matches_9.size());
 
-							/*
-							showWebcamKeypointMatches(1, good_matches_1);
-							showWebcamKeypointMatches(2, good_matches_2);
-							showWebcamKeypointMatches(3, good_matches_3);
-							showWebcamKeypointMatches(4, good_matches_4);
-							showWebcamKeypointMatches(5, good_matches_5);
-							showWebcamKeypointMatches(6, good_matches_6);
-							showWebcamKeypointMatches(7, good_matches_7);
-							showWebcamKeypointMatches(8, good_matches_8);
-							showWebcamKeypointMatches(9, good_matches_9);
-							*/
-
 							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
 							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
 							all_good_matches.insert(all_good_matches.end(), good_matches_3.begin(), good_matches_3.end());
@@ -1178,77 +1037,6 @@ int main( int argc, char** argv )
 					}
 				}
 
-				/*
-				// Draw good matches.
-				switch(numberOfImages) {
-					case 1:
-						drawGoodMatches(1, good_matches_1);
-						break;
-					case 2:
-						drawGoodMatches(1, good_matches_1);
-						drawGoodMatches(2, good_matches_2);
-						break;
-					case 3:
-						drawGoodMatches(1, good_matches_1);
-						drawGoodMatches(2, good_matches_2);
-						drawGoodMatches(3, good_matches_3);
-						break;
-					case 4:
-						drawGoodMatches(1, good_matches_1);
-						drawGoodMatches(2, good_matches_2);
-						drawGoodMatches(3, good_matches_3);
-						drawGoodMatches(4, good_matches_4);
-						break;
-					case 5:
-						drawGoodMatches(1, good_matches_1);
-						drawGoodMatches(2, good_matches_2);
-						drawGoodMatches(3, good_matches_3);
-						drawGoodMatches(4, good_matches_4);
-						drawGoodMatches(5, good_matches_5);
-						break;
-					case 6:
-						drawGoodMatches(1, good_matches_1);
-						drawGoodMatches(2, good_matches_2);
-						drawGoodMatches(3, good_matches_3);
-						drawGoodMatches(4, good_matches_4);
-						drawGoodMatches(5, good_matches_5);
-						drawGoodMatches(6, good_matches_6);
-						break;
-					case 7:
-						drawGoodMatches(1, good_matches_1);
-						drawGoodMatches(2, good_matches_2);
-						drawGoodMatches(3, good_matches_3);
-						drawGoodMatches(4, good_matches_4);
-						drawGoodMatches(5, good_matches_5);
-						drawGoodMatches(6, good_matches_6);
-						drawGoodMatches(7, good_matches_7);
-						break;
-					case 8:
-						drawGoodMatches(1, good_matches_1);
-						drawGoodMatches(2, good_matches_2);
-						drawGoodMatches(3, good_matches_3);
-						drawGoodMatches(4, good_matches_4);
-						drawGoodMatches(5, good_matches_5);
-						drawGoodMatches(6, good_matches_6);
-						drawGoodMatches(7, good_matches_7);
-						drawGoodMatches(8, good_matches_8);
-						break;
-					case 9:
-						drawGoodMatches(1, good_matches_1);
-						drawGoodMatches(2, good_matches_2);
-						drawGoodMatches(3, good_matches_3);
-						drawGoodMatches(4, good_matches_4);
-						drawGoodMatches(5, good_matches_5);
-						drawGoodMatches(6, good_matches_6);
-						drawGoodMatches(7, good_matches_7);
-						drawGoodMatches(8, good_matches_8);
-						drawGoodMatches(9, good_matches_9);
-						break;
-					default:
-						break;
-				}
-				*/
-
 				// Print total good matches.
 				// printTotalGoodMatches(total_good_matches);
 
@@ -1257,17 +1045,6 @@ int main( int argc, char** argv )
 				lego_girl_location.y = 0;
 
 				if (all_good_matches.size() >= matches_threshold) {
-					/*
-					printf("legoGirl on screen!\n");
-
-					//Print out contents of all_good_matches.
-					for (int i = 0; i < all_good_matches.size(); i++) {
-						printf("all_good_matches[%d]:\t	 queryIdx:%d\t trainIdx:%d\t imgIdx:%d\t distance:%f\n", i, all_good_matches[i].queryIdx, all_good_matches[i].trainIdx, all_good_matches[i].imgIdx, all_good_matches[i].distance);
-					}
-
-					printf("\n\n");
-					*/
-
 					std::cout << name << " is on screen \t\t all_good_matches.size = " << all_good_matches.size() << std::endl;
 
 					// Find coordinates.
@@ -1294,24 +1071,6 @@ int main( int argc, char** argv )
 				}
 
 				printf("\n\n");
-				/*
-				// Print good matches.
-				switch(numberOfImages) {
-					case 9:
-						printGoodMatches(1, good_matches_1);
-						printGoodMatches(2, good_matches_2);
-						printGoodMatches(3, good_matches_3);
-						printGoodMatches(4, good_matches_4);
-						printGoodMatches(5, good_matches_5);
-						printGoodMatches(6, good_matches_6);
-						printGoodMatches(7, good_matches_7);
-						printGoodMatches(8, good_matches_8);
-						printGoodMatches(9, good_matches_9);
-						break;
-					default:
-						break;
-				}
-				*/
 			}
 
 			if(waitKey(30) >= 0) break;
