@@ -23,7 +23,6 @@ public:
 	int get_matchesThreshold();
 	std::vector <std::vector<KeyPoint> > get_keypoints();
 	vector <Mat> get_descriptors();
-	vector <vector <DMatch> > get_goodMatches();
 
 	// Setters
 	void set_name(std::string updatedName);
@@ -35,10 +34,11 @@ private:
 	// Attributes
 	std::string name;
 	int numberOfImages;
+	int startingKeypointIndex;
+	int endingKeypointIndex;
 	std::vector <std::string> targetImages;
 	float distanceThreshold;
 	float matchesThreshold;
 	std::vector <std::vector<KeyPoint> > keypoints;
 	std::vector <Mat> descriptors;
-	std::vector <std::vector <DMatch> > good_matches;
 };
