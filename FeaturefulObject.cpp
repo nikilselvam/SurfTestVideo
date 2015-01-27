@@ -63,8 +63,6 @@ std::vector<KeyPoint> FeaturefulObject::get_keypoints(int keypoint_index) {
 	return keypoints[keypoint_index];
 }
 
-
-
 vector <Mat> FeaturefulObject::get_descriptorsVector() {
 	return descriptors;
 }
@@ -80,6 +78,23 @@ float FeaturefulObject::get_previousX() {
 float FeaturefulObject::get_previousY() {
 	return previousY;
 }
+
+std::vector <std::vector<DMatch> > FeaturefulObject::get_matches() {
+	return matches;
+}
+
+std::vector<DMatch> FeaturefulObject::get_match(int index) {
+	return matches[index];
+}
+
+std::vector <std::vector<DMatch> > FeaturefulObject::get_goodMatches() {
+	return good_matches;
+}
+
+std::vector<DMatch> FeaturefulObject::get_goodMatch(int index) {
+	return good_matches[index];
+}
+
 
 // Setters
 void FeaturefulObject::set_name(std::string updatedName) {
@@ -111,4 +126,14 @@ void FeaturefulObject::set_previousX(float updatedXValue) {
 }
 void FeaturefulObject::set_previousY(float updatedYValue) {
 	previousY = updatedYValue;
+}
+
+void FeaturefulObject::set_matches(std::vector <std::vector<DMatch> > updatedMatches) {
+	matches.clear();
+	matches = updatedMatches;
+}
+
+void FeaturefulObject::set_goodMatches(std::vector <std::vector<DMatch> > updatedGoodMatches) {
+	good_matches.clear();
+	good_matches = updatedGoodMatches;
 }

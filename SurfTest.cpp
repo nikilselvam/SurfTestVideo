@@ -245,40 +245,6 @@ std::vector<DMatch> findGoodMatches(int object_index, int img_number) {
 	int img_index = img_number - 1;
 	descriptors_to_process = featureful_objects[object_index].get_descriptor(img_index);
 
-	/*
-	switch(img_number) {
-		case 1:
-			descriptors_to_process = descriptors_1;
-			break;
-		case 2:
-			descriptors_to_process = descriptors_2;
-			break;
-		case 3:
-			descriptors_to_process = descriptors_3;
-			break;
-		case 4:
-			descriptors_to_process = descriptors_4;
-			break;
-		case 5:
-			descriptors_to_process = descriptors_5;
-			break;
-		case 6:
-			descriptors_to_process = descriptors_6;
-			break;
-		case 7:
-			descriptors_to_process = descriptors_7;
-			break;
-		case 8:
-			descriptors_to_process = descriptors_8;
-			break;
-		case 9:
-			descriptors_to_process = descriptors_9;
-			break;
-		default:
-			return good_matches;
-	}
-	*/
-
 	//matcher.match(descriptors_to_process, descriptors_frame, matches);
 	//matcher.knnMatch(descriptors_to_process, descriptors_frame, matches, 5, storeKnnMatches);
 	matcherSecond.match(descriptors_to_process, descriptors_frame, matches);
@@ -292,29 +258,38 @@ std::vector<DMatch> findGoodMatches(int object_index, int img_number) {
 		}
 	}
 
-	/*
-	// Print information about size of descriptors vector as well as the contents of the matches and good_matches vectors.
-	printf("Image %d\n", img_number);
-	printf("Image descriptors: %d\n", descriptors_to_process.rows);
-	printf("Frame descriptors: %d\n\n\n", descriptors_frame.rows);
-
-	for (int i = 0; i < descriptors_to_process.rows; i++) {
-		printf("matches[%d]:\t queryIdx = %d\t trainIdx= %d\t distance = %f\n", i, matches[i].queryIdx, matches[i].trainIdx, matches[i].distance);
-	}
-
-	printf("\n\n");
-
-	printf("Max value = %f\n\n", max(2*min_dist, 0.02));
-
-	for (int i = 0; i < good_matches.size(); i++) {
-		printf("good_matches[%d]:\t queryIdx = %d\t trainIdx= %d\t distance = %f\n", i, good_matches[i].queryIdx, good_matches[i].trainIdx, good_matches[i].distance);
-	}
-	
-	printf("\n\n");
-	*/
-
 	return good_matches;
 }
+
+void findGoodMatches(int object_index) {
+	Mat descriptors_to_process;
+	std::vector<DMatch> matches, good_matches;
+	FlannBasedMatcher matcher;
+	BFMatcher matcherSecond;
+
+	FeaturefulObject objectToMatch = featureful_objects[object_index];
+	
+	// Go through all descriptors.
+	for (int i = 0; i < objectToMatch.get_numImages(); i++) {
+		// Clear the vectors.
+		matches.clear();
+		good_matches.clear();
+
+		descriptors_to_process = objectToMatch.get_descriptor(i);
+		matcherSecond.match(descriptors_to_process, descriptors_frame, matches);
+		
+		for (int j = 0; j < descriptors_to_process.rows; j++) {
+			matches[j].imgIdx = i;
+
+			good_matches.push_back(matches[j]);
+		}
+
+		// Save good_matches to featureful object.
+	}
+
+	return;
+}
+
 
 
 void drawGoodMatches(int img_number, std::vector<DMatch> good_matches) {
@@ -856,11 +831,6 @@ int main( int argc, char** argv )
 					switch(numberOfImages) {
 						case 1:
 							good_matches_1 = findGoodMatches(x, 1);
-
-							for (int i = 0; i < good_matches_1.size(); i++) {
-								good_matches_1[i].queryIdx = 1;
-							}
-
 							total_good_matches.push_back(good_matches_1.size());
 						
 							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
@@ -1009,6 +979,20 @@ int main( int argc, char** argv )
 							good_matches_7 = findGoodMatches(x, 7);
 							good_matches_8 = findGoodMatches(x, 8);
 							good_matches_9 = findGoodMatches(x, 9);
+
+							
+							/*
+							featurefulObject[x].findGoodMatches(descriptors_frame);
+
+							vector <DMatch> current_good_matches;
+							
+							for (int y = 0; y < numberOfImages; y++) {
+								current_good_matches.clear();
+								current_good_matches = featureful_objects[x].get_goodMatches(y);
+								total_good_matches.push_back(current_good_matches.size());
+								all_good_matches.insert(all_good_matches.end(), current_good_matches.begin(), current_good_matches.end());
+							}
+							*/
 
 							total_good_matches.push_back(good_matches_1.size());
 							total_good_matches.push_back(good_matches_2.size());

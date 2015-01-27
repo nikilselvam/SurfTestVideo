@@ -27,6 +27,10 @@ public:
 	Mat get_descriptor(int descriptor_index);
 	float get_previousX();
 	float get_previousY();
+	std::vector <std::vector<DMatch> > get_matches();
+	std::vector <std::vector<DMatch> > get_goodMatches();
+	std::vector<DMatch> get_match(int index);
+	std::vector<DMatch> get_goodMatch(int index);
 	
 	// Setters
 	void set_name(std::string updatedName);
@@ -36,6 +40,8 @@ public:
 	void set_matchesThreshold(int updatedMatchesThreshold);
 	void set_previousX(float updatedXValue);
 	void set_previousY(float updatedYValue);
+	void set_matches(std::vector <std::vector<DMatch> > updatedMatches);
+	void set_goodMatches(std::vector <std::vector<DMatch> > updatedGoodMatches);
 private:
 	// Attributes
 	std::string name;
@@ -47,4 +53,6 @@ private:
 	float previousY;
 	std::vector <std::vector<KeyPoint> > keypoints;
 	std::vector <Mat> descriptors;
+	std::vector <std::vector<DMatch> > matches;
+	std::vector <std::vector<DMatch> > good_matches;
 };
