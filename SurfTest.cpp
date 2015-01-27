@@ -93,7 +93,6 @@ int min_y_index = -1; int max_y_index = -1;
 float x_range = 400; float y_range = 400;
 
 // Set up tracking of (x,y) coordinate changes with legoGirl's location.
-float previous_x = 0; float previous_y = 0;
 float x_diff = 0; float y_diff = 0;
 
 // Data for frames
@@ -1050,9 +1049,9 @@ int main( int argc, char** argv )
 					// Find coordinates.
 					lego_girl_location = findCoordinates();
 
-					if (previous_x != 0 && previous_y != 0) {
-						x_diff = lego_girl_location.x - previous_x;
-						y_diff = lego_girl_location.y - previous_y;
+					if (featureful_objects[x].get_previousX() != 0 && featureful_objects[x].get_previousY() != 0) {
+						x_diff = lego_girl_location.x - featureful_objects[x].get_previousX();
+						y_diff = lego_girl_location.y - featureful_objects[x].get_previousY();
 
 						printf("x = %f	(%f) \t y = %f \t (%f) \t all_good_matches.size = %d\n", lego_girl_location.x, x_diff, lego_girl_location.y, y_diff, all_good_matches.size());
 					}
@@ -1060,14 +1059,14 @@ int main( int argc, char** argv )
 						printf("x = %f	\t	y = %f \t\n", lego_girl_location.x, lego_girl_location.y);
 					}
 
-					previous_x = lego_girl_location.x;
-					previous_y = lego_girl_location.y;
+					featureful_objects[x].set_previousX(lego_girl_location.x);
+					featureful_objects[x].set_previousY( lego_girl_location.y);
 
 				} else {
 					std::cout << name << " is not on screen \t\t all_good_matches.size = " << all_good_matches.size() << std::endl;
 
-					previous_x = 0;
-					previous_y = 0;
+					featureful_objects[x].set_previousX(0);
+					featureful_objects[x].set_previousY(0);
 				}
 
 				printf("\n\n");

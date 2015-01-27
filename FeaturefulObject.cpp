@@ -12,6 +12,9 @@ FeaturefulObject::FeaturefulObject(std::string objectName, int numImages, std::v
 	name = objectName;
 	numberOfImages = numImages;
 
+	previousX = 0;
+	previousY = 0;
+
 	for (int i = 0; i < images.size(); i++) {
 		// Save the names of target images.
 		targetImages.push_back(images[i]);
@@ -70,6 +73,14 @@ Mat FeaturefulObject::get_descriptor(int descriptor_index) {
 	return descriptors[descriptor_index];
 }
 
+float FeaturefulObject::get_previousX() {
+	return previousX;
+}
+
+float FeaturefulObject::get_previousY() {
+	return previousY;
+}
+
 // Setters
 void FeaturefulObject::set_name(std::string updatedName) {
 	name = updatedName;
@@ -93,4 +104,11 @@ void FeaturefulObject::get_distanceThreshold (float updatedDistanceThreshold) {
 }
 void FeaturefulObject::set_matchesThreshold(int updatedMatchesThreshold) {
 	matchesThreshold = updatedMatchesThreshold;
+}
+
+void FeaturefulObject::set_previousX(float updatedXValue) {
+	previousX = updatedXValue;
+}
+void FeaturefulObject::set_previousY(float updatedYValue) {
+	previousY = updatedYValue;
 }

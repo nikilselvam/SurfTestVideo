@@ -25,6 +25,8 @@ public:
 	std::vector<KeyPoint> get_keypoints(int keypoint_index);
 	vector <Mat> get_descriptorsVector();
 	Mat get_descriptor(int descriptor_index);
+	float get_previousX();
+	float get_previousY();
 	
 	// Setters
 	void set_name(std::string updatedName);
@@ -32,6 +34,8 @@ public:
 	void set_images(std::vector <std::string> images);
 	void get_distanceThreshold (float updatedDistanceThreshold);
 	void set_matchesThreshold(int updatedMatchesThreshold);
+	void set_previousX(float updatedXValue);
+	void set_previousY(float updatedYValue);
 private:
 	// Attributes
 	std::string name;
@@ -39,6 +43,8 @@ private:
 	std::vector <std::string> targetImages;
 	float distanceThreshold;
 	float matchesThreshold;
+	float previousX;
+	float previousY;
 	std::vector <std::vector<KeyPoint> > keypoints;
 	std::vector <Mat> descriptors;
 };
