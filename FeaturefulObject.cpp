@@ -160,6 +160,7 @@ void FeaturefulObject::findMatches(Mat descriptors_frame) {
 }
 
 void FeaturefulObject::findGoodMatches() {
+	Mat descriptor_to_process;
 	std::vector<DMatch> current_matches;
 	std::vector<DMatch> current_good_matches;
 
@@ -171,7 +172,9 @@ void FeaturefulObject::findGoodMatches() {
 
 		current_matches = matches[i];
 
-		for (int j = 0; j < current_matches.size(); j++) {
+		descriptor_to_process = descriptors[i];
+
+		for (int j = 0; j < descriptor_to_process.rows; j++) {
 			if( current_matches[j].distance <= distanceThreshold ) {
 				// Set matches imgIdx to appropriate index and then push match to good_matches.
 				current_matches[j].imgIdx = i;
@@ -183,4 +186,13 @@ void FeaturefulObject::findGoodMatches() {
 		good_matches.push_back(current_good_matches);
 	}
 
+	return;
+}
+
+void FeaturefulObject::clearMatches() {
+	matches.clear();
+}
+
+void FeaturefulObject::clearGoodMatches() {
+	good_matches.clear();
 }

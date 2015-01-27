@@ -824,6 +824,9 @@ int main( int argc, char** argv )
 				unique_matches.clear();
 				coordinates_vector.clear();
 
+				featureful_objects[x].clearMatches();
+				featureful_objects[x].clearGoodMatches();
+
 				// Reset values.
 				name = featureful_objects[x].get_name();
 				numberOfImages = featureful_objects[x].get_numImages();

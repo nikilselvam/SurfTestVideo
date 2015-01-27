@@ -46,6 +46,8 @@ public:
 	// Methods
 	void findMatches(Mat descriptors_frame);
 	void findGoodMatches();
+	void clearMatches();
+	void clearGoodMatches();
 private:
 	// Attributes
 	std::string name;
