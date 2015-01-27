@@ -458,7 +458,7 @@ void findUniqueMatches() {
 	}
 }
 
-void printMatchesVector(std::string name, vector<DMatch> vector, bool printDist) {
+void printMatchesVector (std::string name, vector<DMatch> vector, bool printDist) {
 	std::cout << "Printing vector " << name << "\t size = " << vector.size() << std::endl << std::endl;
 
 	for (int i = 0; i < vector.size(); i++) {
@@ -557,7 +557,7 @@ Point2f medianDetection() {
 	std::sort(coordinates_vector.begin(), coordinates_vector.end());
 
 	// Print the coordinates.
-	//printDetectionCoordinatesVector("coordinates_vector", coordinates_vector);
+	// printDetectionCoordinatesVector("coordinates_vector", coordinates_vector);
 
 	// Calculate median index.
 	int size = coordinates_vector.size();
@@ -600,18 +600,18 @@ Point2f findCoordinates() {
 	std::vector <KeyPoint> keypoints_to_process;
 	int img_number, queryIdx;
 
-	//printMatchesVector("all_good_matches", all_good_matches, true);
-	//printMatchesVector("unique_matches", unique_matches, true);
+	// printMatchesVector("all_good_matches", all_good_matches, true);
+	// printMatchesVector("unique_matches", unique_matches, true);
 
 	// Get match_coordinates of unique matches.
 	for (int i = 0; i < unique_matches.size(); i++) {
 		match_coordinates.push_back(keypoints_frame[unique_matches[i].trainIdx].pt);		
 	}
 
-	//printKeypointsVector("keypoints_frame", keypoints_frame);
-	//printPoint2fVector("match_coordinates", match_coordinates);
+	// printKeypointsVector("keypoints_frame", keypoints_frame);
+	// printPoint2fVector("match_coordinates", match_coordinates);
 
-	//printf("all_good_matches.size = %d, unique_matches.size = %d\n", all_good_matches.size(), unique_matches.size());
+// 	printf("all_good_matches.size = %d, unique_matches.size = %d\n", all_good_matches.size(), unique_matches.size());
 
 	return medianDetection();
 }
@@ -811,11 +811,15 @@ int main( int argc, char** argv )
 			BFMatcher matcherSecond;
 
 			vector <int> total_good_matches;
+			vector <DMatch> current_good_matches;
+			
 
 			// Detect keypoints of each image.
 			for (int x = 0; x < featureful_objects.size(); x++) {
 				// Clear vectors.
 				all_good_matches.clear();
+				total_good_matches.clear();
+				current_good_matches.clear();
 				match_coordinates.clear();
 				unique_matches.clear();
 				coordinates_vector.clear();
@@ -970,6 +974,19 @@ int main( int argc, char** argv )
 							showAllWebcamKeypointMatches();
 							break;
 						case 9:
+							
+							featureful_objects[x].findMatches(descriptors_frame);
+							featureful_objects[x].findGoodMatches();
+
+							
+							for (int y = 0; y < numberOfImages; y++) {
+								current_good_matches.clear();
+								current_good_matches = featureful_objects[x].get_goodMatch(y);
+								total_good_matches.push_back(current_good_matches.size());
+								all_good_matches.insert(all_good_matches.end(), current_good_matches.begin(), current_good_matches.end());
+							}
+							
+							/*
 							good_matches_1 = findGoodMatches(x, 1);
 							good_matches_2 = findGoodMatches(x, 2);
 							good_matches_3 = findGoodMatches(x, 3);
@@ -979,20 +996,6 @@ int main( int argc, char** argv )
 							good_matches_7 = findGoodMatches(x, 7);
 							good_matches_8 = findGoodMatches(x, 8);
 							good_matches_9 = findGoodMatches(x, 9);
-
-							
-							/*
-							featurefulObject[x].findGoodMatches(descriptors_frame);
-
-							vector <DMatch> current_good_matches;
-							
-							for (int y = 0; y < numberOfImages; y++) {
-								current_good_matches.clear();
-								current_good_matches = featureful_objects[x].get_goodMatches(y);
-								total_good_matches.push_back(current_good_matches.size());
-								all_good_matches.insert(all_good_matches.end(), current_good_matches.begin(), current_good_matches.end());
-							}
-							*/
 
 							total_good_matches.push_back(good_matches_1.size());
 							total_good_matches.push_back(good_matches_2.size());
@@ -1014,6 +1017,7 @@ int main( int argc, char** argv )
 							all_good_matches.insert(all_good_matches.end(), good_matches_8.begin(), good_matches_8.end());
 							all_good_matches.insert(all_good_matches.end(), good_matches_9.begin(), good_matches_9.end());
 							showAllWebcamKeypointMatches();
+							*/
 							break;
 						default:
 							break;
@@ -1030,14 +1034,14 @@ int main( int argc, char** argv )
 				if (all_good_matches.size() >= matches_threshold) {
 					std::cout << name << " is on screen \t\t all_good_matches.size = " << all_good_matches.size() << std::endl;
 
-					// Find coordinates.
+					// Find unique matches and then find coordinates.
 					lego_girl_location = findCoordinates();
 
 					if (featureful_objects[x].get_previousX() != 0 && featureful_objects[x].get_previousY() != 0) {
 						x_diff = lego_girl_location.x - featureful_objects[x].get_previousX();
 						y_diff = lego_girl_location.y - featureful_objects[x].get_previousY();
 
-						printf("x = %f	(%f) \t y = %f \t (%f) \t all_good_matches.size = %d\n", lego_girl_location.x, x_diff, lego_girl_location.y, y_diff, all_good_matches.size());
+						printf("x = %f	(%f) \t y = %f \t (%f) \n", lego_girl_location.x, x_diff, lego_girl_location.y, y_diff);
 					}
 					else {
 						printf("x = %f	\t	y = %f \t\n", lego_girl_location.x, lego_girl_location.y);

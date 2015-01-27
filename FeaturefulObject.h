@@ -42,6 +42,10 @@ public:
 	void set_previousY(float updatedYValue);
 	void set_matches(std::vector <std::vector<DMatch> > updatedMatches);
 	void set_goodMatches(std::vector <std::vector<DMatch> > updatedGoodMatches);
+
+	// Methods
+	void findMatches(Mat descriptors_frame);
+	void findGoodMatches();
 private:
 	// Attributes
 	std::string name;

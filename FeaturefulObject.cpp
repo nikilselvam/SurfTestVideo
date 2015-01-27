@@ -137,3 +137,50 @@ void FeaturefulObject::set_goodMatches(std::vector <std::vector<DMatch> > update
 	good_matches.clear();
 	good_matches = updatedGoodMatches;
 }
+
+// Methods
+void FeaturefulObject::findMatches(Mat descriptors_frame) {
+	Mat descriptor_to_process;
+	std::vector<DMatch> current_matches;
+	//FlannBasedMatcher matcher;
+	BFMatcher matcherSecond;
+
+
+	for (int i = 0; i < descriptors.size(); i++) {
+		// Clear matches vectors for each new iteration.
+		current_matches.clear();
+
+		descriptor_to_process = descriptors[i];
+
+		//matcher.match(descriptors_to_process, descriptors_frame, matches);
+		matcherSecond.match(descriptor_to_process, descriptors_frame, current_matches);
+
+		matches.push_back(current_matches);
+	}
+}
+
+void FeaturefulObject::findGoodMatches() {
+	std::vector<DMatch> current_matches;
+	std::vector<DMatch> current_good_matches;
+
+	for( int i = 0; i < matches.size(); i++ ) {
+
+		// Clear the mathces vectors for each new itearation.
+		current_matches.clear();
+		current_good_matches.clear();
+
+		current_matches = matches[i];
+
+		for (int j = 0; j < current_matches.size(); j++) {
+			if( current_matches[j].distance <= distanceThreshold ) {
+				// Set matches imgIdx to appropriate index and then push match to good_matches.
+				current_matches[j].imgIdx = i;
+
+				current_good_matches.push_back(current_matches[j]);
+			}		
+		}
+
+		good_matches.push_back(current_good_matches);
+	}
+
+}
