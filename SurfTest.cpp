@@ -20,29 +20,6 @@ VideoCapture webcamCapture(WEBCAM_DEVICE_NUMBER);
 
 void readme();
 
-/*
-std::string targetImage1 = "Picture 9.jpg";
-std::string targetImage2 = "Picture 10.jpg";
-std::string targetImage3 = "Picture 11.jpg";
-std::string targetImage4 = "Picture 12.jpg";
-std::string targetImage5 = "Picture 13.jpg";
-std::string targetImage6 = "Picture 14.jpg";
-std::string targetImage7 = "Picture 15.jpg";
-std::string targetImage8 = "Picture 16.jpg";
-std::string targetImage9 = "Picture 17.jpg";
-
-Mat img_1 = imread(targetImage1, CV_LOAD_IMAGE_GRAYSCALE );
-Mat img_2 = imread(targetImage2, CV_LOAD_IMAGE_GRAYSCALE );
-Mat img_3 = imread(targetImage3, CV_LOAD_IMAGE_GRAYSCALE );
-Mat img_4 = imread(targetImage4, CV_LOAD_IMAGE_GRAYSCALE );
-Mat img_5 = imread(targetImage5, CV_LOAD_IMAGE_GRAYSCALE );
-Mat img_6 = imread(targetImage6, CV_LOAD_IMAGE_GRAYSCALE );
-Mat img_7 = imread(targetImage7, CV_LOAD_IMAGE_GRAYSCALE );
-Mat img_8 = imread(targetImage8, CV_LOAD_IMAGE_GRAYSCALE );
-Mat img_9 = imread(targetImage9, CV_LOAD_IMAGE_GRAYSCALE );
-*/
-
-
 std::string targetImage1;
 std::string targetImage2;
 std::string targetImage3;
@@ -75,166 +52,22 @@ vector <FeaturefulObject> featureful_objects;
 
 int minHessian = 400;
 SurfFeatureDetector detector(minHessian);
-std::vector<KeyPoint> keypoints_1, keypoints_2, keypoints_3, keypoints_4, keypoints_5, keypoints_6, keypoints_7, keypoints_8, keypoints_9, keypoints_frame;
+std::vector<KeyPoint> keypoints_frame;
 vector <DetectionCoordinates> coordinates_vector;
 
 SurfDescriptorExtractor extractor;
-Mat descriptors_1, descriptors_2, descriptors_3, descriptors_4, descriptors_5, descriptors_6, descriptors_7, descriptors_8, descriptors_9, descriptors_frame;
+Mat descriptors_frame;
 Mat img_keypoints_1, img_keypoints_2, img_keypoints_3, img_keypoints_4, img_keypoints_5, img_keypoints_6, img_keypoints_7, img_keypoints_8, img_keypoints_9, img_keypoints_frame;
-std::vector<DMatch> good_matches_1, good_matches_2, good_matches_3, good_matches_4, good_matches_5, good_matches_6, good_matches_7, good_matches_8, good_matches_9, all_good_matches, unique_matches;
+std::vector<DMatch> all_good_matches, unique_matches;
 std::vector<Point2f> match_coordinates;
 
-// Set up matching
-double max_dist = 0; double min_dist = 100;
-float min_x = 100000; float max_x = 0;
-float min_y = 100000; float max_y = 0;
-int min_x_index = -1; int max_x_index = -1;
-int min_y_index = -1; int max_y_index = -1;
-float x_range = 400; float y_range = 400;
-
 // Set up tracking of (x,y) coordinate changes with legoGirl's location.
+float previous_x = 0; float previous_y = 0;
 float x_diff = 0; float y_diff = 0;
 
 // Data for frames
 Mat frame;
 Mat img_matches_1, img_matches_2, img_matches_3, img_matches_4, img_matches_5, img_matches_6, img_matches_7, img_matches_8, img_matches_9;
-
-void detectImageKeypoints(int object_index, int img_number) {
-	Mat img_to_process;
-	std::vector<KeyPoint> keypoints_to_process;
-	Mat descriptors_to_process;
-	Mat img_keypoints_to_process;
-	std::string string_to_show;
-
-	std::vector <std::string> targetImages = featureful_objects[object_index].get_images();
-
-	int img_index = img_number - 1;
-
-	img_to_process =  imread(targetImages[object_index], CV_LOAD_IMAGE_GRAYSCALE );
-
-	switch(img_number) {
-		case 1:
-			// img_to_process = img_1;
-			keypoints_to_process = keypoints_1;
-			descriptors_to_process = descriptors_1;
-			img_keypoints_to_process = img_keypoints_1;
-			string_to_show = "Keypoints 1";
-			break;
-		case 2:
-			// img_to_process = img_2;
-			keypoints_to_process = keypoints_2;
-			descriptors_to_process = descriptors_2;
-			img_keypoints_to_process = img_keypoints_2;
-			string_to_show = "Keypoints 2";
-			break;
-		case 3:
-			// img_to_process = img_3;
-			keypoints_to_process = keypoints_3;
-			descriptors_to_process = descriptors_3;
-			img_keypoints_to_process = img_keypoints_3;
-			string_to_show = "Keypoints 3";
-			break;
-		case 4:
-			// img_to_process = img_4;
-			keypoints_to_process = keypoints_4;
-			descriptors_to_process = descriptors_4;
-			img_keypoints_to_process = img_keypoints_4;
-			string_to_show = "Keypoints 4";
-			break;
-		case 5:
-			// img_to_process = img_5;
-			keypoints_to_process = keypoints_5;
-			descriptors_to_process = descriptors_5;
-			img_keypoints_to_process = img_keypoints_5;
-			string_to_show = "Keypoints 5";
-			break;
-		case 6:
-			// img_to_process = img_6;
-			keypoints_to_process = keypoints_6;
-			descriptors_to_process = descriptors_6;
-			img_keypoints_to_process = img_keypoints_6;
-			string_to_show = "Keypoints 6";
-			break;
-		case 7:
-			// img_to_process = img_7;
-			keypoints_to_process = keypoints_7;
-			descriptors_to_process = descriptors_7;
-			img_keypoints_to_process = img_keypoints_7;
-			string_to_show = "Keypoints 7";
-			break;
-		case 8:
-			// img_to_process = img_8;
-			keypoints_to_process = keypoints_8;
-			descriptors_to_process = descriptors_8;
-			img_keypoints_to_process = img_keypoints_8;
-			string_to_show = "Keypoints 8";
-			break;
-		case 9:
-			// img_to_process = img_9;
-			keypoints_to_process = keypoints_9;
-			descriptors_to_process = descriptors_9;
-			img_keypoints_to_process = img_keypoints_9;
-			string_to_show = "Keypoints 9";
-			break;
-		default:
-			return;
-	}
-
-	detector.detect( img_to_process, keypoints_to_process );
-	extractor.compute( img_to_process, keypoints_to_process, descriptors_to_process );
-	//drawKeypoints( img_to_process, keypoints_to_process, img_keypoints_to_process, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
-	//imshow(string_to_show, img_keypoints_to_process );
-
-	switch(img_number) {
-		case 1:
-			keypoints_1 = keypoints_to_process;
-			descriptors_1 = descriptors_to_process;
-			img_keypoints_1 = img_keypoints_to_process;
-			break;
-		case 2:
-			keypoints_2 = keypoints_to_process;
-			descriptors_2 = descriptors_to_process;
-			img_keypoints_2 = img_keypoints_to_process;
-			break;
-		case 3:
-			keypoints_3 = keypoints_to_process;
-			descriptors_3 = descriptors_to_process;
-			img_keypoints_3 = img_keypoints_to_process;
-			break;
-		case 4:
-			keypoints_4 = keypoints_to_process;
-			descriptors_4 = descriptors_to_process;
-			img_keypoints_4 = img_keypoints_to_process;
-			break;
-		case 5:
-			keypoints_5 = keypoints_to_process;
-			descriptors_5 = descriptors_to_process;
-			img_keypoints_5 = img_keypoints_to_process;
-			break;
-		case 6:
-			keypoints_6 = keypoints_to_process;
-			descriptors_6 = descriptors_to_process;
-			img_keypoints_6 = img_keypoints_to_process;
-			break;
-		case 7:
-			keypoints_7 = keypoints_to_process;
-			descriptors_7 = descriptors_to_process;
-			img_keypoints_7 = img_keypoints_to_process;
-			break;
-		case 8:
-			keypoints_8 = keypoints_to_process;
-			descriptors_8 = descriptors_to_process;
-			img_keypoints_8 = img_keypoints_to_process;
-			break;
-		case 9:
-			keypoints_9 = keypoints_to_process;
-			descriptors_9 = descriptors_to_process;
-			img_keypoints_9 = img_keypoints_to_process;
-			break;
-		default:
-			return;
-	}
-}
 
 std::vector<DMatch> findGoodMatches(int object_index, int img_number) {
 	Mat descriptors_to_process;
@@ -288,80 +121,6 @@ void findGoodMatches(int object_index) {
 	}
 
 	return;
-}
-
-
-
-void drawGoodMatches(int img_number, std::vector<DMatch> good_matches) {
-	Mat img_to_process;
-	std::vector<KeyPoint> keypoints_to_process;
-	std::string string_to_show;
-	Mat img_matches;
-
-	switch(img_number) {
-		case 1:
-			img_to_process = img_1;
-			keypoints_to_process = keypoints_1;
-			string_to_show = "Good Matches for Image 1";
-			break;
-		case 2:
-			img_to_process = img_2;
-			keypoints_to_process = keypoints_2;
-			string_to_show = "Good Matches for Image 2";
-			break;
-		case 3:
-			img_to_process = img_3;
-			keypoints_to_process = keypoints_3;
-			string_to_show = "Good Matches for Image 3";
-			break;
-		case 4:
-			img_to_process = img_4;
-			keypoints_to_process = keypoints_4;
-			string_to_show = "Good Matches for Image 4";
-			break;
-		case 5:
-			img_to_process = img_5;
-			keypoints_to_process = keypoints_5;
-			string_to_show = "Good Matches for Image 5";
-			break;
-		case 6:
-			img_to_process = img_6;
-			keypoints_to_process = keypoints_6;
-			string_to_show = "Good Matches for Image 6";
-			break;
-		case 7:
-			img_to_process = img_7;
-			keypoints_to_process = keypoints_7;
-			string_to_show = "Good Matches for Image 7";
-			break;
-		case 8:
-			img_to_process = img_8;
-			keypoints_to_process = keypoints_8;
-			string_to_show = "Good Matches for Image 8";
-			break;
-		case 9:
-			img_to_process = img_9;
-			keypoints_to_process = keypoints_9;
-			string_to_show = "Good Matches for Image 9";
-			break;
-		default:
-			return;
-	}
-
-	// Draw good matches between frame and image to show.
-	drawMatches( img_to_process, keypoints_to_process, frame, keypoints_frame, 
-		good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
-		vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
-	imshow(string_to_show, img_matches);
-}
-
-void printGoodMatches(int img_number, std::vector<DMatch> good_matches) {
-	// Print out good matches between frame and image img_number.
-	printf("max(2*min_dist, 0.02) is %f\n\n", max(2*min_dist, 0.02));
-	for( int i = 0; i < (int)good_matches.size(); i++ )
-	{ 
-		printf( "-- Good Match %d[%d] Keypoint 1: %d  -- Keypoint 2: %d with distance %f \n", img_number, i, good_matches[i].queryIdx, good_matches[i].trainIdx, good_matches[i].distance );
-	}
 }
 
 void printTotalGoodMatches(vector <int> total_good_matches) {
@@ -772,16 +531,6 @@ void readInMultipleObjectDetectionFile() {
 /** @function main */
 int main( int argc, char** argv )
 {
-	/*
-	// Read in detection file parameters.
-	readInSingleObjectDetectionFile();
-
-	std::cout << "name = " << name << std::endl;
-	printf("numberOfImages = %d\n", numberOfImages);
-	printf("distance_threshold = %f\n", distance_threshold);
-	printf("matches_threshold = %d\n\n\n", matches_threshold);
-	*/
-
 	// Read in file with all object detection inforation and store information in vector.
 	readInMultipleObjectDetectionFile();
 	printFeaturefulObjectsVector("featureful_objects", featureful_objects);
@@ -806,15 +555,12 @@ int main( int argc, char** argv )
 
 			drawKeypoints(frame, keypoints_frame, img_keypoints_frame, Scalar::all(-1), DrawMatchesFlags::DEFAULT );
 			imshow("Webcam Video", img_keypoints_frame);
-			std::vector<DMatch> matches_1, matches_2, matches_3, matches_4, matches_5, matches_6, matches_7, matches_8, matches_9;
-			FlannBasedMatcher matcher;
-			BFMatcher matcherSecond;
 
 			vector <int> total_good_matches;
 			vector <DMatch> current_good_matches;
 			
-
-			// Detect keypoints of each image.
+			// Compare each object to each frame to determine if it is on the screen or not. If it is on the screen,
+			// output the (x,y) coordinates.
 			for (int x = 0; x < featureful_objects.size(); x++) {
 				// Clear vectors.
 				all_good_matches.clear();
@@ -832,198 +578,20 @@ int main( int argc, char** argv )
 				numberOfImages = featureful_objects[x].get_numImages();
 				distance_threshold = featureful_objects[x].get_distanceThreshold();
 				matches_threshold = featureful_objects[x].get_matchesThreshold();
+				previous_x = featureful_objects[x].get_previousX();
+				previous_y = featureful_objects[x].get_previousY();
 
 				if (descriptors_frame.rows > 0) {
-					// Find good matches.
-					switch(numberOfImages) {
-						case 1:
-							good_matches_1 = findGoodMatches(x, 1);
-							total_good_matches.push_back(good_matches_1.size());
-						
-							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
-							showAllWebcamKeypointMatches();
-							break;
-						case 2:
-							good_matches_1 = findGoodMatches(x, 1);
-							good_matches_2 = findGoodMatches(x, 2);
-							total_good_matches.push_back(good_matches_1.size());
-							total_good_matches.push_back(good_matches_2.size());
+					// Find good matches between the current image and the current frame..
+					featureful_objects[x].findMatches(descriptors_frame);
+					featureful_objects[x].findGoodMatches();
 
-							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
-							showAllWebcamKeypointMatches();
-							break;
-						case 3:
-							good_matches_1 = findGoodMatches(x, 1);
-							good_matches_2 = findGoodMatches(x, 2);
-							good_matches_3 = findGoodMatches(x, 3);
-							total_good_matches.push_back(good_matches_1.size());
-							total_good_matches.push_back(good_matches_2.size());
-							total_good_matches.push_back(good_matches_3.size());
-
-							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_3.begin(), good_matches_3.end());
-							showAllWebcamKeypointMatches();
-							break;
-						case 4:
-							good_matches_1 = findGoodMatches(x, 1);
-							good_matches_2 = findGoodMatches(x, 2);
-							good_matches_3 = findGoodMatches(x, 3);
-							good_matches_4 = findGoodMatches(x, 4);
-							total_good_matches.push_back(good_matches_1.size());
-							total_good_matches.push_back(good_matches_2.size());
-							total_good_matches.push_back(good_matches_3.size());
-							total_good_matches.push_back(good_matches_4.size());
-
-							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_3.begin(), good_matches_3.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_4.begin(), good_matches_4.end());
-							showAllWebcamKeypointMatches();
-							break;
-						case 5:
-							good_matches_1 = findGoodMatches(x, 1);
-							good_matches_2 = findGoodMatches(x, 2);
-							good_matches_3 = findGoodMatches(x, 3);
-							good_matches_4 = findGoodMatches(x, 4);
-							good_matches_5 = findGoodMatches(x, 5);
-							total_good_matches.push_back(good_matches_1.size());
-							total_good_matches.push_back(good_matches_2.size());
-							total_good_matches.push_back(good_matches_3.size());
-							total_good_matches.push_back(good_matches_4.size());
-							total_good_matches.push_back(good_matches_5.size());
-
-							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_3.begin(), good_matches_3.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_4.begin(), good_matches_4.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_5.begin(), good_matches_5.end());
-							showAllWebcamKeypointMatches();
-							break;
-						case 6:
-							good_matches_1 = findGoodMatches(x, 1);
-							good_matches_2 = findGoodMatches(x, 2);
-							good_matches_3 = findGoodMatches(x, 3);
-							good_matches_4 = findGoodMatches(x, 4);
-							good_matches_5 = findGoodMatches(x, 5);
-							good_matches_6 = findGoodMatches(x, 6);
-							total_good_matches.push_back(good_matches_1.size());
-							total_good_matches.push_back(good_matches_2.size());
-							total_good_matches.push_back(good_matches_3.size());
-							total_good_matches.push_back(good_matches_4.size());
-							total_good_matches.push_back(good_matches_5.size());
-							total_good_matches.push_back(good_matches_6.size());
-
-							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_3.begin(), good_matches_3.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_4.begin(), good_matches_4.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_5.begin(), good_matches_5.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_6.begin(), good_matches_6.end());
-							showAllWebcamKeypointMatches();
-							break;
-						case 7:
-							good_matches_1 = findGoodMatches(x, 1);
-							good_matches_2 = findGoodMatches(x, 2);
-							good_matches_3 = findGoodMatches(x, 3);
-							good_matches_4 = findGoodMatches(x, 4);
-							good_matches_5 = findGoodMatches(x, 5);
-							good_matches_6 = findGoodMatches(x, 6);
-							good_matches_7 = findGoodMatches(x, 7);
-							total_good_matches.push_back(good_matches_1.size());
-							total_good_matches.push_back(good_matches_2.size());
-							total_good_matches.push_back(good_matches_3.size());
-							total_good_matches.push_back(good_matches_4.size());
-							total_good_matches.push_back(good_matches_5.size());
-							total_good_matches.push_back(good_matches_6.size());
-							total_good_matches.push_back(good_matches_7.size());
-
-							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_3.begin(), good_matches_3.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_4.begin(), good_matches_4.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_5.begin(), good_matches_5.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_6.begin(), good_matches_6.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_7.begin(), good_matches_7.end());
-							showAllWebcamKeypointMatches();
-							break;
-						case 8:
-							good_matches_1 = findGoodMatches(x, 1);
-							good_matches_2 = findGoodMatches(x, 2);
-							good_matches_3 = findGoodMatches(x, 3);
-							good_matches_4 = findGoodMatches(x, 4);
-							good_matches_5 = findGoodMatches(x, 5);
-							good_matches_6 = findGoodMatches(x, 6);
-							good_matches_7 = findGoodMatches(x, 7);
-							good_matches_8 = findGoodMatches(x, 8);
-							total_good_matches.push_back(good_matches_1.size());
-							total_good_matches.push_back(good_matches_2.size());
-							total_good_matches.push_back(good_matches_3.size());
-							total_good_matches.push_back(good_matches_4.size());
-							total_good_matches.push_back(good_matches_5.size());
-							total_good_matches.push_back(good_matches_6.size());
-							total_good_matches.push_back(good_matches_7.size());
-							total_good_matches.push_back(good_matches_8.size());
-
-							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_3.begin(), good_matches_3.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_4.begin(), good_matches_4.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_5.begin(), good_matches_5.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_6.begin(), good_matches_6.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_7.begin(), good_matches_7.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_8.begin(), good_matches_8.end());
-							showAllWebcamKeypointMatches();
-							break;
-						case 9:
-							
-							featureful_objects[x].findMatches(descriptors_frame);
-							featureful_objects[x].findGoodMatches();
-
-							
-							for (int y = 0; y < numberOfImages; y++) {
-								current_good_matches.clear();
-								current_good_matches = featureful_objects[x].get_goodMatch(y);
-								total_good_matches.push_back(current_good_matches.size());
-								all_good_matches.insert(all_good_matches.end(), current_good_matches.begin(), current_good_matches.end());
-							}
-							
-							/*
-							good_matches_1 = findGoodMatches(x, 1);
-							good_matches_2 = findGoodMatches(x, 2);
-							good_matches_3 = findGoodMatches(x, 3);
-							good_matches_4 = findGoodMatches(x, 4);
-							good_matches_5 = findGoodMatches(x, 5);
-							good_matches_6 = findGoodMatches(x, 6);
-							good_matches_7 = findGoodMatches(x, 7);
-							good_matches_8 = findGoodMatches(x, 8);
-							good_matches_9 = findGoodMatches(x, 9);
-
-							total_good_matches.push_back(good_matches_1.size());
-							total_good_matches.push_back(good_matches_2.size());
-							total_good_matches.push_back(good_matches_3.size());
-							total_good_matches.push_back(good_matches_4.size());
-							total_good_matches.push_back(good_matches_5.size());
-							total_good_matches.push_back(good_matches_6.size());
-							total_good_matches.push_back(good_matches_7.size());
-							total_good_matches.push_back(good_matches_8.size());
-							total_good_matches.push_back(good_matches_9.size());
-
-							all_good_matches.insert(all_good_matches.end(), good_matches_1.begin(), good_matches_1.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_2.begin(), good_matches_2.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_3.begin(), good_matches_3.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_4.begin(), good_matches_4.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_5.begin(), good_matches_5.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_6.begin(), good_matches_6.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_7.begin(), good_matches_7.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_8.begin(), good_matches_8.end());
-							all_good_matches.insert(all_good_matches.end(), good_matches_9.begin(), good_matches_9.end());
-							showAllWebcamKeypointMatches();
-							*/
-							break;
-						default:
-							break;
+					// Add good matches found to aggregate.
+					for (int y = 0; y < numberOfImages; y++) {
+						current_good_matches.clear();
+						current_good_matches = featureful_objects[x].get_goodMatch(y);
+						total_good_matches.push_back(current_good_matches.size());
+						all_good_matches.insert(all_good_matches.end(), current_good_matches.begin(), current_good_matches.end());
 					}
 				}
 
@@ -1040,9 +608,9 @@ int main( int argc, char** argv )
 					// Find unique matches and then find coordinates.
 					lego_girl_location = findCoordinates();
 
-					if (featureful_objects[x].get_previousX() != 0 && featureful_objects[x].get_previousY() != 0) {
-						x_diff = lego_girl_location.x - featureful_objects[x].get_previousX();
-						y_diff = lego_girl_location.y - featureful_objects[x].get_previousY();
+					if (previous_x != 0 && previous_y != 0) {
+						x_diff = lego_girl_location.x - previous_x;
+						y_diff = lego_girl_location.y - previous_y;
 
 						printf("x = %f	(%f) \t y = %f \t (%f) \n", lego_girl_location.x, x_diff, lego_girl_location.y, y_diff);
 					}
