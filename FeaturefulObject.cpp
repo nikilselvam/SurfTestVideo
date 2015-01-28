@@ -11,6 +11,7 @@ FeaturefulObject::FeaturefulObject(std::string objectName, int numImages, std::v
 	
 	name = objectName;
 	numberOfImages = numImages;
+	numberOfGoodMatches = 0;
 
 	previousX = 0;
 	previousY = 0;
@@ -95,6 +96,10 @@ std::vector<DMatch> FeaturefulObject::get_goodMatch(int index) {
 	return good_matches[index];
 }
 
+int FeaturefulObject::get_numberOfGoodMatches() {
+	return numberOfGoodMatches;
+}
+
 
 // Setters
 void FeaturefulObject::set_name(std::string updatedName) {
@@ -138,6 +143,11 @@ void FeaturefulObject::set_goodMatches(std::vector <std::vector<DMatch> > update
 	good_matches = updatedGoodMatches;
 }
 
+void FeaturefulObject::set_numberOfgoodMatches(int updatedNumberOfGoodMatches) {
+	numberOfGoodMatches = updatedNumberOfGoodMatches;
+}
+
+
 // Methods
 void FeaturefulObject::findMatches(Mat descriptors_frame) {
 	Mat descriptor_to_process;
@@ -164,6 +174,9 @@ void FeaturefulObject::findGoodMatches() {
 	std::vector<DMatch> current_matches;
 	std::vector<DMatch> current_good_matches;
 
+	// Set number of good matches to 0 since we are in the process of determining good matches.
+	numberOfGoodMatches = 0;
+
 	for( int i = 0; i < matches.size(); i++ ) {
 
 		// Clear the mathces vectors for each new itearation.
@@ -180,10 +193,15 @@ void FeaturefulObject::findGoodMatches() {
 				current_matches[j].imgIdx = i;
 
 				current_good_matches.push_back(current_matches[j]);
-			}		
+			}
 		}
 
 		good_matches.push_back(current_good_matches);
+	}
+
+	// Now that all good matches have been found, update the number of good matches.
+	for (int i = 0; i < good_matches.size(); i++) {
+		numberOfGoodMatches += good_matches[i].size();
 	}
 
 	return;

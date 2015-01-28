@@ -31,6 +31,7 @@ public:
 	std::vector <std::vector<DMatch> > get_goodMatches();
 	std::vector<DMatch> get_match(int index);
 	std::vector<DMatch> get_goodMatch(int index);
+	int get_numberOfGoodMatches();
 	
 	// Setters
 	void set_name(std::string updatedName);
@@ -42,6 +43,7 @@ public:
 	void set_previousY(float updatedYValue);
 	void set_matches(std::vector <std::vector<DMatch> > updatedMatches);
 	void set_goodMatches(std::vector <std::vector<DMatch> > updatedGoodMatches);
+	void set_numberOfgoodMatches(int updatedNumberOfGoodMatches);
 
 	// Methods
 	void findMatches(Mat descriptors_frame);
@@ -57,6 +59,7 @@ private:
 	float matchesThreshold;
 	float previousX;
 	float previousY;
+	int numberOfGoodMatches;
 	std::vector <std::vector<KeyPoint> > keypoints;
 	std::vector <Mat> descriptors;
 	std::vector <std::vector<DMatch> > matches;

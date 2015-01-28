@@ -558,6 +558,7 @@ int main( int argc, char** argv )
 
 			vector <int> total_good_matches;
 			vector <DMatch> current_good_matches;
+			vector <int> matches_per_object;
 			
 			// Compare each object to each frame to determine if it is on the screen or not. If it is on the screen,
 			// output the (x,y) coordinates.
@@ -566,6 +567,7 @@ int main( int argc, char** argv )
 				all_good_matches.clear();
 				total_good_matches.clear();
 				current_good_matches.clear();
+				matches_per_object.clear();
 				match_coordinates.clear();
 				unique_matches.clear();
 				coordinates_vector.clear();
@@ -595,15 +597,20 @@ int main( int argc, char** argv )
 					}
 				}
 
+				showAllWebcamKeypointMatches();
+
 				// Print total good matches.
 				// printTotalGoodMatches(total_good_matches);
 
 				Point2f lego_girl_location;
 				lego_girl_location.x = 0;
 				lego_girl_location.y = 0;
+				
+				// Save matches for this object.
+				matches_per_object.push_back(all_good_matches.size());
 
 				if (all_good_matches.size() >= matches_threshold) {
-					std::cout << name << " is on screen \t\t all_good_matches.size = " << all_good_matches.size() << std::endl;
+					std::cout << name << " is on screen \t agm = " << all_good_matches.size() << "\t ngm = " << featureful_objects[x].get_numberOfGoodMatches() << std::endl;
 
 					// Find unique matches and then find coordinates.
 					lego_girl_location = findCoordinates();
@@ -622,7 +629,7 @@ int main( int argc, char** argv )
 					featureful_objects[x].set_previousY( lego_girl_location.y);
 
 				} else {
-					std::cout << name << " is not on screen \t\t all_good_matches.size = " << all_good_matches.size() << std::endl;
+					std::cout << name << " is not on screen \t agm = " << all_good_matches.size() << "\t ngm = " << featureful_objects[x].get_numberOfGoodMatches() << std::endl;
 
 					featureful_objects[x].set_previousX(0);
 					featureful_objects[x].set_previousY(0);
@@ -630,6 +637,13 @@ int main( int argc, char** argv )
 
 				printf("\n\n");
 			}
+
+			// Print out the results of each object.
+			for (int x = 0; x < featureful_objects.size(); x++) {
+				std::cout << featureful_objects[x].get_name() << ":" << "\t matches = " << featureful_objects[x].get_numberOfGoodMatches() << std::endl;
+			}
+
+			printf("\n\n");
 
 			if(waitKey(30) >= 0) break;
 		}

@@ -1,4 +1,4 @@
-2
+3
 
 legoGirl
 9
@@ -27,3 +27,17 @@ legoGuy-8.jpg
 legoGuy-9.jpg
 0.25
 40
+
+inmate
+9
+inmate-9-quadrants-zoomed-1.jpg
+inmate-9-quadrants-zoomed-2.jpg
+inmate-9-quadrants-zoomed-3.jpg
+inmate-9-quadrants-zoomed-4.jpg
+inmate-9-quadrants-zoomed-5.jpg
+inmate-9-quadrants-zoomed-6.jpg
+inmate-9-quadrants-zoomed-7.jpg
+inmate-9-quadrants-zoomed-8.jpg
+inmate-9-quadrants-zoomed-9.jpg
+0.25
+15
