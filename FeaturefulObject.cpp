@@ -213,4 +213,5 @@ void FeaturefulObject::clearMatches() {
 
 void FeaturefulObject::clearGoodMatches() {
 	good_matches.clear();
+	numberOfGoodMatches = 0;
 }
