@@ -448,7 +448,7 @@ void readInSingleObjectDetectionFile() {
 
 void readInMultipleObjectDetectionFile() {
 	std::string line;
-	std::fstream detection_file ("objectDetection.txt");
+	std::fstream detection_file ("flower.txt");
 	vector <string> targetImages;
 
 	int numberOfObjects = 0;
@@ -637,11 +637,13 @@ int main( int argc, char** argv )
 
 				printf("\n\n");
 			}
+			
 
 			// Print out the results of each object.
 			for (int x = 0; x < featureful_objects.size(); x++) {
 				std::cout << featureful_objects[x].get_name() << ":" << "\t matches = " << featureful_objects[x].get_numberOfGoodMatches() << std::endl;
 			}
+			
 
 			printf("\n\n");
 
