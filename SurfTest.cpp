@@ -249,6 +249,9 @@ void printKeypointsVector(std::string name, vector<KeyPoint> vector) {
 
 	for (int i = 0; i < vector.size(); i++) {
 		std::cout << name << "[" << i << "]:\t " << "x = " << vector[i].pt << std::endl;
+		std::cout << "angle = " << vector[i].angle << "\t class_id = " << vector[i].class_id << std::endl;
+		std::cout << "octave= " << vector[i].octave << " \t " << "\t response = " << vector[i].response << std::endl;
+		std::cout << "size = " << vector[i].size << std::endl << std::endl;
 	}
 
 	printf("\n\n");
@@ -518,6 +521,7 @@ void readInMultipleObjectDetectionFile() {
 
 			// Create featurefulObject and push object into vector.
 			FeaturefulObject featurefulObjectToStore = FeaturefulObject(name, numberOfImages, targetImages, distance_threshold, matches_threshold);
+			//printKeypointsVector("featurefulObjectToStore.keypoints", featurefulObjectToStore.get_keypoints(0));
 			featureful_objects.push_back(featurefulObjectToStore);
 
 			// Clear targetImages vector for next object that is processed.
@@ -534,6 +538,7 @@ int main( int argc, char** argv )
 	// Read in file with all object detection inforation and store information in vector.
 	readInMultipleObjectDetectionFile();
 	printFeaturefulObjectsVector("featureful_objects", featureful_objects);
+
 
 	// ============== Capture Camera Frame ====================
 	// Capturing data from camera
