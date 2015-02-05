@@ -43,8 +43,6 @@ Mat img_9;
 float distance_threshold = 0;
 int matches_threshold = 0;
 
-std::string targetImageBlue = "blueLegoCar.png";
-
 int numberOfImages;
 std::string name;
 
@@ -57,7 +55,7 @@ vector <DetectionCoordinates> coordinates_vector;
 
 SurfDescriptorExtractor extractor;
 Mat descriptors_frame;
-Mat img_keypoints_1, img_keypoints_2, img_keypoints_3, img_keypoints_4, img_keypoints_5, img_keypoints_6, img_keypoints_7, img_keypoints_8, img_keypoints_9, img_keypoints_frame;
+Mat img_keypoints_frame;
 std::vector<DMatch> all_good_matches, unique_matches;
 std::vector<Point2f> match_coordinates;
 
