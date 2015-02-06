@@ -380,7 +380,7 @@ Point2f findCoordinates() {
 
 void readInSingleObjectDetectionFile() {
 	std::string line;
-	std::fstream detection_file ("legoGirl.txt");
+	std::fstream detection_file ("Detection Files/legoGirl.txt");
 
 	if (detection_file.is_open()) {
 		// Read in name.
@@ -451,7 +451,7 @@ void readInSingleObjectDetectionFile() {
 
 void readInMultipleObjectDetectionFile() {
 	std::string line;
-	std::fstream detection_file ("objectDetection.txt");
+	std::fstream detection_file ("Detection Files/objectDetection.txt");
 	vector <string> targetImages;
 
 	int numberOfObjects = 0;
