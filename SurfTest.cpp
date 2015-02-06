@@ -363,6 +363,8 @@ Point2f findCoordinates() {
 	// printMatchesVector("all_good_matches", all_good_matches, true);
 	// printMatchesVector("unique_matches", unique_matches, true);
 
+
+	// NOTE: is this for loop necessary?
 	// Get match_coordinates of unique matches.
 	for (int i = 0; i < unique_matches.size(); i++) {
 		match_coordinates.push_back(keypoints_frame[unique_matches[i].trainIdx].pt);		
@@ -475,38 +477,6 @@ void readInMultipleObjectDetectionFile() {
 			for (int j = 0; j < numberOfImages; j++) {
 				getline(detection_file, line);
 				targetImages.push_back(line);
-
-				switch(j) {
-					case 0:
-						img_1 = imread(targetImage1, CV_LOAD_IMAGE_GRAYSCALE );
-						break;
-					case 1:
-						img_2 = imread(targetImage2, CV_LOAD_IMAGE_GRAYSCALE );
-						break;
-					case 2:
-						img_3 = imread(targetImage3, CV_LOAD_IMAGE_GRAYSCALE );
-						break;
-					case 3:
-						img_4 = imread(targetImage4, CV_LOAD_IMAGE_GRAYSCALE );
-						break;
-					case 4:
-						img_5 = imread(targetImage5, CV_LOAD_IMAGE_GRAYSCALE );
-						break;
-					case 5:
-						img_6 = imread(targetImage6, CV_LOAD_IMAGE_GRAYSCALE );
-						break;
-					case 6:
-						img_7 = imread(targetImage7, CV_LOAD_IMAGE_GRAYSCALE );
-						break;
-					case 7:
-						img_8 = imread(targetImage8, CV_LOAD_IMAGE_GRAYSCALE );
-						break;
-					case 8:
-						img_9 = imread(targetImage9, CV_LOAD_IMAGE_GRAYSCALE );
-						break;
-					default:
-						break;
-				}
 			}
 
 			// Read in distance threshold.
