@@ -19,7 +19,7 @@ FeaturefulObject::FeaturefulObject(std::string objectName, int numImages, std::v
 	previousY = 0;
 
 	// Try to open keypoints file for an object.
-	std::string nameOfFile = "Keypoints/" + objectName + "-keypoints.txt";
+	std::string nameOfFile = "Detection/Object Keypoints/" + objectName + "-keypoints.txt";
 	std::fstream detection_file(nameOfFile);
 	
 	// If keypoints file does not exist, detect keypoints and extractors.

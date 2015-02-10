@@ -451,7 +451,7 @@ void readInSingleObjectDetectionFile() {
 
 void readInMultipleObjectDetectionFile() {
 	std::string line;
-	std::fstream detection_file ("Detection Files/objectDetection.txt");
+	std::fstream detection_file ("Detection/Objects To Detect/objectDetection.txt");
 	vector <string> targetImages;
 
 	int numberOfObjects = 0;

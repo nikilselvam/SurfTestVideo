@@ -1,0 +1,71 @@
+5
+
+legoGirl
+9
+Detection/Object Images/legoGirl/Picture 66.jpg
+Detection/Object Images/legoGirl/Picture 67.jpg
+Detection/Object Images/legoGirl/Picture 68.jpg
+Detection/Object Images/legoGirl/Picture 69.jpg
+Detection/Object Images/legoGirl/Picture 70.jpg
+Detection/Object Images/legoGirl/Picture 71.jpg
+Detection/Object Images/legoGirl/Picture 72.jpg
+Detection/Object Images/legoGirl/Picture 73.jpg
+Detection/Object Images/legoGirl/Picture 74.jpg
+0.25
+20
+
+legoGuy
+9
+Detection/Object Images/legoGuy/legoGuy-1.jpg
+Detection/Object Images/legoGuy/legoGuy-2.jpg
+Detection/Object Images/legoGuy/legoGuy-3.jpg
+Detection/Object Images/legoGuy/legoGuy-4.jpg
+Detection/Object Images/legoGuy/legoGuy-5.jpg
+Detection/Object Images/legoGuy/legoGuy-6.jpg
+Detection/Object Images/legoGuy/legoGuy-7.jpg
+Detection/Object Images/legoGuy/legoGuy-8.jpg
+Detection/Object Images/legoGuy/legoGuy-9.jpg
+0.25
+40
+
+blueLegoCar
+9
+Detection/Object Images/blueLegoCar/blueLegoCar- 1.jpg
+Detection/Object Images/blueLegoCar/blueLegoCar- 2.jpg
+Detection/Object Images/blueLegoCar/blueLegoCar- 3.jpg
+Detection/Object Images/blueLegoCar/blueLegoCar- 4.jpg
+Detection/Object Images/blueLegoCar/blueLegoCar- 5.jpg
+Detection/Object Images/blueLegoCar/blueLegoCar- 6.jpg
+Detection/Object Images/blueLegoCar/blueLegoCar- 7.jpg
+Detection/Object Images/blueLegoCar/blueLegoCar- 8.jpg
+Detection/Object Images/blueLegoCar/blueLegoCar- 9.jpg
+0.2
+30
+
+window
+9
+Detection/Object Images/window/window-1.jpg
+Detection/Object Images/window/window-2.jpg
+Detection/Object Images/window/window-3.jpg
+Detection/Object Images/window/window-4.jpg
+Detection/Object Images/window/window-5.jpg
+Detection/Object Images/window/window-6.jpg
+Detection/Object Images/window/window-7.jpg
+Detection/Object Images/window/window-8.jpg
+Detection/Object Images/window/window-9.jpg
+0.2
+40
+
+fence
+9
+Detection/Object Images/fence/fence-1.jpg
+Detection/Object Images/fence/fence-2.jpg
+Detection/Object Images/fence/fence-3.jpg
+Detection/Object Images/fence/fence-4.jpg
+Detection/Object Images/fence/fence-5.jpg
+Detection/Object Images/fence/fence-6.jpg
+Detection/Object Images/fence/fence-7.jpg
+Detection/Object Images/fence/fence-8.jpg
+Detection/Object Images/fence/fence-9.jpg
+0.25
+30
